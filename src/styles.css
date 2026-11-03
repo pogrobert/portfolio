@@ -68,13 +68,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a {
-  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
-  text-underline-offset: 3px;
-}
+/* Tailwind's reset drops link underlines; bring them back for links in text. In the base
+   layer so a `no-underline` utility still wins for nav-style links. */
+@layer base {
+  a {
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+    text-underline-offset: 3px;
+  }
 
-a:hover {
-  text-decoration-color: currentColor;
+  a:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 :focus-visible {

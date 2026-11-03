@@ -164,22 +164,18 @@ function SoftrBlocks({ height }: { height: string }) {
   )
 }
 
+// Credit for the painting goes next to wherever this is shown.
 function GoyaPainting({ height }: { height: string }) {
   return (
-    <figure className="m-0 flex flex-col gap-2">
-      <div className={`${tile} ${height} flex items-center justify-center bg-wall`}>
-        <img
-          src="/images/goya-the-forge.jpg"
-          width={624}
-          height={900}
-          loading="lazy"
-          alt="Francisco de Goya, The Forge: three men hammering glowing iron on an anvil"
-          className="h-[82%] w-auto shadow-[0_6px_18px_rgba(0,0,0,0.25)] outline outline-4 outline-[#6b5a3e]"
-        />
-      </div>
-      <figcaption className="font-mono text-xs text-muted">
-        Francisco de Goya, <cite>The Forge</cite>, c. 1815–20. The Frick Collection.
-      </figcaption>
-    </figure>
+    <div className={`${tile} ${height} flex items-center justify-center bg-wall`}>
+      <img
+        src="/images/goya-the-forge.jpg"
+        width={624}
+        height={900}
+        loading="lazy"
+        alt="Francisco de Goya, The Forge: three men hammering glowing iron on an anvil"
+        className="h-[82%] w-auto shadow-[0_6px_18px_rgba(0,0,0,0.25)] outline outline-4 outline-[#6b5a3e]"
+      />
+    </div>
   )
 }

@@ -26,9 +26,9 @@ export const Route = createFileRoute('/work/$slug')({
 function CaseStudyPage() {
   const project = Route.useLoaderData()
   return (
-    <main id="content" className="mx-auto max-w-2xl px-4 pt-10 pb-24 sm:px-6">
+    <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
       <Link to="/" hash={project.slug} className="text-sm text-muted no-underline hover:text-fg">
-        ← All work
+        ← {site.name}
       </Link>
       {project.slug === 'softr' ? <SoftrCaseStudy /> : <CaseStudy project={project} />}
     </main>

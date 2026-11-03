@@ -3,6 +3,8 @@ export type DemoKind = 'meerlume' | 'stamplyn' | 'surfaces' | 'softr' | 'goya'
 export type Project = {
   slug: string
   name: string
+  // One line for the home page list.
+  tagline: string
   role: string
   period: string
   summary: string
@@ -18,6 +20,7 @@ export const projects: Project[] = [
   {
     slug: 'meerlume',
     name: 'Meerlume',
+    tagline: 'Plain words in, a WhatsApp or Telegram bot out.',
     role: 'Co-founder',
     period: '2026–',
     summary:
@@ -38,6 +41,7 @@ export const projects: Project[] = [
   {
     slug: 'stamplyn',
     name: 'Stamplyn',
+    tagline: 'Book the trip, then collect a stamp from every landmark.',
     role: 'Co-founder & lead engineer',
     period: '2026–',
     summary:
@@ -56,6 +60,7 @@ export const projects: Project[] = [
   {
     slug: 'surfaces',
     name: 'Surfaces',
+    tagline: 'Covers and backgrounds generated from a seed.',
     role: 'Open source',
     period: '2026',
     summary:
@@ -72,6 +77,7 @@ export const projects: Project[] = [
   {
     slug: 'softr',
     name: 'Softr',
+    tagline: 'Some of the most complex blocks on a no-code platform with 1M+ users.',
     role: 'Front-end engineer',
     period: '2022–2026',
     summary:
@@ -84,6 +90,7 @@ export const projects: Project[] = [
   {
     slug: 'goya',
     name: 'Goya',
+    tagline: 'My first job, where the fundamentals were forged.',
     role: 'Full-stack developer',
     period: '2021–2022',
     summary:
