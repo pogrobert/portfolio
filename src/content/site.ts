@@ -3,8 +3,6 @@ export const site = {
   title: 'Senior Product Engineer',
   url: 'https://poghosyan.sh',
   email: 'robert@poghosyan.sh',
-  location: 'Yerevan',
-  timeZone: 'Asia/Yerevan',
   description:
     'Robert Poghosyan is a senior product engineer in Yerevan. Co-founder of Meerlume and Stamplyn, author of Surfaces, previously on the blocks team at Softr.',
   links: {

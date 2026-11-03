@@ -25,14 +25,12 @@ export const Route = createFileRoute('/work/$slug')({
 
 function CaseStudyPage() {
   const project = Route.useLoaderData()
-  const softr = project.slug === 'softr'
   return (
-    // The Softr blocks need more room than a text column, or the circle can't stay round.
-    <main id="content" className={`mx-auto px-4 pt-10 pb-24 sm:px-6 ${softr ? 'max-w-4xl' : 'max-w-2xl'}`}>
+    <main id="content" className="mx-auto max-w-2xl px-4 pt-10 pb-24 sm:px-6">
       <Link to="/" hash={project.slug} className="text-sm text-muted no-underline hover:text-fg">
         ← All work
       </Link>
-      {softr ? <SoftrCaseStudy /> : <CaseStudy project={project} />}
+      {project.slug === 'softr' ? <SoftrCaseStudy /> : <CaseStudy project={project} />}
     </main>
   )
 }

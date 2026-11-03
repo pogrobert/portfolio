@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { HeadContent, Link, Outlet, Scripts, createRootRoute } from '@tanstack/react-router'
 import { MotionConfig } from 'motion/react'
 import { SiteFooter, SiteHeader } from '../components/SiteChrome'
+import { themeScript } from '../components/ThemeSwitch'
 import { site } from '../content/site'
 import appCss from '../styles.css?url'
 
@@ -18,7 +19,7 @@ export const Route = createRootRoute({
       { property: 'og:description', content: site.description },
       { name: 'twitter:card', content: 'summary' },
       { name: 'theme-color', content: '#fbfbfa', media: '(prefers-color-scheme: light)' },
-      { name: 'theme-color', content: '#111110', media: '(prefers-color-scheme: dark)' },
+      { name: 'theme-color', content: '#0b0b0a', media: '(prefers-color-scheme: dark)' },
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
@@ -50,8 +51,10 @@ function NotFound() {
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
+    // The theme script sets data-theme on <html> before React hydrates.
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <HeadContent />
       </head>
       <body className="font-sans leading-relaxed">

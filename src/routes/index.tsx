@@ -1,6 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { Demo } from '../components/Demo'
-import { LocalTime } from '../components/LocalTime'
 import { projects, type Project } from '../content/projects'
 import { experience } from '../content/site'
 
@@ -10,14 +9,9 @@ export const Route = createFileRoute('/')({
 
 function Home() {
   return (
-    <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-20">
-      <p className="font-mono text-[13px] text-muted">
-        <LocalTime /> · open to senior roles
-      </p>
-      <h1 className="mt-4 text-[32px] leading-tight font-semibold tracking-tight text-balance">
-        I build products end to end, from the first sketch to billing and deploys.
-      </h1>
-      <p className="mt-6 text-body">
+    <main id="content" className="mx-auto max-w-2xl px-4 pt-12 pb-24 sm:px-6 sm:pt-16">
+      <h1 className="sr-only">Robert Poghosyan, senior product engineer</h1>
+      <p className="text-body">
         Senior product engineer. Co-founder of <a href="#meerlume">Meerlume</a> and{' '}
         <a href="#stamplyn">Stamplyn</a>, author of <a href="#surfaces">Surfaces</a>. Before that, three years
         on the blocks team at <a href="#softr">Softr</a>, a no-code platform with over a million users.

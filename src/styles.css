@@ -30,48 +30,36 @@
   --color-softr-blue: #386af5;
 }
 
+/* One value per theme: light-dark() picks by color-scheme, which follows the system
+   unless the theme switch sets data-theme. Dark is near-black, not #000: pure black
+   makes light text glow and is harder to read for people with astigmatism. */
 :root {
-  --bg: #fbfbfa;
-  --fg: #121212;
-  --body: #3d3d39;
-  --muted: #66665f;
-  --line: #e8e8e5;
-  --tile: #ffffff;
-  --card: #ffffff;
+  color-scheme: light dark;
 
-  --teal: #0f766e;
-  --teal-tint: #f1f5f4;
-  --teal-line: #9db8b3;
-  --orange: #9a3412;
-  --orange-tint: #f7f1ec;
-  --blue: #1d4ed8;
-  --violet-tint: #f1f0fb;
-  --wall: #e9e5dc;
+  --bg: light-dark(#fbfbfa, #0b0b0a);
+  --fg: light-dark(#121212, #ededea);
+  --body: light-dark(#3d3d39, #c4c3bd);
+  --muted: light-dark(#66665f, #94938b);
+  --line: light-dark(#e8e8e5, #262624);
+  --tile: light-dark(#ffffff, #141413);
+  --card: light-dark(#ffffff, #1b1b19);
 
+  --teal: light-dark(#0f766e, #2dd4bf);
+  --teal-tint: light-dark(#f1f5f4, #101a19);
+  --teal-line: light-dark(#9db8b3, #2a524d);
+  --orange: light-dark(#9a3412, #fdba74);
+  --orange-tint: light-dark(#f7f1ec, #1c1611);
+  --blue: light-dark(#1d4ed8, #93b4ff);
+  --violet-tint: light-dark(#f1f0fb, #141323);
+  --wall: light-dark(#e9e5dc, #1f1d1a);
+}
+
+:root[data-theme='light'] {
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111110;
-    --fg: #f1f0ec;
-    --body: #c9c8c2;
-    --muted: #9a9991;
-    --line: #2a2a27;
-    --tile: #181816;
-    --card: #1f1f1c;
-
-    --teal: #2dd4bf;
-    --teal-tint: #13201e;
-    --teal-line: #2e5c56;
-    --orange: #fdba74;
-    --orange-tint: #221a14;
-    --blue: #93b4ff;
-    --violet-tint: #18172a;
-    --wall: #24221e;
-
-    color-scheme: dark;
-  }
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 body {

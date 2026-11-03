@@ -42,12 +42,9 @@ export function SoftrCaseStudy() {
           transition={{ ...settle, delay: 0.1 }}
           className="flex aspect-square min-w-0 flex-[1_1_280px] flex-col items-center justify-center gap-2 rounded-full bg-softr-pink p-[13%] text-center"
         >
-          <p className="font-mono text-[13px]">Block · concept to production</p>
+          <p className="font-mono text-[13px]">Block</p>
           <h2 className="text-2xl font-semibold tracking-tight">Comments</h2>
-          <p className="max-w-64 text-sm">
-            Blocks can’t see each other, but Comments needed the open item. I lifted that state into the Renderer
-            and kept every block isolated.
-          </p>
+          <p className="text-sm">Concept to production</p>
         </motion.div>
 
         <motion.div
@@ -57,9 +54,8 @@ export function SoftrCaseStudy() {
           transition={{ ...settle, delay: 0.2 }}
           className="flex aspect-square min-w-0 flex-[1_1_280px] flex-col justify-end gap-2 rounded-[40px] bg-softr-blue p-7 text-white sm:p-9"
         >
-          <p className="font-mono text-[13px]">System · rebuilt from scratch</p>
+          <p className="font-mono text-[13px]">System</p>
           <h2 className="text-2xl font-semibold tracking-tight">User Accounts</h2>
-          <p className="text-sm">Sign-in, password reset and account settings, replacing a buggy legacy version.</p>
           <dl className="mt-3 flex gap-6">
             <div>
               <dt className="sr-only">Users</dt>
@@ -75,6 +71,25 @@ export function SoftrCaseStudy() {
         </motion.div>
       </section>
       <p className="mt-4 text-sm text-muted">The three shapes come from Softr’s logo. Each one holds a block I built.</p>
+
+      {/* The circle and square only fit a title, so the detail sits underneath, one column each. */}
+      <div className="mt-10 grid gap-8 sm:grid-cols-2 sm:gap-4">
+        <div>
+          <h3 className="font-semibold">Comments</h3>
+          <p className="mt-2 text-body">
+            Blocks are strictly isolated, but Comments needed the item open in the Item Details block. I lifted
+            that state into the Renderer, which already owns block order and visibility, so neither block had to
+            know about the other.
+          </p>
+        </div>
+        <div>
+          <h3 className="font-semibold">User Accounts</h3>
+          <p className="mt-2 text-body">
+            Sign-in, password reset and account settings, rebuilt from scratch to replace a buggy legacy version.
+            It shipped to over a million users with zero critical incidents.
+          </p>
+        </div>
+      </div>
 
       <section className="mt-16 grid gap-8 sm:grid-cols-3">
         <Note title="Design system foundations">
