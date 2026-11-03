@@ -1,0 +1,96 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/atkinson-hyperlegible-next';
+@import '@fontsource-variable/atkinson-hyperlegible-mono';
+
+/* Colors live in CSS variables so dark mode only swaps the variables. */
+@theme inline {
+  --font-sans: 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace;
+
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-tile: var(--tile);
+  --color-card: var(--card);
+
+  --color-teal: var(--teal);
+  --color-teal-tint: var(--teal-tint);
+  --color-teal-line: var(--teal-line);
+  --color-orange: var(--orange);
+  --color-orange-tint: var(--orange-tint);
+  --color-blue: var(--blue);
+  --color-violet-tint: var(--violet-tint);
+  --color-wall: var(--wall);
+
+  /* Softr's logo colors, the same in both themes. */
+  --color-softr-yellow: #fcb500;
+  --color-softr-pink: #f53878;
+  --color-softr-blue: #386af5;
+}
+
+:root {
+  --bg: #fbfbfa;
+  --fg: #121212;
+  --body: #3d3d39;
+  --muted: #66665f;
+  --line: #e8e8e5;
+  --tile: #ffffff;
+  --card: #ffffff;
+
+  --teal: #0f766e;
+  --teal-tint: #f1f5f4;
+  --teal-line: #9db8b3;
+  --orange: #9a3412;
+  --orange-tint: #f7f1ec;
+  --blue: #1d4ed8;
+  --violet-tint: #f1f0fb;
+  --wall: #e9e5dc;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111110;
+    --fg: #f1f0ec;
+    --body: #c9c8c2;
+    --muted: #9a9991;
+    --line: #2a2a27;
+    --tile: #181816;
+    --card: #1f1f1c;
+
+    --teal: #2dd4bf;
+    --teal-tint: #13201e;
+    --teal-line: #2e5c56;
+    --orange: #fdba74;
+    --orange-tint: #221a14;
+    --blue: #93b4ff;
+    --violet-tint: #18172a;
+    --wall: #24221e;
+
+    color-scheme: dark;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
