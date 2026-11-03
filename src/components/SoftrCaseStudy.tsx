@@ -1,6 +1,6 @@
 import type { ComponentType, ReactNode } from 'react'
-import { Demo } from './Demo'
 import { AccountsLinework, BlocksLinework, CommentsLinework, FormLinework } from './Linework'
+import { SoftrMark } from './SoftrMark'
 
 const docs = 'https://docs.softr.io/building-blocks'
 
@@ -8,7 +8,10 @@ export function SoftrCaseStudy() {
   return (
     <>
       <p className="mt-8 font-mono text-[13px] text-muted">Front-end engineer, blocks team · Dec 2022 – Jan 2026</p>
-      <h1 className="mt-2 text-4xl font-semibold tracking-tight">Softr</h1>
+      <h1 className="mt-2 flex items-center gap-3 text-4xl font-semibold tracking-tight">
+        <SoftrMark className="size-10" />
+        Softr
+      </h1>
       <p className="mt-5 text-lg text-body">
         A no-code platform with over a million users, where every page is a stack of blocks. I joined about nine
         months into the v5 redesign, which rebuilt every block, so I worked on both sides of it: maintaining and
@@ -18,9 +21,6 @@ export function SoftrCaseStudy() {
         <a href="https://www.softr.io">softr.io ↗</a>
         <a href={docs}>All blocks ↗</a>
       </p>
-      <div className="mt-8">
-        <Demo kind="softr" size="hero" />
-      </div>
 
       <div className="mt-16 flex flex-col gap-16">
         <Section title="Conditional Form" art={FormLinework} side="right" link={`${docs}/conditional-forms`}>
@@ -66,7 +66,8 @@ export function SoftrCaseStudy() {
 }
 
 // Each section has a line drawing of its block in the page margin, alternating sides.
-// It only shows where the screen is wide enough to have a margin.
+// It only shows where the screen is wide enough to have a margin, and plays when the
+// drawing itself is hovered (it's its own hover group), not the text beside it.
 function Section({
   title,
   art: Art,
@@ -91,7 +92,7 @@ function Section({
         </a>
       )}
       <Art
-        className={`pointer-events-none absolute top-1 hidden w-48 text-muted opacity-70 min-[1240px]:block ${place}`}
+        className={`group absolute top-1 hidden w-48 text-muted opacity-70 min-[1240px]:block ${place}`}
       />
     </section>
   )

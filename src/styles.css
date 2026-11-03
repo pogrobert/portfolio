@@ -24,6 +24,12 @@
   --color-violet-tint: var(--violet-tint);
   --color-wall: var(--wall);
 
+  /* Motion curves (from Emil Kowalski's animation guidance). Tailwind's built-in
+     ease-out and ease-in-out are too weak, so the same utility names use these. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+
   /* Softr's logo colors, the same in both themes. */
   --color-softr-yellow: #fcb500;
   --color-softr-pink: #f53878;
@@ -79,6 +85,20 @@ body {
 
   a:hover {
     text-decoration-color: currentColor;
+  }
+}
+
+/* Entrance for the pieces of Softr's mark: each arrives from its own offset. */
+@keyframes piece-in {
+  from {
+    opacity: 0;
+    translate: var(--piece-x, 0) var(--piece-y, 0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 }
 

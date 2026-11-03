@@ -1,8 +1,27 @@
-import type { ReactNode } from 'react'
+import { useId, type CSSProperties, type ReactNode } from 'react'
 
-// Line drawings of Softr blocks for the margins of the Softr case study. Pure
-// decoration, drawn in the current text color and filled with the page background
-// so they work in both themes and hide whatever they overlap.
+// Line drawings of Softr blocks, modeled on how the real blocks look in Softr's docs.
+// One line weight throughout: containers at full strength, "text" at half. Each is
+// filled with the page background, so it works in both themes and hides what it
+// overlaps. On hover of the nearest `group` (the drawing itself on the case study, the
+// card on the home page) each one acts out what the block does, and one Softr color
+// shows up to mark the result.
+//
+// Motion follows Emil Kowalski's rules: CSS transitions on transform and opacity only,
+// strong ease-in-out for things moving on screen, ease-out for fades, small staggers,
+// and movement dropped for reduced motion (fades stay).
+
+const move = 'transition-[translate] duration-450 ease-in-out'
+const fade = 'transition-opacity duration-200 ease-out'
+const fadeMove = 'transition-[opacity,translate] duration-300 ease-out'
+const lineGrow = 'origin-left [transform-box:fill-box] transition-[scale] duration-300 ease-out'
+const text = 0.5
+
+const yellow = '#fcb500'
+const pink = '#f53878'
+const blue = '#386af5'
+
+type Props = { className?: string }
 
 function Drawing({ viewBox, className, children }: { viewBox: string; className?: string; children: ReactNode }) {
   return (
@@ -21,91 +40,133 @@ function Drawing({ viewBox, className, children }: { viewBox: string; className?
   )
 }
 
-// Conditional Form: step two of three, with a field shown because of a condition.
-export function FormLinework({ className }: { className?: string }) {
+function delay(ms: number): CSSProperties {
+  return { transitionDelay: `${ms}ms` }
+}
+
+// A field row as Softr's form editor draws it: a small type icon, then the name.
+function Field({ x, y, length }: { x: number; y: number; length: number }) {
   return (
-    <Drawing viewBox="0 0 200 222" className={className}>
-      <rect x="0.5" y="0.5" width="199" height="221" rx="12" />
-      <path d="M16 20 H66 M74 20 H126" strokeWidth="3" />
-      <path d="M134 20 H184" strokeWidth="3" opacity="0.35" />
-      <path d="M16 44 H58" strokeWidth="2" />
-      <rect x="16" y="54" width="168" height="28" rx="6" />
-      <path d="M26 68 H84" />
-      <rect x="16" y="92" width="92" height="18" rx="5" strokeDasharray="3 3" />
-      <path d="M24 101 H100" opacity="0.6" />
-      <path d="M16 126 H52" strokeWidth="2" />
-      <rect x="16" y="136" width="168" height="28" rx="6" />
-      <path d="M26 150 H48" />
-      <rect x="16" y="180" width="64" height="26" rx="6" />
-      <path d="M30 193 H66" />
-    </Drawing>
+    <>
+      <rect x={x} y={y - 2.5} width="5" height="5" rx="1.5" />
+      <path d={`M${x + 10} ${y} H${x + 10 + length}`} opacity={text} />
+    </>
   )
 }
 
-// Comments: the Item Details block with the comments drawer slid open over it.
-export function CommentsLinework({ className }: { className?: string }) {
+// Conditional Form, one step at a time: on hover step one slides out, step two slides
+// in, and the yellow progress bar fills from a third to two thirds.
+export function FormLinework({ className }: Props) {
+  const clip = useId()
   return (
-    <Drawing viewBox="0 0 222 202" className={className}>
-      <rect x="0.5" y="0.5" width="150" height="201" rx="12" />
-      <rect x="14" y="14" width="122" height="70" rx="6" />
-      <path d="M22 76 L52 46 L72 66 L88 52 L128 76" fill="none" />
-      <path d="M14 102 H100" strokeWidth="2" />
-      <path d="M14 118 H136 M14 130 H118" />
-      <rect x="14" y="152" width="58" height="22" rx="6" />
-      <path d="M26 163 H60" />
-      <rect x="96.5" y="16.5" width="125" height="185" rx="12" />
-      <path d="M110 36 H152" strokeWidth="2" />
-      <circle cx="117" cy="60" r="7" />
-      <path d="M130 56 H204 M130 66 H184" />
-      <circle cx="117" cy="94" r="7" />
-      <path d="M130 90 H198 M130 100 H170" />
-      <circle cx="117" cy="128" r="7" />
-      <path d="M130 124 H202 M130 134 H160" />
-      <rect x="108" y="170" width="102" height="20" rx="10" />
-      <circle cx="199" cy="180" r="4" />
-    </Drawing>
-  )
-}
-
-// User Accounts: a sign-in card with the "forgot password" link under the fields.
-export function AccountsLinework({ className }: { className?: string }) {
-  return (
-    <Drawing viewBox="0 0 180 202" className={className}>
-      <rect x="0.5" y="0.5" width="179" height="201" rx="12" />
-      <circle cx="90" cy="36" r="16" />
-      <circle cx="90" cy="31" r="5" />
-      <path d="M81 45 C81 39 99 39 99 45" fill="none" />
-      <path d="M62 66 H118" strokeWidth="2" />
-      <rect x="16" y="80" width="148" height="26" rx="6" />
-      <path d="M26 93 H84" />
-      <rect x="16" y="114" width="148" height="26" rx="6" />
-      <g fill="currentColor" stroke="none">
-        <circle cx="30" cy="127" r="2" />
-        <circle cx="40" cy="127" r="2" />
-        <circle cx="50" cy="127" r="2" />
-        <circle cx="60" cy="127" r="2" />
-        <circle cx="70" cy="127" r="2" />
+    <Drawing viewBox="0 0 200 150" className={className}>
+      <clipPath id={clip}>
+        <rect x="10" y="6" width="180" height="138" rx="10" />
+      </clipPath>
+      <rect x="10" y="6" width="180" height="138" rx="10" />
+      <path d="M24 22 H176" opacity="0.3" />
+      <path d="M24 22 H176" stroke={yellow} strokeWidth="1.5" className={`${lineGrow} scale-x-[0.33] group-hover:scale-x-[0.66]`} />
+      <g clipPath={`url(#${clip})`}>
+        <g className={`${move} motion-safe:group-hover:-translate-x-[170px]`}>
+          <path d="M24 40 H66" />
+          <Field x={24} y={60} length={92} />
+          <Field x={24} y={78} length={70} />
+          <Field x={24} y={96} length={84} />
+          <rect x="24" y="114" width="44" height="18" rx="6" />
+          <path d="M194 40 H230" />
+          <Field x={194} y={60} length={64} />
+          <rect x="194" y="70" width="152" height="18" rx="5" />
+          <path d="M202 79 H240" opacity={text} />
+          <rect x="194" y="114" width="44" height="18" rx="6" />
+        </g>
       </g>
-      <path d="M108 152 H164" strokeDasharray="2 3" />
-      <rect x="16" y="166" width="148" height="24" rx="6" />
-      <path d="M70 178 H110" />
     </Drawing>
   )
 }
 
-// Every other block: a page's blocks as thin slabs stacked in isometric view, with
-// one pulled out of its slot like it's being dragged to a new place.
+function Comment({ y, name, body, avatar }: { y: number; name: number; body: number; avatar?: string }) {
+  return (
+    <>
+      <circle cx="26" cy={y} r="6" fill={avatar ?? 'var(--bg)'} stroke={avatar ? 'none' : undefined} />
+      <path d={`M38 ${y - 4} H${38 + name}`} />
+      <path d={`M38 ${y + 4} H${38 + body}`} opacity={text} />
+    </>
+  )
+}
+
+// Posting a comment: on hover the input empties, the new comment (pink avatar) slides
+// in on top, and the others move down to make room.
+export function CommentsLinework({ className }: Props) {
+  return (
+    <Drawing viewBox="0 0 200 170" className={className}>
+      <rect x="8" y="6" width="184" height="158" rx="10" />
+      <path d="M20 22 H58" />
+      <rect x="20" y="30" width="160" height="16" rx="8" />
+      <path d="M30 38 H112" className={`${lineGrow} group-hover:scale-x-0`} />
+      <g
+        className={`opacity-0 ${fadeMove} motion-safe:-translate-x-[8px] group-hover:translate-x-0 group-hover:opacity-100`}
+        style={delay(200)}
+      >
+        <Comment y={68} name={40} body={110} avatar={pink} />
+      </g>
+      <g className={`${move} motion-safe:-translate-y-[28px] group-hover:translate-y-0`} style={delay(120)}>
+        <Comment y={96} name={30} body={96} />
+        <Comment y={124} name={44} body={120} />
+        <Comment y={152} name={26} body={80} />
+      </g>
+    </Drawing>
+  )
+}
+
+// The profile header from Account Settings: on hover the avatar lifts, a blue edit
+// badge pops in, and the cover drifts behind it.
+export function AccountsLinework({ className }: Props) {
+  const clip = useId()
+  return (
+    <Drawing viewBox="0 0 190 130" className={className}>
+      <clipPath id={clip}>
+        <rect x="4" y="4" width="182" height="60" rx="10" />
+      </clipPath>
+      <rect x="4" y="4" width="182" height="60" rx="10" />
+      <g clipPath={`url(#${clip})`}>
+        <path
+          d="M40 64 L76 4 M84 64 L120 4 M128 64 L164 4 M172 64 L208 4"
+          opacity="0.35"
+          className="transition-[translate] duration-700 ease-in-out motion-safe:group-hover:-translate-x-[14px]"
+        />
+      </g>
+      <g className={`${move} motion-safe:group-hover:-translate-y-[4px]`}>
+        <circle cx="40" cy="66" r="20" />
+        <circle cx="40" cy="60" r="6.5" />
+        <path d="M28 79 C28 71 52 71 52 79" fill="none" />
+        <g
+          className="origin-center [transform-box:fill-box] opacity-0 scale-90 transition-[opacity,scale] duration-200 ease-out group-hover:opacity-100 group-hover:scale-100"
+          style={delay(150)}
+        >
+          <circle cx="56" cy="80" r="7" fill={blue} stroke="none" />
+          <path d="M53 81 h6 v-3 h-1.5 l-1 -1.2 h-1 l-1 1.2 H53 z" stroke="white" strokeWidth="0.8" fill="none" />
+        </g>
+      </g>
+      <path d="M70 84 H140" />
+      <path d="M70 94 H116" opacity={text} />
+      <path d="M16 116 H174" opacity="0.3" />
+    </Drawing>
+  )
+}
+
+// Every other block: a page's blocks as slabs stacked in isometric view, each with a
+// block on top (Calendar, Charts, List, Grid). On hover they fan out, one after
+// another, so each block can be seen.
 const width = 160 // block width, along the page
 const depth = 100 // block depth, into the page
-const thickness = 12
+const thickness = 8
 const gap = 46 // vertical space between blocks
+const margin = 48 // room to fan out into
 const count = 4
-const pulled = 1 // which block, from the top, is mid-drag
-const pull = 44 // how far it's dragged out, along the width
 
 // Isometric projection: x runs down-right, y down-left, z straight up.
 const cos = Math.cos(Math.PI / 6)
-const origin = { x: depth * cos + 8, y: 8 + (count - 1) * gap }
+const origin = { x: depth * cos + 8 + margin, y: 8 + margin + (count - 1) * gap }
 
 type Point = readonly [number, number]
 
@@ -117,38 +178,114 @@ function line(...ps: Point[]) {
   return 'M' + ps.map((p) => p.map((n) => n.toFixed(1)).join(' ')).join(' L')
 }
 
-function slab(z: number, shift = 0) {
-  const [a, b, c, d] = [point(shift, 0, z), point(shift + width, 0, z), point(shift + width, depth, z), point(shift, depth, z)]
+function slab(z: number) {
+  const [a, b, c, d] = [point(0, 0, z), point(width, 0, z), point(width, depth, z), point(0, depth, z)]
   const down = (p: Point): Point => [p[0], p[1] + thickness]
   return [line(a, b, c, d, a), line(b, down(b), down(c), down(d), d), line(c, down(c))].join(' ')
 }
 
-function outline(z: number) {
-  return line(point(0, 0, z), point(width, 0, z), point(width, depth, z), point(0, depth, z), point(0, 0, z))
+// Maps flat drawing coordinates (u along the width, v into the depth) onto a slab's top.
+function topFace(z: number) {
+  const [x, y] = point(0, 0, z)
+  return `matrix(${cos} 0.5 ${-cos} 0.5 ${x} ${y})`
 }
 
-const levels = Array.from({ length: count }, (_, i) => (count - 1 - i) * gap)
-const [right] = point(width + pull, 0, 0)
+function CalendarTop() {
+  const cols = Array.from({ length: 6 }, (_, i) => 12 + ((i + 1) * 136) / 7)
+  return (
+    <>
+      <path d="M12 12 H44" />
+      <rect x="12" y="22" width="136" height="68" rx="3" />
+      <path d={[39, 56, 73].map((v) => `M12 ${v} H148`).join(' ')} opacity={text} />
+      <path d={cols.map((u) => `M${u.toFixed(1)} 22 V90`).join(' ')} opacity={text} />
+      <g fill="currentColor" stroke="none" opacity="0.6">
+        <rect x="53" y="27" width="35" height="4" rx="2" />
+        <rect x="92" y="61" width="35" height="4" rx="2" />
+      </g>
+    </>
+  )
+}
+
+function ChartsTop() {
+  const bars = [12, 16, 15, 21, 25, 30, 36, 42]
+  return (
+    <>
+      {[12, 49, 86, 123].map((u) => (
+        <rect key={u} x={u} y="10" width="25" height="14" rx="3" />
+      ))}
+      <rect x="12" y="32" width="88" height="58" rx="3" />
+      <g fill="currentColor" stroke="none" opacity="0.6">
+        {bars.map((h, i) => (
+          <rect key={i} x={20 + i * 9.5} y={84 - h} width="5" height={h} rx="1.5" />
+        ))}
+      </g>
+      <rect x="108" y="32" width="40" height="58" rx="3" />
+      <circle cx="128" cy="61" r="12" />
+      <circle cx="128" cy="61" r="6" />
+    </>
+  )
+}
+
+function ListTop() {
+  return (
+    <>
+      <path d="M12 12 H52" />
+      {[24, 46, 68].map((v) => (
+        <g key={v}>
+          <circle cx="20" cy={v + 8} r="6" />
+          <path d={`M32 ${v + 5} H76`} />
+          <path d={`M32 ${v + 11} H62`} opacity={text} />
+          <rect x="120" y={v + 3} width="28" height="10" rx="5" />
+        </g>
+      ))}
+    </>
+  )
+}
+
+function GridTop() {
+  return (
+    <>
+      {[12, 59, 106].flatMap((u) =>
+        [10, 52].map((v) => (
+          <g key={`${u}-${v}`}>
+            <rect x={u} y={v} width="42" height="38" rx="3" />
+            <rect x={u + 4} y={v + 4} width="34" height="16" rx="2" opacity={text} />
+            <path d={`M${u + 4} ${v + 27} H${u + 28}`} />
+          </g>
+        )),
+      )}
+    </>
+  )
+}
+
+// Top to bottom. The fan-out offsets are written out in full so Tailwind can see them.
+const layers = [
+  { top: CalendarTop, fan: 'motion-safe:group-hover:-translate-x-[20px] motion-safe:group-hover:-translate-y-[42px]' },
+  { top: ChartsTop, fan: 'motion-safe:group-hover:translate-x-[36px] motion-safe:group-hover:-translate-y-[14px]' },
+  { top: ListTop, fan: 'motion-safe:group-hover:-translate-x-[36px] motion-safe:group-hover:translate-y-[14px]' },
+  { top: GridTop, fan: 'motion-safe:group-hover:translate-x-[20px] motion-safe:group-hover:translate-y-[42px]' },
+]
+
+const [right] = point(width, 0, 0)
 const [, bottom] = point(width, depth, 0)
-const stackViewBox = `0 0 ${Math.ceil(right + 16)} ${Math.ceil(bottom + thickness + 8)}`
+const stackViewBox = `0 0 ${Math.ceil(right + 8 + margin)} ${Math.ceil(bottom + thickness + 8 + margin)}`
 
 // Slabs overlap on screen, so they're drawn bottom-up: each hides the lines below it.
-export function BlocksLinework({ className }: { className?: string }) {
+// Strokes on the slanted tops would stretch with the projection, so they stay 1px.
+export function BlocksLinework({ className }: Props) {
   return (
-    <Drawing viewBox={stackViewBox} className={className}>
-      {levels
-        .map((z, i) => ({ z, isPulled: i === pulled }))
+    <Drawing viewBox={stackViewBox} className={`${className ?? ''} [&_*]:[vector-effect:non-scaling-stroke]`}>
+      {layers
+        .map((layer, i) => ({ ...layer, i, z: (count - 1 - i) * gap }))
         .reverse()
-        .map(({ z, isPulled }) =>
-          isPulled ? (
-            <g key={z}>
-              <path d={outline(z)} fill="none" strokeDasharray="3 4" opacity="0.6" />
-              <path d={slab(z, pull)} />
+        .map(({ top: Top, fan, i, z }) => (
+          <g key={z} className={`${move} ${fan}`} style={delay(i * 40)}>
+            <path d={slab(z)} />
+            <g transform={topFace(z)}>
+              <Top />
             </g>
-          ) : (
-            <path key={z} d={slab(z)} />
-          ),
-        )}
+          </g>
+        ))}
     </Drawing>
   )
 }

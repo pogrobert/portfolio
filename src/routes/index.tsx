@@ -66,7 +66,7 @@ function Home() {
                 params={{ slug: project.slug }}
                 className="group flex scroll-mt-8 flex-col gap-3 no-underline"
               >
-                <div className="transition-transform duration-300 group-hover:-translate-y-0.5">
+                <div className="transition-[translate] duration-200 ease-[ease] motion-safe:group-hover:-translate-y-0.5">
                   <Demo kind={project.demo} />
                 </div>
                 <div>

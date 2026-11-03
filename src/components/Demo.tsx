@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
 import type { DemoKind } from '../content/projects'
-import { SoftrMark } from './SoftrMark'
+import { BlocksLinework } from './Linework'
 
 type DemoProps = { kind: DemoKind; size?: 'tile' | 'hero' }
 
@@ -17,7 +17,7 @@ export function Demo({ kind, size = 'tile' }: DemoProps) {
     case 'surfaces':
       return <SurfacesTiles height={height} />
     case 'softr':
-      return <SoftrTile height={height} hero={size === 'hero'} />
+      return <SoftrTile height={height} />
     case 'goya':
       return <GoyaPainting height={height} />
   }
@@ -127,10 +127,11 @@ function SurfacesTiles({ height }: { height: string }) {
   )
 }
 
-function SoftrTile({ height, hero }: { height: string; hero: boolean }) {
+// The stack of Softr blocks; it fans out when the card around it is hovered.
+function SoftrTile({ height }: { height: string }) {
   return (
-    <div className={`${tile} ${height} flex items-center justify-center bg-tile`} aria-hidden="true">
-      <SoftrMark className={hero ? 'size-40 sm:size-48' : 'size-28'} />
+    <div className={`${tile} ${height} flex items-center justify-center bg-tile py-3`} aria-hidden="true">
+      <BlocksLinework className="h-full w-auto text-muted" />
     </div>
   )
 }
