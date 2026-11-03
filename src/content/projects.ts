@@ -81,7 +81,7 @@ export const projects: Project[] = [
     role: 'Front-end engineer',
     period: '2022–2026',
     summary:
-      'Built Conditional Form and the condition engine behind it, rebuilt user accounts for 1M+ users with zero critical incidents, and took Comments from concept to production.',
+      'Three years on the blocks team during a redesign of every block: Conditional Form and its condition engine, Comments, the new account blocks, and nearly every other block along the way.',
     highlights: [],
     stack: ['React', 'TypeScript', 'Design systems', 'WCAG'],
     demo: 'softr',

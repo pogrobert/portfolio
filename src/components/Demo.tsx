@@ -1,5 +1,6 @@
 import { motion } from 'motion/react'
 import type { DemoKind } from '../content/projects'
+import { SoftrMark } from './SoftrMark'
 
 type DemoProps = { kind: DemoKind; size?: 'tile' | 'hero' }
 
@@ -16,7 +17,7 @@ export function Demo({ kind, size = 'tile' }: DemoProps) {
     case 'surfaces':
       return <SurfacesTiles height={height} />
     case 'softr':
-      return <SoftrBlocks height={height} />
+      return <SoftrTile height={height} hero={size === 'hero'} />
     case 'goya':
       return <GoyaPainting height={height} />
   }
@@ -126,40 +127,10 @@ function SurfacesTiles({ height }: { height: string }) {
   )
 }
 
-function SoftrBlocks({ height }: { height: string }) {
-  const spring = { type: 'spring', stiffness: 260, damping: 24 } as const
+function SoftrTile({ height, hero }: { height: string; hero: boolean }) {
   return (
-    <div
-      className={`${tile} ${height} grid grid-cols-2 grid-rows-[auto_1fr] gap-3 bg-tile p-7`}
-      aria-hidden="true"
-    >
-      <motion.div
-        initial={{ y: -16 }}
-        whileInView={{ y: 0 }}
-        viewport={{ once: true, amount: 0.6 }}
-        transition={{ ...spring, delay: 0.1 }}
-        className="col-span-2 rounded-2xl bg-softr-yellow px-4.5 py-3.5 text-sm font-medium text-[#121212]"
-      >
-        Conditional Form
-      </motion.div>
-      <motion.div
-        initial={{ x: -16 }}
-        whileInView={{ x: 0 }}
-        viewport={{ once: true, amount: 0.6 }}
-        transition={{ ...spring, delay: 0.2 }}
-        className="flex items-center justify-center rounded-full bg-softr-pink text-sm font-medium text-[#121212]"
-      >
-        Comments
-      </motion.div>
-      <motion.div
-        initial={{ x: 16 }}
-        whileInView={{ x: 0 }}
-        viewport={{ once: true, amount: 0.6 }}
-        transition={{ ...spring, delay: 0.3 }}
-        className="flex items-center justify-center rounded-2xl bg-softr-blue text-sm font-medium text-white"
-      >
-        User Accounts
-      </motion.div>
+    <div className={`${tile} ${height} flex items-center justify-center bg-tile`} aria-hidden="true">
+      <SoftrMark className={hero ? 'size-40 sm:size-48' : 'size-28'} />
     </div>
   )
 }

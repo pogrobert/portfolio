@@ -21,10 +21,10 @@ export function Logo({ kind }: { kind: LogoKind }) {
     case 'softr':
       // Softr's three shapes: a wide bar over a circle and a rounded square.
       return (
-        <svg viewBox="0 0 32 32" aria-hidden="true" className={box}>
-          <rect x="1" y="2" width="30" height="13" rx="4.5" fill="#fcb500" />
+        <svg viewBox="0.5 1.5 30 30" aria-hidden="true" className={box}>
+          <rect x="1" y="2" width="29" height="13" rx="4.5" fill="#fcb500" />
           <circle cx="7.5" cy="24.5" r="6.5" fill="#f53878" />
-          <rect x="18" y="18" width="13" height="13" rx="4" fill="#386af5" />
+          <rect x="17" y="18" width="13" height="13" rx="4" fill="#386af5" />
         </svg>
       )
     case 'aua':

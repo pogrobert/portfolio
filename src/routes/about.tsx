@@ -42,9 +42,9 @@ function About() {
           <Mention slug="softr" preview="softr">
             Softr
           </Mention>
-          , a no-code platform with over a million users, and spent three years on its blocks team. There I built
-          Conditional Form and the condition engine behind it, rebuilt user accounts from scratch, and took Comments
-          from idea to production.
+          , a no-code platform with over a million users, and spent three years on its blocks team during a
+          redesign of every block. There I built Conditional Form and the condition engine behind it, took Comments
+          from idea to production, and worked on nearly every other block along the way.
         </div>
         <div>
           Now that LLMs make writing code faster than ever, I get to spend more of my time on the bigger picture:
