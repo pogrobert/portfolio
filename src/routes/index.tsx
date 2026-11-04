@@ -1,9 +1,8 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { Demo } from '../components/Demo'
-import { Logo } from '../components/Logo'
 import { Mention, goyaCredit } from '../components/Mention'
-import { projects } from '../content/projects'
-import { experience, site } from '../content/site'
+import { projects, type Project } from '../content/projects'
+import { site } from '../content/site'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -42,7 +41,7 @@ function Home() {
             Softr
           </Mention>{' '}
           and started out at{' '}
-          <Mention preview="goya" caption={goyaCredit}>
+          <Mention slug="goya" preview="goya" caption={goyaCredit}>
             Goya
           </Mention>
           . <Link to="/about">More about me</Link>
@@ -53,45 +52,42 @@ function Home() {
         </div>
       </div>
 
-      <section id="work" className="mt-20 scroll-mt-8">
-        <h2 className="mb-6 text-muted">Projects</h2>
-        <div className="flex flex-col gap-12">
-          {projects
-            .filter((p) => p.caseStudy)
-            .map((project) => (
-              <Link
-                key={project.slug}
-                id={project.slug}
-                to="/work/$slug"
-                params={{ slug: project.slug }}
-                className="group flex scroll-mt-8 flex-col gap-3 no-underline"
-              >
-                <div className="transition-[translate] duration-200 ease-[ease] motion-safe:group-hover:-translate-y-0.5">
-                  <Demo kind={project.demo} />
-                </div>
-                <div>
-                  <h3 className="font-medium">{project.name}</h3>
-                  <p className="text-muted">{project.tagline}</p>
-                </div>
-              </Link>
-            ))}
-        </div>
-      </section>
-
-      <section id="experience" className="mt-20 scroll-mt-8">
-        <h2 className="mb-4 text-muted">Experience</h2>
-        <ul className="flex flex-col gap-3">
-          {experience.map((item) => (
-            <li key={item.org} className="flex items-baseline gap-3">
-              <Logo kind={item.logo} />
-              <span className="min-w-0 flex-1">
-                {item.org} <span className="text-muted">· {item.role}</span>
-              </span>
-              <span className="font-mono text-[13px] text-muted">{item.period}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <ProjectList id="work" title="Work" items={projects.filter((p) => p.kind === 'work')} />
+      <ProjectList id="side-projects" title="Side projects" items={projects.filter((p) => p.kind === 'side')} />
     </main>
+  )
+}
+
+// Each project appears once: its card carries the role and years, and links to its
+// case study. Work is jobs and companies; side projects are built on the side.
+function ProjectList({ id, title, items }: { id: string; title: string; items: Project[] }) {
+  return (
+    <section id={id} className="mt-20 scroll-mt-8">
+      <h2 className="mb-6 text-muted">{title}</h2>
+      <div className="flex flex-col gap-12">
+        {items.map((project) => (
+          <Link
+            key={project.slug}
+            id={project.slug}
+            to="/work/$slug"
+            params={{ slug: project.slug }}
+            className="group flex scroll-mt-8 flex-col gap-3 no-underline"
+          >
+            <div className="transition-[translate] duration-200 ease-[ease] motion-safe:group-hover:-translate-y-0.5">
+              <Demo kind={project.demo} />
+            </div>
+            <div>
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                <h3 className="font-medium">{project.name}</h3>
+                <span className="font-mono text-[13px] text-muted">
+                  {project.role} · {project.period}
+                </span>
+              </div>
+              <p className="text-muted">{project.tagline}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
   )
 }

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import type { DemoKind } from '../content/projects'
 import { Demo } from './Demo'
 
-// The painting stands in for Goya, the company, which has since closed.
+// Goya, the company, is pictured with a painting by the artist it shares a name with.
 export const goyaCredit = (
   <>
     Francisco de Goya, <cite>The Forge</cite>, c. 1815–20

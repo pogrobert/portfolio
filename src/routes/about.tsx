@@ -34,11 +34,12 @@ function About() {
         </div>
         <div>
           I started my career at{' '}
-          <Mention preview="goya" caption={goyaCredit}>
+          <Mention slug="goya" preview="goya" caption={goyaCredit}>
             Goya
           </Mention>
-          , an outsourcing company, building web and mobile apps for clients with React, Next.js, Flutter and Node.
-          Then I joined{' '}
+          , which began as a school for software engineering. I took its course, finished as the best student in
+          my class, and joined its new outsourcing team, building web and mobile apps for clients with React,
+          Flutter and Node. Then I joined{' '}
           <Mention slug="softr" preview="softr">
             Softr
           </Mention>

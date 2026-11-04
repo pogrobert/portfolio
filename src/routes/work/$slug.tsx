@@ -43,14 +43,29 @@ function CaseStudy({ project }: { project: Project }) {
       </p>
       <h1 className="mt-2 text-4xl font-semibold tracking-tight">{project.name}</h1>
       <p className="mt-5 text-lg text-body">{project.summary}</p>
-      <div className="mt-8">
+      <figure className="mt-8">
         <Demo kind={project.demo} size="hero" />
-      </div>
-      <ul className="mt-10 flex flex-col gap-3 border-l border-line pl-5 text-body">
-        {project.highlights.map((h) => (
-          <li key={h}>{h}</li>
-        ))}
-      </ul>
+        {project.credit && <figcaption className="mt-2 font-mono text-xs text-muted">{project.credit}</figcaption>}
+      </figure>
+      {project.timeline ? (
+        <ol className="mt-12 flex flex-col gap-8">
+          {project.timeline.map((step) => (
+            <li key={step.title} className="grid gap-1 sm:grid-cols-[9rem_1fr] sm:gap-6">
+              <span className="font-mono text-[13px] text-muted sm:pt-0.5">{step.when}</span>
+              <div>
+                <h2 className="font-semibold">{step.title}</h2>
+                <p className="mt-1 text-body">{step.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <ul className="mt-10 flex flex-col gap-3 border-l border-line pl-5 text-body">
+          {project.highlights.map((h) => (
+            <li key={h}>{h}</li>
+          ))}
+        </ul>
+      )}
       <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5">
         <p className="font-mono text-[13px] text-muted">{project.stack.join(' · ')}</p>
         {project.link && <a href={project.link.href}>{project.link.label} ↗</a>}

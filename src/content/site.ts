@@ -1,5 +1,3 @@
-import type { LogoKind } from '../components/Logo'
-
 export const site = {
   name: 'Robert Poghosyan',
   title: 'Senior Product Engineer',
@@ -13,11 +11,3 @@ export const site = {
     linkedin: 'https://linkedin.com/in/robertpoghosyan1',
   },
 }
-
-export const experience: { org: string; role: string; period: string; logo: LogoKind }[] = [
-  { org: 'Meerlume', role: 'Co-founder & full-stack engineer', period: '2026–', logo: 'meerlume' },
-  { org: 'Stamplyn', role: 'Co-founder & lead engineer', period: '2026–', logo: 'stamplyn' },
-  { org: 'Softr', role: 'Front-end engineer', period: '2022–2026', logo: 'softr' },
-  { org: 'Goya', role: 'Full-stack developer', period: '2021–2022', logo: 'goya' },
-  { org: 'American University of Armenia', role: 'BS Computer Science', period: '2018–2022', logo: 'aua' },
-]

@@ -12,8 +12,13 @@ export type Project = {
   stack: string[]
   demo: DemoKind
   link?: { label: string; href: string }
-  // Projects without a case study are listed on the home page only.
-  caseStudy: boolean
+  // Jobs and companies go under Work on the home page; things built on the side
+  // (open source, libraries) under Side projects.
+  kind: 'work' | 'side'
+  // Credit shown under the hero, for artwork that isn't Robert's.
+  credit?: string
+  // For a job made of several projects: shown in order instead of the highlights.
+  timeline?: { when: string; title: string; text: string }[]
 }
 
 export const projects: Project[] = [
@@ -36,7 +41,7 @@ export const projects: Project[] = [
     stack: ['React Router', 'Fastify', 'PostgreSQL', 'Gemini', 'Cloudflare', 'Paddle'],
     demo: 'meerlume',
     link: { label: 'meerlume.com', href: 'https://meerlume.com' },
-    caseStudy: true,
+    kind: 'work',
   },
   {
     slug: 'stamplyn',
@@ -50,12 +55,71 @@ export const projects: Project[] = [
       'Hotel and flight search with live prices from a travel partner, booked in the app and paid through Stripe.',
       'Describe the trip you have in mind and get plans built from real flights and stays.',
       'A passport that fills with a stamp from every landmark you visit.',
-      'I lead engineering on a team of three, and wrote 149 of our first 168 issues.',
+      'I lead product, design and engineering on a team of four, and wrote 149 of our first 168 issues.',
     ],
     stack: ['Expo', 'React Native', 'Supabase', 'Stripe'],
     demo: 'stamplyn',
     link: { label: 'stamplyn.com', href: 'https://stamplyn.com' },
-    caseStudy: true,
+    kind: 'work',
+  },
+  {
+    slug: 'softr',
+    name: 'Softr',
+    tagline: 'Some of the most complex blocks on a no-code platform with 1M+ users.',
+    role: 'Front-end engineer',
+    period: '2022–2026',
+    summary:
+      'Three years on the blocks team during a redesign of every block: Conditional Form and its condition engine, Comments, the new account blocks, and nearly every other block along the way.',
+    highlights: [],
+    stack: ['React', 'TypeScript', 'Design systems', 'WCAG'],
+    demo: 'softr',
+    kind: 'work',
+  },
+  {
+    slug: 'goya',
+    name: 'Goya',
+    tagline: 'My first job, where the fundamentals were forged.',
+    role: 'Full-stack developer',
+    period: '2021–2022',
+    summary:
+      'Goya started as a school for software engineering and later opened an outsourcing team. I took its course, finished as the best student in my class, and was offered a job. It was my first, and where the fundamentals were forged. Goya has since closed.',
+    highlights: [],
+    timeline: [
+      {
+        when: '2020',
+        title: 'The course',
+        text: 'I took Goya’s software engineering course from early to late 2020 and finished as the best student in my class. When Goya started doing client work, I was offered a job on the team.',
+      },
+      {
+        when: '2021',
+        title: 'A fitness app',
+        text: 'My first project: the web app for a US fitness company, in React and Redux.',
+      },
+      {
+        when: 'Mid 2021',
+        title: 'A rescue',
+        text: 'Another client project had fallen behind, so I was brought in to build it fast. It shipped, and the client was happy with it.',
+      },
+      {
+        when: 'Late 2021',
+        title: 'Test automation',
+        text: 'When the fitness project ended, I spent a month on QA automation, writing end-to-end tests for cross-platform mobile apps.',
+      },
+      {
+        when: 'Late 2021 – early 2022',
+        title: 'Smart greenhouses',
+        text: 'A mobile app for managing smart greenhouses: live sensor readings, and controls for things like fans and windows. I evaluated Flutter and React Native for it and chose Flutter. Today I’d pick React Native.',
+      },
+      {
+        when: 'Mar – Nov 2022',
+        title: 'A marketplace platform',
+        text: 'Full-stack and backend-heavy: the API, plus two front ends, a CRM and the web app itself. I worked on it until I left for Softr.',
+      },
+    ],
+    stack: ['React', 'Redux', 'Flutter', 'Node'],
+    demo: 'goya',
+    kind: 'work',
+    credit: 'A nod to the name: Francisco de Goya, The Forge, c. 1815–20. The Frick Collection.',
   },
   {
     slug: 'surfaces',
@@ -72,36 +136,10 @@ export const projects: Project[] = [
     ],
     stack: ['TypeScript', 'SVG', 'Node'],
     demo: 'surfaces',
-    caseStudy: true,
-  },
-  {
-    slug: 'softr',
-    name: 'Softr',
-    tagline: 'Some of the most complex blocks on a no-code platform with 1M+ users.',
-    role: 'Front-end engineer',
-    period: '2022–2026',
-    summary:
-      'Three years on the blocks team during a redesign of every block: Conditional Form and its condition engine, Comments, the new account blocks, and nearly every other block along the way.',
-    highlights: [],
-    stack: ['React', 'TypeScript', 'Design systems', 'WCAG'],
-    demo: 'softr',
-    caseStudy: true,
-  },
-  {
-    slug: 'goya',
-    name: 'Goya',
-    tagline: 'My first job, where the fundamentals were forged.',
-    role: 'Full-stack developer',
-    period: '2021–2022',
-    summary:
-      'My first job, and where the fundamentals were forged: web and mobile apps with React, Next.js, Flutter and Node, CMS interfaces and REST APIs, and end-to-end tests for cross-platform mobile apps. The company has since closed, so its namesake stands in.',
-    highlights: [],
-    stack: ['React', 'Next.js', 'Flutter', 'Node'],
-    demo: 'goya',
-    caseStudy: false,
+    kind: 'side',
   },
 ]
 
 export function getProject(slug: string) {
-  return projects.find((p) => p.slug === slug && p.caseStudy)
+  return projects.find((p) => p.slug === slug)
 }
