@@ -58,7 +58,7 @@ function Home() {
   )
 }
 
-// Each project appears once: its card carries the role and years, and links to its
+// Each project appears once: its card carries the years, and links to its
 // case study. Work is jobs and companies; side projects are built on the side.
 function ProjectList({ id, title, items }: { id: string; title: string; items: Project[] }) {
   return (
@@ -77,13 +77,9 @@ function ProjectList({ id, title, items }: { id: string; title: string; items: P
               <Demo kind={project.demo} />
             </div>
             <div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                <h3 className="font-medium">{project.name}</h3>
-                <span className="font-mono text-[13px] text-muted">
-                  {project.role} · {project.period}
-                </span>
-              </div>
+              <h3 className="font-medium">{project.name}</h3>
               <p className="text-muted">{project.tagline}</p>
+              <p className="mt-1 text-sm text-muted tabular-nums">{project.period}</p>
             </div>
           </Link>
         ))}
