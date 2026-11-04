@@ -1,5 +1,7 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
+import type { ComponentType } from 'react'
 import { Demo } from '../../components/Demo'
+import { GoyaMark } from '../../components/Marks'
 import { SoftrCaseStudy } from '../../components/SoftrCaseStudy'
 import { getProject, type Project } from '../../content/projects'
 import { site } from '../../content/site'
@@ -35,13 +37,20 @@ function CaseStudyPage() {
   )
 }
 
+// Former employers get their mark beside the title, like Softr's on its own page.
+const marks: Partial<Record<string, ComponentType<{ className?: string }>>> = { goya: GoyaMark }
+
 function CaseStudy({ project }: { project: Project }) {
+  const Mark = marks[project.slug]
   return (
     <>
       <p className="mt-8 font-mono text-[13px] text-muted">
         {project.role} · {project.period}
       </p>
-      <h1 className="mt-2 text-4xl font-semibold tracking-tight">{project.name}</h1>
+      <h1 className="mt-2 flex items-center gap-3 text-4xl font-semibold tracking-tight">
+        {Mark && <Mark className="h-10 w-auto" />}
+        {project.name}
+      </h1>
       <p className="mt-5 text-lg text-body">{project.summary}</p>
       <figure className="mt-8">
         <Demo kind={project.demo} size="hero" />

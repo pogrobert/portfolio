@@ -1,6 +1,6 @@
 import type { ComponentType, ReactNode } from 'react'
 import { AccountsLinework, BlocksLinework, CommentsLinework, FormLinework } from './Linework'
-import { SoftrMark } from './SoftrMark'
+import { SoftrMark } from './Marks'
 
 const docs = 'https://docs.softr.io/building-blocks'
 
