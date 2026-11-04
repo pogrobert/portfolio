@@ -17,7 +17,7 @@ export type Project = {
   // Credit shown under the hero, for artwork that isn't Robert's.
   credit?: string
   // For a job made of several projects: shown in order instead of the highlights.
-  timeline?: { when: string; title: string; text: string }[]
+  timeline?: { title: string; text: string }[]
 }
 
 export const projects: Project[] = [
@@ -78,38 +78,28 @@ export const projects: Project[] = [
     role: 'Full-stack developer',
     period: '2021–2022',
     summary:
-      'Goya was a Yerevan company that started as a school for software engineering and later opened an outsourcing team. I took its course, finished as the best student in my class, and was offered a job. It was my first, and where the fundamentals were forged. Goya has since closed.',
+      'Goya was a Yerevan company that started as a school for software engineering and later opened an outsourcing team. I took its course and was offered a job: my first, and where the fundamentals were forged. Goya has since closed.',
     highlights: [],
     timeline: [
       {
-        when: '2020',
         title: 'The course',
         text: 'I took Goya’s software engineering course from early to late 2020 and finished as the best student in my class. When Goya started doing client work, I was offered a job on the team.',
       },
       {
-        when: '2021',
         title: 'A fitness app',
-        text: 'My first project: a web app for one of the biggest US at-home fitness companies, known for its streaming workout programs. React and Redux.',
+        text: 'My first project: the front end of the web app for one of the biggest US at-home fitness companies, known for its streaming workout programs. React and Redux.',
       },
       {
-        when: 'Mid 2021',
         title: 'A rescue',
-        text: 'Another client project had fallen behind, so I was brought in to build it fast. It shipped, and the client was happy with it.',
+        text: 'A client website in React had fallen a few weeks behind. I took it over, worked overtime and finished it within a month. It launched, and the client was happy with the result.',
       },
       {
-        when: 'Late 2021',
-        title: 'Test automation',
-        text: 'When the fitness project ended, I spent a month on QA automation, writing end-to-end tests for cross-platform mobile apps.',
-      },
-      {
-        when: 'Late 2021 – early 2022',
         title: 'Smart greenhouses',
-        text: 'A mobile app for managing smart greenhouses: live sensor readings, and controls for things like fans and windows. I evaluated Flutter and React Native for it and chose Flutter. Today I’d pick React Native.',
+        text: 'After a month of QA automation, writing end-to-end tests for cross-platform mobile apps, I moved on to building one: an app for managing smart greenhouses, with live sensor readings and controls for things like fans and windows. I evaluated Flutter and React Native and chose Flutter. Today I’d pick React Native, which renders the platform’s own components, so apps look and feel native.',
       },
       {
-        when: 'Mar – Nov 2022',
         title: 'A marketplace platform',
-        text: 'A US marketplace app connecting consumers with local and online businesses. Full-stack and backend-heavy: the API, plus two front ends, a CRM and the web app itself. I worked on it until I left for Softr.',
+        text: 'A US marketplace app connecting consumers with local and online businesses, built inside a partner agency’s team. I owned the CRM and worked across the Express and MongoDB backend and the web app, and became the person the team came to with questions about any part of it. I worked on it until I left for Softr.',
       },
     ],
     demo: 'goya',

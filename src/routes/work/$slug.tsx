@@ -64,12 +64,9 @@ function CaseStudy({ project }: { project: Project }) {
       {project.timeline ? (
         <ol className="mt-12 flex flex-col gap-8">
           {project.timeline.map((step) => (
-            <li key={step.title} className="grid gap-1 sm:grid-cols-[9rem_1fr] sm:gap-6">
-              <span className="font-mono text-[13px] text-muted sm:pt-0.5">{step.when}</span>
-              <div>
-                <h2 className="font-semibold">{step.title}</h2>
-                <p className="mt-1 text-body">{step.text}</p>
-              </div>
+            <li key={step.title}>
+              <h2 className="font-semibold">{step.title}</h2>
+              <p className="mt-1 text-body">{step.text}</p>
             </li>
           ))}
         </ol>
