@@ -52,6 +52,11 @@ function CaseStudy({ project }: { project: Project }) {
         {project.name}
       </h1>
       <p className="mt-5 text-lg text-body">{project.summary}</p>
+      {project.link && (
+        <p className="mt-4">
+          <a href={project.link.href}>{project.link.label} ↗</a>
+        </p>
+      )}
       <figure className="mt-8">
         <Demo kind={project.demo} size="hero" />
         {project.credit && <figcaption className="mt-2 font-mono text-xs text-muted">{project.credit}</figcaption>}
@@ -75,10 +80,6 @@ function CaseStudy({ project }: { project: Project }) {
           ))}
         </ul>
       )}
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5">
-        <p className="font-mono text-[13px] text-muted">{project.stack.join(' · ')}</p>
-        {project.link && <a href={project.link.href}>{project.link.label} ↗</a>}
-      </div>
     </>
   )
 }

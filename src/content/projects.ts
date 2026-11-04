@@ -9,7 +9,6 @@ export type Project = {
   period: string
   summary: string
   highlights: string[]
-  stack: string[]
   demo: DemoKind
   link?: { label: string; href: string }
   // Jobs and companies go under Work on the home page; things built on the side
@@ -38,7 +37,6 @@ export const projects: Project[] = [
       'Fastify and Neon PostgreSQL backend on Cloudflare and Railway; Paddle subscription billing.',
       'Approved Meta Tech Provider for the WhatsApp Business Platform. Launched publicly in August 2026.',
     ],
-    stack: ['React Router', 'Fastify', 'PostgreSQL', 'Gemini', 'Cloudflare', 'Paddle'],
     demo: 'meerlume',
     link: { label: 'meerlume.com', href: 'https://meerlume.com' },
     kind: 'work',
@@ -57,7 +55,6 @@ export const projects: Project[] = [
       'A passport that fills with a stamp from every landmark you visit.',
       'I lead product, design and engineering on a team of four, and wrote 149 of our first 168 issues.',
     ],
-    stack: ['Expo', 'React Native', 'Supabase', 'Stripe'],
     demo: 'stamplyn',
     link: { label: 'stamplyn.com', href: 'https://stamplyn.com' },
     kind: 'work',
@@ -71,7 +68,6 @@ export const projects: Project[] = [
     summary:
       'Three years on the blocks team during a redesign of every block: Conditional Form and its condition engine, Comments, the new account blocks, and nearly every other block along the way.',
     highlights: [],
-    stack: ['React', 'TypeScript', 'Design systems', 'WCAG'],
     demo: 'softr',
     kind: 'work',
   },
@@ -82,7 +78,7 @@ export const projects: Project[] = [
     role: 'Full-stack developer',
     period: '2021–2022',
     summary:
-      'Goya started as a school for software engineering and later opened an outsourcing team. I took its course, finished as the best student in my class, and was offered a job. It was my first, and where the fundamentals were forged. Goya has since closed.',
+      'Goya was a Yerevan company that started as a school for software engineering and later opened an outsourcing team. I took its course, finished as the best student in my class, and was offered a job. It was my first, and where the fundamentals were forged. Goya has since closed.',
     highlights: [],
     timeline: [
       {
@@ -116,7 +112,6 @@ export const projects: Project[] = [
         text: 'Full-stack and backend-heavy: the API, plus two front ends, a CRM and the web app itself. I worked on it until I left for Softr.',
       },
     ],
-    stack: ['React', 'Redux', 'Flutter', 'Node'],
     demo: 'goya',
     kind: 'work',
     credit: 'A nod to the name: Francisco de Goya, The Forge, c. 1815–20. The Frick Collection.',
@@ -134,7 +129,6 @@ export const projects: Project[] = [
       'Renders to SVG, PNG and Open Graph images, with React and DOM bindings.',
       'Deterministic: 9,000 contact-sheet tiles render byte-identical in the browser and in Node.',
     ],
-    stack: ['TypeScript', 'SVG', 'Node'],
     demo: 'surfaces',
     kind: 'side',
   },

@@ -1,8 +1,13 @@
+import { useLocation } from '@tanstack/react-router'
 import { site } from '../content/site'
 import { ThemeSwitch } from './ThemeSwitch'
 
-// Same column width as the page content.
+// Same column width as the page content. Case studies end on their own content, so
+// the footer only shows on the home and About pages. A theme picked there still
+// applies on the case studies: it's set in <head> before the page paints.
 export function SiteFooter() {
+  const { pathname } = useLocation()
+  if (pathname.startsWith('/work/')) return null
   return (
     <footer className="mx-auto flex max-w-2xl flex-wrap items-center justify-between gap-6 px-4 pb-16 text-sm text-muted sm:px-6">
       <a href={`mailto:${site.email}`} className="no-underline hover:text-fg">

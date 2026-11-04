@@ -13,9 +13,10 @@ export function SoftrCaseStudy() {
         Softr
       </h1>
       <p className="mt-5 text-lg text-body">
-        A no-code platform with over a million users, where every page is a stack of blocks. I joined about nine
-        months into the v5 redesign, which rebuilt every block, so I worked on both sides of it: maintaining and
-        extending the old blocks while building the new ones.
+        A Berlin-based no-code platform where every page is a stack of blocks, used by over a million people,
+        including teams at Netflix, Google and Stripe. I joined about nine months into the v5 redesign, which
+        rebuilt every block, so I worked on both sides of it: maintaining and extending the old blocks while
+        building the new ones.
       </p>
       <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1">
         <a href="https://www.softr.io">softr.io ↗</a>
