@@ -89,7 +89,7 @@ export const projects: Project[] = [
       {
         when: '2021',
         title: 'A fitness app',
-        text: 'My first project: the web app for a US fitness company, in React and Redux.',
+        text: 'My first project: a web app for one of the biggest US at-home fitness companies, known for its streaming workout programs. React and Redux.',
       },
       {
         when: 'Mid 2021',
@@ -109,7 +109,7 @@ export const projects: Project[] = [
       {
         when: 'Mar – Nov 2022',
         title: 'A marketplace platform',
-        text: 'Full-stack and backend-heavy: the API, plus two front ends, a CRM and the web app itself. I worked on it until I left for Softr.',
+        text: 'A US marketplace app connecting consumers with local and online businesses. Full-stack and backend-heavy: the API, plus two front ends, a CRM and the web app itself. I worked on it until I left for Softr.',
       },
     ],
     demo: 'goya',
