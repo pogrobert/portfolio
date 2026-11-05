@@ -24,19 +24,13 @@ export const projects: Project[] = [
   {
     slug: 'meerlume',
     name: 'Meerlume',
-    tagline: 'Plain words in, a WhatsApp or Telegram bot out.',
+    tagline: 'Describe the business, get a chatbot on five channels.',
     role: 'Co-founder',
     period: '2026–',
     summary:
-      'Describe a business workflow in plain words and get a WhatsApp or Telegram bot. A deterministic runtime runs the generated flows without calling the LLM, so bots stay cheap and predictable.',
-    highlights: [
-      'Three-panel builder: conversation, flow canvas and live preview, in React Router with server rendering.',
-      'A Gemini pipeline turns a plain-language description into flow JSON and bot metadata once, at setup.',
-      'A stateless runtime engine executes those flows without calling the model again.',
-      'Owner inbox with inline approve and decline, Telegram and WhatsApp messaging, and 100+ starter templates.',
-      'Fastify and Neon PostgreSQL backend on Cloudflare and Railway; Paddle subscription billing.',
-      'Approved Meta Tech Provider for the WhatsApp Business Platform. Launched publicly in August 2026.',
-    ],
+      'A no-code builder that turns a plain description of a business into a chatbot for WhatsApp, Instagram, Messenger, Telegram and the web. A model builds the bot; no model writes its replies.',
+    // The case study has its own page (MeerlumeCaseStudy).
+    highlights: [],
     demo: 'meerlume',
     link: { label: 'meerlume.com', href: 'https://meerlume.com' },
     kind: 'work',

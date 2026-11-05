@@ -5,6 +5,8 @@ import { SiteFooter } from '../components/SiteChrome'
 import { themeScript } from '../components/ThemeSwitch'
 import { site } from '../content/site'
 import appCss from '../styles.css?url'
+import monoFont from '@fontsource-variable/atkinson-hyperlegible-mono/files/atkinson-hyperlegible-mono-latin-wght-normal.woff2?url'
+import sansFont from '@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-normal.woff2?url'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -22,6 +24,10 @@ export const Route = createRootRoute({
       { name: 'theme-color', content: '#0b0b0a', media: '(prefers-color-scheme: dark)' },
     ],
     links: [
+      // Preloaded so the first paint already has them: found only through the
+      // stylesheet, they arrive after it and swap in over the fallback font.
+      { rel: 'preload', href: sansFont, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
+      { rel: 'preload', href: monoFont, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
     ],

@@ -2,6 +2,7 @@ import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import type { ComponentType } from 'react'
 import { Demo } from '../../components/Demo'
 import { GoyaMark } from '../../components/Marks'
+import { MeerlumeCaseStudy } from '../../components/MeerlumeCaseStudy'
 import { SoftrCaseStudy } from '../../components/SoftrCaseStudy'
 import { getProject, type Project } from '../../content/projects'
 import { site } from '../../content/site'
@@ -25,14 +26,18 @@ export const Route = createFileRoute('/work/$slug')({
   component: CaseStudyPage,
 })
 
+// Case studies with their own layout; the rest share CaseStudy below.
+const pages: Partial<Record<string, ComponentType>> = { softr: SoftrCaseStudy, meerlume: MeerlumeCaseStudy }
+
 function CaseStudyPage() {
   const project = Route.useLoaderData()
+  const Page = pages[project.slug]
   return (
     <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
       <Link to="/" hash={project.slug} className="text-sm text-muted no-underline hover:text-fg">
         ← {site.name}
       </Link>
-      {project.slug === 'softr' ? <SoftrCaseStudy /> : <CaseStudy project={project} />}
+      {Page ? <Page /> : <CaseStudy project={project} />}
     </main>
   )
 }
@@ -44,13 +49,13 @@ function CaseStudy({ project }: { project: Project }) {
   const Mark = marks[project.slug]
   return (
     <>
-      <p className="mt-8 font-mono text-[13px] text-muted">
-        {project.role} · {project.period}
-      </p>
-      <h1 className="mt-2 flex items-center gap-3 text-4xl font-semibold tracking-tight">
+      <h1 className="mt-8 flex items-center gap-3 text-4xl font-semibold tracking-tight">
         {Mark && <Mark className="h-10 w-auto" />}
         {project.name}
       </h1>
+      <p className="mt-3 font-mono text-[13px] text-muted">
+        {project.role} · {project.period}
+      </p>
       <p className="mt-5 text-lg text-body">{project.summary}</p>
       {project.link && (
         <p className="mt-4">
