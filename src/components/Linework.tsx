@@ -4,8 +4,7 @@ import { useId, type CSSProperties, type ReactNode } from 'react'
 // One line weight throughout: containers at full strength, "text" at half. Each is
 // filled with the page background, so it works in both themes and hides what it
 // overlaps. On hover of the nearest `group` (the drawing itself on the case study, the
-// card on the home page) each one acts out what the block does, and one Softr color
-// shows up to mark the result.
+// card on the home page) each one acts out what the block does.
 //
 // Motion follows Emil Kowalski's rules: CSS transitions on transform and opacity only,
 // strong ease-in-out for things moving on screen, ease-out for fades, small staggers,
@@ -16,10 +15,6 @@ const fade = 'transition-opacity duration-200 ease-out'
 const fadeMove = 'transition-[opacity,translate] duration-300 ease-out'
 const lineGrow = 'origin-left [transform-box:fill-box] transition-[scale] duration-300 ease-out'
 const text = 0.5
-
-const yellow = '#fcb500'
-const pink = '#f53878'
-const blue = '#386af5'
 
 type Props = { className?: string }
 
@@ -55,7 +50,7 @@ function Field({ x, y, length }: { x: number; y: number; length: number }) {
 }
 
 // Conditional Form, one step at a time: on hover step one slides out, step two slides
-// in, and the yellow progress bar fills from a third to two thirds.
+// in, and the progress bar fills from a third to two thirds.
 export function FormLinework({ className }: Props) {
   const clip = useId()
   return (
@@ -65,7 +60,7 @@ export function FormLinework({ className }: Props) {
       </clipPath>
       <rect x="10" y="6" width="180" height="138" rx="10" />
       <path d="M24 22 H176" opacity="0.3" />
-      <path d="M24 22 H176" stroke={yellow} strokeWidth="1.5" className={`${lineGrow} scale-x-[0.33] group-hover:scale-x-[0.66]`} />
+      <path d="M24 22 H176" strokeWidth="1.5" className={`${lineGrow} scale-x-[0.33] group-hover:scale-x-[0.66]`} />
       <g clipPath={`url(#${clip})`}>
         <g className={`${move} motion-safe:group-hover:-translate-x-[170px]`}>
           <path d="M24 40 H66" />
@@ -84,17 +79,17 @@ export function FormLinework({ className }: Props) {
   )
 }
 
-function Comment({ y, name, body, avatar }: { y: number; name: number; body: number; avatar?: string }) {
+function Comment({ y, name, body }: { y: number; name: number; body: number }) {
   return (
     <>
-      <circle cx="26" cy={y} r="6" fill={avatar ?? 'var(--bg)'} stroke={avatar ? 'none' : undefined} />
+      <circle cx="26" cy={y} r="6" />
       <path d={`M38 ${y - 4} H${38 + name}`} />
       <path d={`M38 ${y + 4} H${38 + body}`} opacity={text} />
     </>
   )
 }
 
-// Posting a comment: on hover the input empties, the new comment (pink avatar) slides
+// Posting a comment: on hover the input empties, the new comment slides
 // in on top, and the others move down to make room.
 export function CommentsLinework({ className }: Props) {
   return (
@@ -107,7 +102,7 @@ export function CommentsLinework({ className }: Props) {
         className={`opacity-0 ${fadeMove} motion-safe:-translate-x-[8px] group-hover:translate-x-0 group-hover:opacity-100`}
         style={delay(200)}
       >
-        <Comment y={68} name={40} body={110} avatar={pink} />
+        <Comment y={68} name={40} body={110} />
       </g>
       <g className={`${move} motion-safe:-translate-y-[28px] group-hover:translate-y-0`} style={delay(120)}>
         <Comment y={96} name={30} body={96} />
@@ -118,7 +113,7 @@ export function CommentsLinework({ className }: Props) {
   )
 }
 
-// The profile header from Account Settings: on hover the avatar lifts, a blue edit
+// The profile header from Account Settings: on hover the avatar lifts, an edit
 // badge pops in, and the cover drifts behind it.
 export function AccountsLinework({ className }: Props) {
   const clip = useId()
@@ -143,8 +138,8 @@ export function AccountsLinework({ className }: Props) {
           className="origin-center [transform-box:fill-box] opacity-0 scale-90 transition-[opacity,scale] duration-200 ease-out group-hover:opacity-100 group-hover:scale-100"
           style={delay(150)}
         >
-          <circle cx="56" cy="80" r="7" fill={blue} stroke="none" />
-          <path d="M53 81 h6 v-3 h-1.5 l-1 -1.2 h-1 l-1 1.2 H53 z" stroke="white" strokeWidth="0.8" fill="none" />
+          <circle cx="56" cy="80" r="7" />
+          <path d="M53 81 h6 v-3 h-1.5 l-1 -1.2 h-1 l-1 1.2 H53 z" strokeWidth="0.8" fill="none" />
         </g>
       </g>
       <path d="M70 84 H140" />

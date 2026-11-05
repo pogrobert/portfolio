@@ -21,19 +21,22 @@ export function Section({
 }) {
   const place = side === 'right' ? 'left-full ml-16' : 'right-full mr-16'
   return (
-    <section className="relative">
+    <section>
       <Heading className="text-xl font-semibold tracking-tight">{title}</Heading>
-      <div className="mt-3 flex flex-col gap-3 text-body">{children}</div>
-      {link && (
-        <a href={link.href} className="mt-3 inline-block text-sm text-muted hover:text-fg">
-          {link.label} ↗
-        </a>
-      )}
-      {Art && (
-        <Art
-          className={`group absolute top-1 hidden w-48 text-muted opacity-70 min-[1240px]:block ${place}`}
-        />
-      )}
+      {/* The drawing lines up with the text, not the title above it. */}
+      <div className="relative mt-3">
+        <div className="flex flex-col gap-3 text-body">{children}</div>
+        {link && (
+          <a href={link.href} className="mt-3 inline-block text-sm text-muted hover:text-fg">
+            {link.label} ↗
+          </a>
+        )}
+        {Art && (
+          <Art
+            className={`group absolute top-1 hidden w-48 text-muted opacity-70 min-[1240px]:block ${place}`}
+          />
+        )}
+      </div>
     </section>
   )
 }

@@ -18,9 +18,8 @@ export function SoftrCaseStudy() {
         rebuilt every block, so I worked on both sides of it: maintaining and extending the old blocks while
         building the new ones.
       </p>
-      <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1">
+      <p className="mt-4">
         <a href="https://www.softr.io">softr.io ↗</a>
-        <a href={docs}>All blocks ↗</a>
       </p>
 
       <div className="mt-16 flex flex-col gap-16">
