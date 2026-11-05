@@ -18,12 +18,23 @@ const text = 0.5
 
 type Props = { className?: string }
 
-function Drawing({ viewBox, className, children }: { viewBox: string; className?: string; children: ReactNode }) {
+function Drawing({
+  viewBox,
+  className,
+  style,
+  children,
+}: {
+  viewBox: string
+  className?: string
+  style?: CSSProperties
+  children: ReactNode
+}) {
   return (
     <svg
       viewBox={viewBox}
       aria-hidden="true"
       className={className}
+      style={style}
       fill="var(--bg)"
       stroke="currentColor"
       strokeWidth="1"
@@ -263,13 +274,22 @@ const layers = [
 
 const [right] = point(width, 0, 0)
 const [, bottom] = point(width, depth, 0)
-const stackViewBox = `0 0 ${Math.ceil(right + 8 + margin)} ${Math.ceil(bottom + thickness + 8 + margin)}`
+const stackWidth = Math.ceil(right + 8 + margin)
+const stackHeight = Math.ceil(bottom + thickness + 8 + margin)
+const stackViewBox = `0 0 ${stackWidth} ${stackHeight}`
+// Where it lines up with text beside it, the drawing is lifted by its top padding (the
+// room to fan out into), so the stack itself starts level with the text.
+const lift = `0 -${(((8 + margin) / stackHeight) * 100).toFixed(2)}%`
 
 // Slabs overlap on screen, so they're drawn bottom-up: each hides the lines below it.
 // Strokes on the slanted tops would stretch with the projection, so they stay 1px.
-export function BlocksLinework({ className }: Props) {
+export function BlocksLinework({ className, lifted }: Props & { lifted?: boolean }) {
   return (
-    <Drawing viewBox={stackViewBox} className={`${className ?? ''} [&_*]:[vector-effect:non-scaling-stroke]`}>
+    <Drawing
+      viewBox={stackViewBox}
+      className={`${className ?? ''} [&_*]:[vector-effect:non-scaling-stroke]`}
+      style={lifted ? { translate: lift } : undefined}
+    >
       {layers
         .map((layer, i) => ({ ...layer, i, z: (count - 1 - i) * gap }))
         .reverse()

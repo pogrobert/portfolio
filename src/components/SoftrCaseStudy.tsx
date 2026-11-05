@@ -4,6 +4,11 @@ import { SoftrMark } from './Marks'
 
 const docs = 'https://docs.softr.io/building-blocks'
 
+// The stack lifted past its room to fan out, so it lines up with the text like the others.
+function StackLinework({ className }: { className?: string }) {
+  return <BlocksLinework className={className} lifted />
+}
+
 export function SoftrCaseStudy() {
   return (
     <>
@@ -45,7 +50,7 @@ export function SoftrCaseStudy() {
           those too. The new account blocks shipped to over a million users with zero critical incidents.
         </Section>
 
-        <Section title="Everything else" art={BlocksLinework} side="left">
+        <Section title="Everything else" art={StackLinework} side="left">
           I worked on almost every other block too: a lot on the old Calendar and Charts, and on the new List,
           Grid, Item Details, Calendar and Charts. I added polling to many of them, so they keep their data up to date
           instead of showing stale records. I led the block side of Onboarding and Standalone Form, and my last feature was
