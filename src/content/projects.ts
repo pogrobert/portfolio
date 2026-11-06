@@ -38,17 +38,13 @@ export const projects: Project[] = [
   {
     slug: 'stamplyn',
     name: 'Stamplyn',
-    tagline: 'Book the trip, then collect a stamp from every landmark.',
-    role: 'Co-founder & lead engineer',
+    tagline: 'Collect a stamp from every landmark you visit.',
+    role: 'Co-founder',
     period: '2026–',
     summary:
-      'A travel app for booking stays and flights, planning trips with AI, and collecting a stamp from every landmark you visit. Expo and React Native, with live prices and Stripe payments.',
-    highlights: [
-      'Hotel and flight search with live prices from a travel partner, booked in the app and paid through Stripe.',
-      'Describe the trip you have in mind and get plans built from real flights and stays.',
-      'A passport that fills with a stamp from every landmark you visit.',
-      'I lead product, design and engineering on a team of four, and wrote 149 of our first 168 issues.',
-    ],
+      'A travel app where you collect a stamp from every landmark you visit, by being there, and follow your friends’ stamps. Built with Expo and React Native, for iPhone and Android.',
+    // The case study has its own page (StamplynCaseStudy).
+    highlights: [],
     demo: 'stamplyn',
     link: { label: 'stamplyn.com', href: 'https://stamplyn.com' },
     kind: 'work',

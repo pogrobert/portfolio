@@ -4,6 +4,7 @@ import { Demo } from '../../components/Demo'
 import { GoyaMark } from '../../components/Marks'
 import { MeerlumeCaseStudy } from '../../components/MeerlumeCaseStudy'
 import { SoftrCaseStudy } from '../../components/SoftrCaseStudy'
+import { StamplynCaseStudy } from '../../components/StamplynCaseStudy'
 import { getProject, type Project } from '../../content/projects'
 import { site } from '../../content/site'
 
@@ -27,7 +28,11 @@ export const Route = createFileRoute('/work/$slug')({
 })
 
 // Case studies with their own layout; the rest share CaseStudy below.
-const pages: Partial<Record<string, ComponentType>> = { softr: SoftrCaseStudy, meerlume: MeerlumeCaseStudy }
+const pages: Partial<Record<string, ComponentType>> = {
+  softr: SoftrCaseStudy,
+  meerlume: MeerlumeCaseStudy,
+  stamplyn: StamplynCaseStudy,
+}
 
 function CaseStudyPage() {
   const project = Route.useLoaderData()

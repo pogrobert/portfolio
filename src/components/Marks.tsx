@@ -122,3 +122,32 @@ export function GoyaMark({ className }: { className?: string }) {
     </svg>
   )
 }
+
+// Stamplyn's app icon: a stamp on a lime tile, with its corner peeled back. The tile
+// lands first, then the stamp is pressed onto it and its corner lifts.
+//
+// Each piece is its own <svg>, so the animation moves an HTML element (offsets in CSS
+// px). Animating paths inside one large-viewBox <svg> renders them at a lower
+// resolution mid-flight, and they visibly sharpen when the animation ends.
+const stamplyn = {
+  stamp:
+    'M212,236.23l0,-24.23l24.23,0c0,28.02 22.75,50.77 50.77,50.77c28.02,0 50.77,-22.75 50.77,-50.77l48.46,0c0,28.02 22.75,50.77 50.77,50.77c28.02,0 50.77,-22.75 50.77,-50.77l48.46,0c0,28.02 22.75,50.77 50.77,50.77c28.02,0 50.77,-22.75 50.77,-50.77l48.46,0c0,28.02 22.75,50.77 50.77,50.77c28.02,0 50.77,-22.75 50.77,-50.77l24.23,0l0,24.23c-28.02,0 -50.77,22.75 -50.77,50.77c0,28.02 22.75,50.77 50.77,50.77l0,48.46c-28.02,0 -50.77,22.75 -50.77,50.77c0,28.02 22.75,50.77 50.77,50.77l0,48.46c-19.25,0 -36.01,10.74 -44.62,26.54l-204.61,-0l0,204.61c-15.8,8.61 -26.54,25.37 -26.54,44.62l-48.46,0c0,-28.02 -22.75,-50.77 -50.77,-50.77c-28.02,0 -50.77,22.75 -50.77,50.77l-48.46,0c0,-28.02 -22.75,-50.77 -50.77,-50.77c-28.02,0 -50.77,22.75 -50.77,50.77l-24.23,0l0,-24.23c28.02,0 50.77,-22.75 50.77,-50.77c0,-28.02 -22.75,-50.77 -50.77,-50.77l0,-48.46c28.02,0 50.77,-22.75 50.77,-50.77c0,-28.02 -22.75,-50.77 -50.77,-50.77l0,-48.46c28.02,0 50.77,-22.75 50.77,-50.77c0,-28.02 -22.75,-50.77 -50.77,-50.77l0,-48.46c28.02,0 50.77,-22.75 50.77,-50.77c0,-28.02 -22.75,-50.77 -50.77,-50.77Zm362.31,158.08c-25.47,0 -46.15,20.68 -46.15,46.15c0,25.47 20.68,46.15 46.15,46.15c25.47,0 46.15,-20.68 46.15,-46.15c0,-25.47 -20.68,-46.15 -46.15,-46.15Zm11.54,34.62c7,0 12.69,5.69 12.69,12.69c0,7 -5.69,12.69 -12.69,12.69c-7,0 -12.69,-5.69 -12.69,-12.69c0,-7 5.69,-12.69 12.69,-12.69Zm-168.47,-34.62c-25.47,0 -46.15,20.68 -46.15,46.15c0,25.47 20.68,46.15 46.15,46.15c25.47,0 46.15,-20.68 46.15,-46.15c0,-25.47 -20.68,-46.15 -46.15,-46.15Zm11.54,34.62c7,0 12.69,5.69 12.69,12.69c0,7 -5.69,12.69 -12.69,12.69c-7,0 -12.69,-5.69 -12.69,-12.69c0,-7 5.69,-12.69 12.69,-12.69Z',
+  corner: 'M592.77 592.77H812L592.77 812Z',
+}
+
+export function StamplynMark({ className }: { className?: string }) {
+  const layer = `absolute inset-0 size-full ${enter}`
+  return (
+    <span aria-hidden="true" className={`relative inline-block shrink-0 ${className ?? ''}`}>
+      <svg viewBox="0 0 1024 1024" className={layer}>
+        <rect width="1024" height="1024" rx="230" fill="#C6F24E" />
+      </svg>
+      <svg viewBox="0 0 1024 1024" className={layer} style={piece(0, -5, 120)}>
+        <path d={stamplyn.stamp} fill="#1B1B1F" fillRule="evenodd" />
+      </svg>
+      <svg viewBox="0 0 1024 1024" className={layer} style={piece(-3, -3, 260)}>
+        <path d={stamplyn.corner} fill="#1B1B1F" />
+      </svg>
+    </span>
+  )
+}
