@@ -1,6 +1,13 @@
 import { Section } from './CaseStudySections'
-import { Demo } from './Demo'
 import { StamplynMark } from './Marks'
+import {
+  BoardingPassLinework,
+  IssuesLinework,
+  MapLinework,
+  perforated,
+  StampLinework,
+  TapLinework,
+} from './StamplynLinework'
 
 export function StamplynCaseStudy() {
   return (
@@ -19,12 +26,10 @@ export function StamplynCaseStudy() {
       <p className="mt-4">
         <a href="https://stamplyn.com">stamplyn.com ↗</a>
       </p>
-      <figure className="mt-8">
-        <Demo kind="stamplyn" size="hero" />
-      </figure>
+      <WelcomeScreen />
 
       <div className="mt-16 flex flex-col gap-16">
-        <Section title="From booking app to stamps">
+        <Section title="From booking app to stamps" art={BoardingPassLinework} side="right">
           <p>
             Stamplyn started as one of my co-founders’ ideas: an app to book a whole trip in one place, from the
             flights and the hotel to museum tickets and getting around. That’s how we started building it, with
@@ -39,7 +44,7 @@ export function StamplynCaseStudy() {
           </p>
         </Section>
 
-        <Section title="Leading a team that builds with agents">
+        <Section title="Leading a team that builds with agents" art={IssuesLinework} side="left">
           <p>
             Three of us write the code, all with AI coding agents, and I plan the work. I break each feature into issues,
             each with a brief an agent can work from: what to build, how it should behave, and when it’s done. I
@@ -49,7 +54,7 @@ export function StamplynCaseStudy() {
           </p>
         </Section>
 
-        <Section title="Mapping the world’s landmarks">
+        <Section title="Mapping the world’s landmarks" art={MapLinework} side="right">
           <p>
             A stamp app is only as good as its map, and I didn’t want anyone writing cities by hand. So I built a
             pipeline that maps a whole country in one command. It starts from Wikidata, the open database behind
@@ -78,7 +83,7 @@ export function StamplynCaseStudy() {
           </p>
         </Section>
 
-        <Section title="Drawing the stamps">
+        <Section title="Drawing the stamps" art={StampLinework} side="left">
           <p>
             The best-known places have their own illustrated stamp, over 1,500 so far, all in one ink-and-wash
             style. I tried Gemini, Ming Image, Recraft and Meta’s Muse Image on the same 20 landmarks, and Muse
@@ -87,6 +92,7 @@ export function StamplynCaseStudy() {
             description, and another Sonnet agent compares the drawing with the photo. Where that still goes
             wrong, Gemini 3 Pro Image redraws straight from the photo, changing only the style.
           </p>
+          <WonderStamps />
           <p>
             Then people checked them. We split the pictures between us by country and compared each one with
             the real place, on a review page I built for it. I marked about one in six of mine as wrong, and a
@@ -99,7 +105,7 @@ export function StamplynCaseStudy() {
           </p>
         </Section>
 
-        <Section title="Making it feel native">
+        <Section title="Making it feel native" art={TapLinework} side="right">
           <p>
             Stamplyn is built with Expo and React Native, for iPhone and Android, and I wanted it to feel at home
             on the phone, not like a website inside an app. So I spent a lot of time studying apps that do: how they respond to
@@ -113,5 +119,72 @@ export function StamplynCaseStudy() {
         </Section>
       </div>
     </>
+  )
+}
+
+// The app's welcome screen, in the theme the page is showing. Cropped below the status
+// bar, so the clock and the dev menu button aren't in it.
+function WelcomeScreen() {
+  const alt =
+    'Stamplyn’s welcome screen: illustrated stamps scattered over a map of Europe, above “Collect the world, one stamp at a time.”'
+  return (
+    <figure className="mt-8 flex justify-center rounded-2xl border border-line bg-wall px-6 py-10">
+      <div className="w-64 overflow-hidden rounded-[2rem] border border-line shadow-[0_12px_32px_rgba(0,0,0,0.18)]">
+        <img src="/images/stamplyn/welcome-light.webp" width={600} height={1160} alt={alt} className="theme-light h-auto w-full" />
+        <img src="/images/stamplyn/welcome-dark.webp" width={600} height={1160} alt={alt} loading="lazy" className="theme-dark h-auto w-full" />
+      </div>
+    </figure>
+  )
+}
+
+// Five Wonder illustrations, each on perforated paper with its name, the way the app
+// shows a collected stamp. Ancient sites and a mountain, so none has rights of its own.
+const wonders = [
+  { slug: 'acropolis', name: 'Acropolis' },
+  { slug: 'angkor-wat', name: 'Angkor Wat' },
+  { slug: 'machu-picchu', name: 'Machu Picchu' },
+  { slug: 'fuji', name: 'Mount Fuji' },
+  { slug: 'petra', name: 'Petra' },
+]
+
+const stampEdge = perforated(0, 0, 100, 118, 2.2, 10, 12)
+
+function WonderStamps() {
+  return (
+    <figure className="my-4">
+      <div className="grid grid-cols-5 gap-3 sm:gap-5">
+        {wonders.map((w) => (
+          <svg
+            key={w.slug}
+            viewBox="0 0 100 118"
+            role="img"
+            aria-label={`${w.name} stamp`}
+            className="h-auto w-full drop-shadow-[0_3px_6px_rgba(0,0,0,0.18)]"
+          >
+            <path d={stampEdge} fill="#f6f1e4" />
+            <image
+              href={`/images/stamplyn/${w.slug}.webp`}
+              x="8"
+              y="8"
+              width="84"
+              height="84"
+              preserveAspectRatio="xMidYMid slice"
+            />
+            <text
+              x="50"
+              y="107"
+              textAnchor="middle"
+              fontSize="7.5"
+              fontWeight="600"
+              letterSpacing="0.6"
+              fill="#8a6a1f"
+            >
+              {w.name.toUpperCase()}
+            </text>
+          </svg>
+        ))}
+      </div>
+      <figcaption className="mt-3 font-mono text-xs text-muted">Five of the Wonder stamps, as drawn for the app.</figcaption>
+    </figure>
   )
 }

@@ -1,11 +1,13 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 // Company marks that sit next to a case study's title. Their pieces arrive one after
 // another once, on page load: a CSS animation, so it runs even while the page is still
 // busy. Reduced motion keeps only the fade.
 //
-// Offsets are in each mark's own viewBox units (CSS px on an SVG element are user
-// units), so a larger viewBox needs larger numbers for the same on-screen distance.
+// Each piece is its own <svg>, stacked on the others, so the animation moves an HTML
+// element. Animating shapes inside a single <svg> renders them at a lower resolution
+// while they move, and they visibly sharpen when the animation ends. Offsets are in CSS
+// px, for the 40px size the marks are shown at.
 const enter =
   '[animation:piece-in_500ms_var(--ease-out)_backwards] motion-reduce:[animation:fade-in_300ms_var(--ease-out)_backwards]'
 
@@ -13,39 +15,44 @@ function piece(x: number, y: number, delay: number): CSSProperties {
   return { '--piece-x': `${x}px`, '--piece-y': `${y}px`, animationDelay: `${delay}ms` } as CSSProperties
 }
 
+// The box the pieces stack in. `ratio` is for a mark that isn't square, sized by its
+// height alone.
+function Mark({ className, ratio, children }: { className?: string; ratio?: string; children: ReactNode }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`relative inline-block shrink-0 ${className ?? ''}`}
+      style={ratio ? { aspectRatio: ratio } : undefined}
+    >
+      {children}
+    </span>
+  )
+}
+
+function Piece({ viewBox, style, children }: { viewBox: string; style?: CSSProperties; children: ReactNode }) {
+  return (
+    <svg viewBox={viewBox} className={`absolute inset-0 size-full overflow-visible ${enter}`} style={style}>
+      {children}
+    </svg>
+  )
+}
+
 // Softr's mark: a wide bar over a circle and a rounded square.
+const softrBox = '-4.5 -3.5 40 40'
+
 export function SoftrMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="-4.5 -3.5 40 40" aria-hidden="true" className={className}>
-      <rect
-        x="1"
-        y="2"
-        width="29"
-        height="13"
-        rx="4.5"
-        fill="#fcb500"
-        className={enter}
-        style={piece(0, -6, 100)}
-      />
-      <circle
-        cx="7.5"
-        cy="24.5"
-        r="6.5"
-        fill="#f53878"
-        className={enter}
-        style={piece(-6, 0, 160)}
-      />
-      <rect
-        x="17"
-        y="18"
-        width="13"
-        height="13"
-        rx="4"
-        fill="#386af5"
-        className={enter}
-        style={piece(6, 0, 220)}
-      />
-    </svg>
+    <Mark className={className}>
+      <Piece viewBox={softrBox} style={piece(0, -6, 100)}>
+        <rect x="1" y="2" width="29" height="13" rx="4.5" fill="#fcb500" />
+      </Piece>
+      <Piece viewBox={softrBox} style={piece(-6, 0, 160)}>
+        <circle cx="7.5" cy="24.5" r="6.5" fill="#f53878" />
+      </Piece>
+      <Piece viewBox={softrBox} style={piece(6, 0, 220)}>
+        <rect x="17" y="18" width="13" height="13" rx="4" fill="#386af5" />
+      </Piece>
+    </Mark>
   )
 }
 
@@ -64,90 +71,68 @@ const meerlume = {
 // The tile is ink in both themes, as on meerlume.com; a hairline keeps its edge on
 // the near-black dark background. The bubbles arrive one after the other, like two
 // sides of a conversation.
+const meerlumeBox = '-6 -6 524 524'
+
 export function MeerlumeMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="-6 -6 524 524" aria-hidden="true" className={className}>
-      <path d={meerlume.tile} fill="#09090b" stroke="var(--line)" strokeWidth="12" className={enter} />
-      <path
-        d={meerlume.back}
-        fill="#fff"
-        className={enter}
-        style={piece(-40, 0, 120)}
-      />
-      <g
-        className={enter}
-        style={piece(40, 0, 220)}
-      >
+    <Mark className={className}>
+      <Piece viewBox={meerlumeBox}>
+        <path d={meerlume.tile} fill="#09090b" stroke="var(--line)" strokeWidth="12" />
+      </Piece>
+      <Piece viewBox={meerlumeBox} style={piece(-3, 0, 120)}>
+        <path d={meerlume.back} fill="#fff" />
+      </Piece>
+      <Piece viewBox={meerlumeBox} style={piece(3, 0, 220)}>
         <path d={meerlume.keyline} fill="#09090b" />
         <path d={meerlume.front} fill="#f59e0b" />
-      </g>
-    </svg>
+      </Piece>
+    </Mark>
   )
 }
 
 // Goya's mark: a ring with a dot above it and a tail curving below, like a "g". The
 // ring takes the text color so it stays visible in dark mode; the green is Goya's.
 const goyaGreen = '#12c990'
+const goyaBox = '-12 -12 206 334'
 
 export function GoyaMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="-12 -12 206 334" aria-hidden="true" className={className}>
-      <circle
-        cx="91"
-        cy="123"
-        r="68.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="37"
-        className={enter}
-        style={piece(0, -36, 100)}
-      />
-      <circle
-        cx="163"
-        cy="19"
-        r="16"
-        fill={goyaGreen}
-        className={enter}
-        style={piece(30, -30, 180)}
-      />
-      <path
-        d="M66 284 Q118 306 152 257"
-        fill="none"
-        stroke={goyaGreen}
-        strokeWidth="32"
-        strokeLinecap="round"
-        className={enter}
-        style={piece(-36, 0, 260)}
-      />
-    </svg>
+    <Mark className={className} ratio="206 / 334">
+      <Piece viewBox={goyaBox} style={piece(0, -4, 100)}>
+        <circle cx="91" cy="123" r="68.5" fill="none" stroke="currentColor" strokeWidth="37" />
+      </Piece>
+      <Piece viewBox={goyaBox} style={piece(4, -4, 180)}>
+        <circle cx="163" cy="19" r="16" fill={goyaGreen} />
+      </Piece>
+      <Piece viewBox={goyaBox} style={piece(-4, 0, 260)}>
+        <path d="M66 284 Q118 306 152 257" fill="none" stroke={goyaGreen} strokeWidth="32" strokeLinecap="round" />
+      </Piece>
+    </Mark>
   )
 }
 
 // Stamplyn's app icon: a stamp on a lime tile, with its corner peeled back. The tile
 // lands first, then the stamp is pressed onto it and its corner lifts.
-//
-// Each piece is its own <svg>, so the animation moves an HTML element (offsets in CSS
-// px). Animating paths inside one large-viewBox <svg> renders them at a lower
-// resolution mid-flight, and they visibly sharpen when the animation ends.
 const stamplyn = {
   stamp:
     'M212,236.23l0,-24.23l24.23,0c0,28.02 22.75,50.77 50.77,50.77c28.02,0 50.77,-22.75 50.77,-50.77l48.46,0c0,28.02 22.75,50.77 50.77,50.77c28.02,0 50.77,-22.75 50.77,-50.77l48.46,0c0,28.02 22.75,50.77 50.77,50.77c28.02,0 50.77,-22.75 50.77,-50.77l48.46,0c0,28.02 22.75,50.77 50.77,50.77c28.02,0 50.77,-22.75 50.77,-50.77l24.23,0l0,24.23c-28.02,0 -50.77,22.75 -50.77,50.77c0,28.02 22.75,50.77 50.77,50.77l0,48.46c-28.02,0 -50.77,22.75 -50.77,50.77c0,28.02 22.75,50.77 50.77,50.77l0,48.46c-19.25,0 -36.01,10.74 -44.62,26.54l-204.61,-0l0,204.61c-15.8,8.61 -26.54,25.37 -26.54,44.62l-48.46,0c0,-28.02 -22.75,-50.77 -50.77,-50.77c-28.02,0 -50.77,22.75 -50.77,50.77l-48.46,0c0,-28.02 -22.75,-50.77 -50.77,-50.77c-28.02,0 -50.77,22.75 -50.77,50.77l-24.23,0l0,-24.23c28.02,0 50.77,-22.75 50.77,-50.77c0,-28.02 -22.75,-50.77 -50.77,-50.77l0,-48.46c28.02,0 50.77,-22.75 50.77,-50.77c0,-28.02 -22.75,-50.77 -50.77,-50.77l0,-48.46c28.02,0 50.77,-22.75 50.77,-50.77c0,-28.02 -22.75,-50.77 -50.77,-50.77l0,-48.46c28.02,0 50.77,-22.75 50.77,-50.77c0,-28.02 -22.75,-50.77 -50.77,-50.77Zm362.31,158.08c-25.47,0 -46.15,20.68 -46.15,46.15c0,25.47 20.68,46.15 46.15,46.15c25.47,0 46.15,-20.68 46.15,-46.15c0,-25.47 -20.68,-46.15 -46.15,-46.15Zm11.54,34.62c7,0 12.69,5.69 12.69,12.69c0,7 -5.69,12.69 -12.69,12.69c-7,0 -12.69,-5.69 -12.69,-12.69c0,-7 5.69,-12.69 12.69,-12.69Zm-168.47,-34.62c-25.47,0 -46.15,20.68 -46.15,46.15c0,25.47 20.68,46.15 46.15,46.15c25.47,0 46.15,-20.68 46.15,-46.15c0,-25.47 -20.68,-46.15 -46.15,-46.15Zm11.54,34.62c7,0 12.69,5.69 12.69,12.69c0,7 -5.69,12.69 -12.69,12.69c-7,0 -12.69,-5.69 -12.69,-12.69c0,-7 5.69,-12.69 12.69,-12.69Z',
   corner: 'M592.77 592.77H812L592.77 812Z',
 }
 
+const stamplynBox = '0 0 1024 1024'
+
 export function StamplynMark({ className }: { className?: string }) {
-  const layer = `absolute inset-0 size-full ${enter}`
   return (
-    <span aria-hidden="true" className={`relative inline-block shrink-0 ${className ?? ''}`}>
-      <svg viewBox="0 0 1024 1024" className={layer}>
+    <Mark className={className}>
+      <Piece viewBox={stamplynBox}>
         <rect width="1024" height="1024" rx="230" fill="#C6F24E" />
-      </svg>
-      <svg viewBox="0 0 1024 1024" className={layer} style={piece(0, -5, 120)}>
+      </Piece>
+      <Piece viewBox={stamplynBox} style={piece(0, -5, 120)}>
         <path d={stamplyn.stamp} fill="#1B1B1F" fillRule="evenodd" />
-      </svg>
-      <svg viewBox="0 0 1024 1024" className={layer} style={piece(-3, -3, 260)}>
+      </Piece>
+      <Piece viewBox={stamplynBox} style={piece(-3, -3, 260)}>
         <path d={stamplyn.corner} fill="#1B1B1F" />
-      </svg>
-    </span>
+      </Piece>
+    </Mark>
   )
 }
