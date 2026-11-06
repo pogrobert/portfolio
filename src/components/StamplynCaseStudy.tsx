@@ -112,9 +112,7 @@ export function StamplynCaseStudy() {
             a touch, and where they use a sound or a haptic. On iPhone it uses Apple’s new Liquid Glass look.
           </p>
           <p>
-            I’ve paid close attention to how products are made ever since I was a kid, and that left me with an
-            intuition I lean on a lot. I designed Stamplyn too: the name, the icon of a stamp with its corner
-            peeled back, and the screens.
+            I designed Stamplyn too: the name, the icon of a stamp with its corner peeled back, and the screens.
           </p>
         </Section>
       </div>
