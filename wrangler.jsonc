@@ -4,5 +4,11 @@
   "compatibility_date": "2026-11-03",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // Custom domains: deploying creates their DNS records and certificates. www is
+  // sent to the root by a redirect rule in the dashboard, which runs before the Worker.
+  "routes": [
+    { "pattern": "pogrobert.com", "custom_domain": true },
+    { "pattern": "www.pogrobert.com", "custom_domain": true }
+  ]
 }
