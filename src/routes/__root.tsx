@@ -1,7 +1,5 @@
 import type { ReactNode } from 'react'
 import { HeadContent, Link, Outlet, Scripts, createRootRoute } from '@tanstack/react-router'
-import { MotionConfig } from 'motion/react'
-import { SiteFooter } from '../components/SiteChrome'
 import { themeScript } from '../components/ThemeSwitch'
 import { site } from '../content/site'
 import appCss from '../styles.css?url'
@@ -70,10 +68,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         >
           Skip to content
         </a>
-        <MotionConfig reducedMotion="user">
-          {children}
-          <SiteFooter />
-        </MotionConfig>
+        {children}
         <Scripts />
       </body>
     </html>

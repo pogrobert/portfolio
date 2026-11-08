@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import type { CSSProperties, ComponentType, ReactNode } from 'react'
 
 // Company marks that sit next to a case study's title. Their pieces arrive one after
 // another once, on page load: a CSS animation, so it runs even while the page is still
@@ -79,10 +79,10 @@ export function MeerlumeMark({ className }: { className?: string }) {
       <Piece viewBox={meerlumeBox}>
         <path d={meerlume.tile} fill="#09090b" stroke="var(--line)" strokeWidth="12" />
       </Piece>
-      <Piece viewBox={meerlumeBox} style={piece(-3, 0, 120)}>
+      <Piece viewBox={meerlumeBox} style={piece(-3, 0, 80)}>
         <path d={meerlume.back} fill="#fff" />
       </Piece>
-      <Piece viewBox={meerlumeBox} style={piece(3, 0, 220)}>
+      <Piece viewBox={meerlumeBox} style={piece(3, 0, 160)}>
         <path d={meerlume.keyline} fill="#09090b" />
         <path d={meerlume.front} fill="#f59e0b" />
       </Piece>
@@ -127,12 +127,20 @@ export function StamplynMark({ className }: { className?: string }) {
       <Piece viewBox={stamplynBox}>
         <rect width="1024" height="1024" rx="230" fill="#C6F24E" />
       </Piece>
-      <Piece viewBox={stamplynBox} style={piece(0, -5, 120)}>
+      <Piece viewBox={stamplynBox} style={piece(0, -5, 80)}>
         <path d={stamplyn.stamp} fill="#1B1B1F" fillRule="evenodd" />
       </Piece>
-      <Piece viewBox={stamplynBox} style={piece(-3, -3, 260)}>
+      <Piece viewBox={stamplynBox} style={piece(-3, -3, 160)}>
         <path d={stamplyn.corner} fill="#1B1B1F" />
       </Piece>
     </Mark>
   )
+}
+
+// Each project's mark, by slug.
+export const marks: Partial<Record<string, ComponentType<{ className?: string }>>> = {
+  meerlume: MeerlumeMark,
+  stamplyn: StamplynMark,
+  softr: SoftrMark,
+  goya: GoyaMark,
 }

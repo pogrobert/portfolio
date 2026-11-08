@@ -3,8 +3,8 @@ import { useId, type CSSProperties, type ReactNode } from 'react'
 // Line drawings of Softr blocks, modeled on how the real blocks look in Softr's docs.
 // One line weight throughout: containers at full strength, "text" at half. Each is
 // filled with the page background, so it works in both themes and hides what it
-// overlaps. On hover of the nearest `group` (the drawing itself on the case study, the
-// card on the home page) each one acts out what the block does.
+// overlaps. On hover of the nearest `group` (the drawing itself, on the case study)
+// each one acts out what the block does.
 //
 // Motion follows Emil Kowalski's rules: CSS transitions on transform and opacity only,
 // strong ease-in-out for things moving on screen, ease-out for fades, small staggers,
@@ -71,7 +71,7 @@ export function FormLinework({ className }: Props) {
       </clipPath>
       <rect x="10" y="6" width="180" height="138" rx="10" />
       <path d="M24 22 H176" opacity="0.3" />
-      <path d="M24 22 H176" strokeWidth="1.5" className={`${lineGrow} scale-x-[0.33] group-hover:scale-x-[0.66]`} />
+      <path d="M24 22 H176" strokeWidth="1.5" className={`${lineGrow} scale-x-[0.33] motion-safe:group-hover:scale-x-[0.66]`} />
       <g clipPath={`url(#${clip})`}>
         <g className={`${move} motion-safe:group-hover:-translate-x-[170px]`}>
           <path d="M24 40 H66" />
@@ -108,7 +108,7 @@ export function CommentsLinework({ className }: Props) {
       <rect x="8" y="6" width="184" height="158" rx="10" />
       <path d="M20 22 H58" />
       <rect x="20" y="30" width="160" height="16" rx="8" />
-      <path d="M30 38 H112" className={`${lineGrow} group-hover:scale-x-0`} />
+      <path d="M30 38 H112" className={`${lineGrow} motion-safe:group-hover:scale-x-0`} />
       <g
         className={`opacity-0 ${fadeMove} motion-safe:-translate-x-[8px] group-hover:translate-x-0 group-hover:opacity-100`}
         style={delay(200)}
@@ -146,7 +146,7 @@ export function AccountsLinework({ className }: Props) {
         <circle cx="40" cy="60" r="6.5" />
         <path d="M28 79 C28 71 52 71 52 79" fill="none" />
         <g
-          className="origin-center [transform-box:fill-box] opacity-0 scale-90 transition-[opacity,scale] duration-200 ease-out group-hover:opacity-100 group-hover:scale-100"
+          className="origin-center [transform-box:fill-box] opacity-0 motion-safe:scale-90 transition-[opacity,scale] duration-200 ease-out group-hover:opacity-100 group-hover:scale-100"
           style={delay(150)}
         >
           <circle cx="56" cy="80" r="7" />

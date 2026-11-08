@@ -1,3 +1,4 @@
+import { PaintingFigure } from './Demo'
 import { Section } from './CaseStudySections'
 import { BowlerHat, Beret, CaptainHat, FireHelmet, HardHat, TopHat } from './Hats'
 import { MeerlumeMark } from './Marks'
@@ -13,6 +14,7 @@ export function MeerlumeCaseStudy() {
         Meerlume
       </h1>
       <p className="mt-3 font-mono text-[13px] text-muted">Co-founder · Mar 2026 – present</p>
+      <PaintingFigure kind="meerlume" />
       <p className="mt-5 text-lg text-body">
         Meerlume lets a business build any chatbot it needs by describing it in plain words: one that answers
         questions, takes bookings or orders, or collects requests, on WhatsApp, Instagram, Messenger, Telegram

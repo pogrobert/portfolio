@@ -1,3 +1,4 @@
+import { PaintingFigure } from './Demo'
 import { AccountsLinework, BlocksLinework, CommentsLinework, FormLinework } from './Linework'
 import { Note, Section } from './CaseStudySections'
 import { SoftrMark } from './Marks'
@@ -17,6 +18,7 @@ export function SoftrCaseStudy() {
         Softr
       </h1>
       <p className="mt-3 font-mono text-[13px] text-muted">Front-end engineer, blocks team · Dec 2022 – Jan 2026</p>
+      <PaintingFigure kind="softr" />
       <p className="mt-5 text-lg text-body">
         A Berlin-based no-code platform where every page is a stack of blocks, used by over a million people,
         including teams at Netflix, Google and Stripe. I joined about nine months into the v5 redesign, which

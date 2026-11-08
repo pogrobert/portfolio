@@ -68,28 +68,6 @@
   color-scheme: dark;
 }
 
-/* For a picture made in both themes (an app screenshot): show the one that matches. */
-.theme-dark {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .theme-light {
-    display: none;
-  }
-  :root:not([data-theme='light']) .theme-dark {
-    display: block;
-  }
-}
-
-:root[data-theme='dark'] .theme-light {
-  display: none;
-}
-
-:root[data-theme='dark'] .theme-dark {
-  display: block;
-}
-
 body {
   background: var(--bg);
   color: var(--fg);
@@ -128,4 +106,50 @@ body {
   outline: 2px solid var(--teal);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Page navigations (see defaultViewTransition in src/router.tsx): the painting a card
+   shows moves into the case study's painting, and the rest of the page crossfades. */
+html:active-view-transition-type(page) {
+  &::view-transition-group(*) {
+    animation-duration: 300ms;
+    animation-timing-function: var(--ease-in-out);
+  }
+  &::view-transition-old(root),
+  &::view-transition-new(root) {
+    animation-duration: 200ms;
+    animation-timing-function: var(--ease-out);
+  }
+  /* The painting is the same picture on both pages: move one copy, the incoming one,
+     instead of crossfading two. The outgoing copy, scaled to the new size, would show
+     its frame and shadow at the wrong thickness around the edges. */
+  &::view-transition-old(*.painting) {
+    animation: none;
+    opacity: 0;
+  }
+  &::view-transition-new(*.painting) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+}
+
+/* Theme changes (see applyTheme): the old colors fade into the new. The transition ends
+   with the fade, not at the browser's default 250ms. */
+html:active-view-transition-type(theme) {
+  &::view-transition-group(root) {
+    animation-duration: 200ms;
+  }
+  &::view-transition-old(root),
+  &::view-transition-new(root) {
+    animation-duration: 200ms;
+    animation-timing-function: ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }

@@ -6,6 +6,8 @@ export function getRouter() {
     routeTree,
     scrollRestoration: true,
     defaultPreload: 'intent',
+    // Moving to another page animates (see the View Transition rules in styles.css).
+    defaultViewTransition: { types: ['page'] },
   })
 }
 

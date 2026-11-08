@@ -1,3 +1,4 @@
+import { PaintingFigure } from './Demo'
 import { Section } from './CaseStudySections'
 import { StamplynMark } from './Marks'
 import {
@@ -17,6 +18,7 @@ export function StamplynCaseStudy() {
         Stamplyn
       </h1>
       <p className="mt-3 font-mono text-[13px] text-muted">Co-founder · Sep 2026 – present</p>
+      <PaintingFigure kind="stamplyn" />
       <p className="mt-5 text-lg text-body">
         Stamplyn is a travel app where you collect a stamp from every landmark you visit, by being there. Your
         passport fills up as you travel, and you can follow your friends’ stamps and see where you rank in your
@@ -26,7 +28,6 @@ export function StamplynCaseStudy() {
       <p className="mt-4">
         <a href="https://stamplyn.com">stamplyn.com ↗</a>
       </p>
-      <WelcomeScreen />
 
       <div className="mt-16 flex flex-col gap-16">
         <Section title="From booking app to stamps" art={BoardingPassLinework} side="right">
@@ -122,19 +123,6 @@ export function StamplynCaseStudy() {
 
 // The app's welcome screen, in the theme the page is showing. Cropped below the status
 // bar, so the clock and the dev menu button aren't in it.
-function WelcomeScreen() {
-  const alt =
-    'Stamplyn’s welcome screen: illustrated stamps scattered over a map of Europe, above “Collect the world, one stamp at a time.”'
-  return (
-    <figure className="mt-8 flex justify-center rounded-2xl border border-line bg-wall px-6 py-10">
-      <div className="w-64 overflow-hidden rounded-[2rem] border border-line shadow-[0_12px_32px_rgba(0,0,0,0.18)]">
-        <img src="/images/stamplyn/welcome-light.webp" width={600} height={1160} alt={alt} className="theme-light h-auto w-full" />
-        <img src="/images/stamplyn/welcome-dark.webp" width={600} height={1160} alt={alt} loading="lazy" className="theme-dark h-auto w-full" />
-      </div>
-    </figure>
-  )
-}
-
 // Five Wonder illustrations, each on perforated paper with its name, the way the app
 // shows a collected stamp. Ancient sites and a mountain, so none has rights of its own.
 const wonders = [

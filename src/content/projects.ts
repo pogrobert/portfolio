@@ -1,4 +1,4 @@
-export type DemoKind = 'meerlume' | 'stamplyn' | 'surfaces' | 'softr' | 'goya'
+export type DemoKind = 'meerlume' | 'stamplyn' | 'softr' | 'goya'
 
 export type Project = {
   slug: string
@@ -14,27 +14,12 @@ export type Project = {
   // Jobs and companies go under Work on the home page; things built on the side
   // (open source, libraries) under Side projects.
   kind: 'work' | 'side'
-  // Credit shown under the hero, for artwork that isn't Robert's.
-  credit?: string
   // For a job made of several projects: shown in order instead of the highlights.
   timeline?: { title: string; text: string }[]
 }
 
+// Newest first: Stamplyn started after Meerlume, in late September 2026.
 export const projects: Project[] = [
-  {
-    slug: 'meerlume',
-    name: 'Meerlume',
-    tagline: 'Describe the business, get a chatbot on five channels.',
-    role: 'Co-founder',
-    period: '2026–',
-    summary:
-      'A no-code builder that turns a plain description of a business into a chatbot for WhatsApp, Instagram, Messenger, Telegram and the web. A model builds the bot; no model writes its replies.',
-    // The case study has its own page (MeerlumeCaseStudy).
-    highlights: [],
-    demo: 'meerlume',
-    link: { label: 'meerlume.com', href: 'https://meerlume.com' },
-    kind: 'work',
-  },
   {
     slug: 'stamplyn',
     name: 'Stamplyn',
@@ -50,9 +35,23 @@ export const projects: Project[] = [
     kind: 'work',
   },
   {
+    slug: 'meerlume',
+    name: 'Meerlume',
+    tagline: 'Describe the business, get a chatbot on five channels.',
+    role: 'Co-founder',
+    period: '2026–',
+    summary:
+      'A no-code builder that turns a plain description of a business into a chatbot for WhatsApp, Instagram, Messenger, Telegram and the web. A model builds the bot; no model writes its replies.',
+    // The case study has its own page (MeerlumeCaseStudy).
+    highlights: [],
+    demo: 'meerlume',
+    link: { label: 'meerlume.com', href: 'https://meerlume.com' },
+    kind: 'work',
+  },
+  {
     slug: 'softr',
     name: 'Softr',
-    tagline: 'Some of the most complex blocks on a no-code platform with 1M+ users.',
+    tagline: 'The hardest blocks on a no-code platform with 1M+ users.',
     role: 'Front-end engineer',
     period: '2022–2026',
     summary:
@@ -94,23 +93,6 @@ export const projects: Project[] = [
     ],
     demo: 'goya',
     kind: 'work',
-    credit: 'A nod to the name: Francisco de Goya, The Forge, c. 1815–20. The Frick Collection.',
-  },
-  {
-    slug: 'surfaces',
-    name: 'Surfaces',
-    tagline: 'Covers and backgrounds generated from a seed.',
-    role: 'Open source',
-    period: '2026',
-    summary:
-      'Covers and backgrounds generated from a seed. Fifteen styles, and the same seed always draws the same image, down to the byte.',
-    highlights: [
-      'Fifteen styles, from halftone and riso to glass and chrome, each tuned for blog covers, changelogs, heroes and link previews.',
-      'Renders to SVG, PNG and Open Graph images, with React and DOM bindings.',
-      'Deterministic: 9,000 contact-sheet tiles render byte-identical in the browser and in Node.',
-    ],
-    demo: 'surfaces',
-    kind: 'side',
   },
 ]
 
