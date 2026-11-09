@@ -21,12 +21,12 @@ export function SoftrCaseStudy() {
       <PaintingFigure kind="softr" />
       <p className="mt-5 text-lg text-body">
         A Berlin-based no-code platform where every page is a stack of blocks, used by over a million people,
-        including teams at Netflix, Google and Stripe. I joined about nine months into the v5 redesign, which
-        rebuilt every block, so I worked on both sides of it: maintaining and extending the old blocks while
-        building the new ones.
+        including teams at Netflix, Google and Stripe. About nine months after I joined, Softr started the v5
+        redesign, which rebuilt every block, so I worked on both sides of it: maintaining and extending the old
+        blocks while building the new ones.
       </p>
       <p className="mt-4">
-        <a href="https://www.softr.io">softr.io ↗</a>
+        <a href="https://www.softr.io">softr.io <span aria-hidden="true">↗</span></a>
       </p>
 
       <div className="mt-16 flex flex-col gap-16">
@@ -41,9 +41,9 @@ export function SoftrCaseStudy() {
 
         <Section title="Comments" art={CommentsLinework} side="left" link={{ label: 'Softr docs', href: `${docs}/comments-block` }}>
           Comments comes in two forms: an action button in the Item Details block that opens a sliding drawer, and
-          a separate block placed under Item Details. I designed and built its pieces in Apricot, such as avatars,
-          the comment input and the emoji picker, and made the architectural change that lets Comments read the
-          open item without breaking the isolation between blocks.
+          a separate block placed under Item Details. I took it from idea to production: I built the block, designed
+          and built its pieces in Apricot, such as avatars, the comment input and the emoji picker, and made the
+          architectural change that lets Comments read the open item without breaking the isolation between blocks.
         </Section>
 
         <Section title="User Accounts" art={AccountsLinework} side="right" link={{ label: 'Softr docs', href: `${docs}/account-settings` }}>
@@ -53,8 +53,8 @@ export function SoftrCaseStudy() {
         </Section>
 
         <Section title="Everything else" art={StackLinework} side="left">
-          I worked on almost every other block too: a lot on the old Calendar and Charts, and on the new List,
-          Grid, Item Details, Calendar and Charts. I added polling to many of them, so they keep their data up to date
+          I worked on every other block too: a lot on Calendar, and on List, Item Details and Charts, both
+          the old and the new versions of each, and the new Grid. I added polling to many of them, so they keep their data up to date
           instead of showing stale records. I led the block side of Onboarding and Standalone Form, and my last feature was
           Global Search.
         </Section>

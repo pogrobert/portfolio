@@ -1,14 +1,6 @@
 import { PaintingFigure } from './Demo'
 import { Section } from './CaseStudySections'
 import { StamplynMark } from './Marks'
-import {
-  BoardingPassLinework,
-  IssuesLinework,
-  MapLinework,
-  perforated,
-  StampLinework,
-  TapLinework,
-} from './StamplynLinework'
 
 export function StamplynCaseStudy() {
   return (
@@ -23,14 +15,14 @@ export function StamplynCaseStudy() {
         Stamplyn is a travel app where you collect a stamp from every landmark you visit, by being there. Your
         passport fills up as you travel, and you can follow your friends’ stamps and see where you rank in your
         city, your country and the world. We’re a team of four co-founders, and I lead product, design and
-        engineering. It’s in testing on TestFlight, ahead of launch.
+        engineering. It’s in its final stage, being tested ahead of launch.
       </p>
       <p className="mt-4">
-        <a href="https://stamplyn.com">stamplyn.com ↗</a>
+        <a href="https://stamplyn.com">stamplyn.com <span aria-hidden="true">↗</span></a>
       </p>
 
       <div className="mt-16 flex flex-col gap-16">
-        <Section title="From booking app to stamps" art={BoardingPassLinework} side="right">
+        <Section title="From booking app to stamps">
           <p>
             Stamplyn started as one of my co-founders’ ideas: an app to book a whole trip in one place, from the
             flights and the hotel to museum tickets and getting around. That’s how we started building it, with
@@ -40,12 +32,12 @@ export function StamplynCaseStudy() {
             The more research I did, the less I believed in it. Plenty of apps had tried to be the one place for
             all your bookings, and many of them failed. And I doubted people would trust a new app with all of
             theirs. The stamps were the part no one else had, so I proposed dropping everything else and building
-            only them, and the team backed it. Rick Rubin is sometimes called a reducer rather than a producer;
-            that’s who I think a new product needs most.
+            only them, and the team backed it. Rick Rubin calls himself a reducer rather than a producer. It’s
+            what I try to be on a new product.
           </p>
         </Section>
 
-        <Section title="Leading a team that builds with agents" art={IssuesLinework} side="left">
+        <Section title="Leading a team that builds with agents">
           <p>
             Three of us write the code, all with AI coding agents, and I plan the work. I break each feature into issues,
             each with a brief an agent can work from: what to build, how it should behave, and when it’s done. I
@@ -55,12 +47,12 @@ export function StamplynCaseStudy() {
           </p>
         </Section>
 
-        <Section title="Mapping the world’s landmarks" art={MapLinework} side="right">
+        <Section title="Mapping the world’s landmarks">
           <p>
             A stamp app is only as good as its map, and I didn’t want anyone writing cities by hand. So I built a
             pipeline that maps a whole country in one command. It starts from Wikidata, the open database behind
-            Wikipedia: every museum, monastery, waterfall, old town and famous street with coordinates, minus the
-            airports, train stations and anything demolished. OpenStreetMap adds each place’s outline, and Wikivoyage’s
+            Wikipedia: every museum, monastery, waterfall, old town, famous street, stadium and race track with
+            coordinates, minus the airports, train stations and anything demolished. OpenStreetMap adds each place’s outline, and Wikivoyage’s
             “See” lists let in small places Wikipedia barely covers.
           </p>
           <p>
@@ -84,7 +76,7 @@ export function StamplynCaseStudy() {
           </p>
         </Section>
 
-        <Section title="Drawing the stamps" art={StampLinework} side="left">
+        <Section title="Drawing the stamps">
           <p>
             The best-known places have their own illustrated stamp, over 1,500 so far, all in one ink-and-wash
             style. I tried Gemini, Ming Image, Recraft and Meta’s Muse Image on the same 20 landmarks, and Muse
@@ -106,7 +98,7 @@ export function StamplynCaseStudy() {
           </p>
         </Section>
 
-        <Section title="Making it feel native" art={TapLinework} side="right">
+        <Section title="Making it feel native">
           <p>
             Stamplyn is built with Expo and React Native, for iPhone and Android, and I wanted it to feel at home
             on the phone, not like a website inside an app. So I spent a lot of time studying apps that do: how they respond to
@@ -121,8 +113,6 @@ export function StamplynCaseStudy() {
   )
 }
 
-// The app's welcome screen, in the theme the page is showing. Cropped below the status
-// bar, so the clock and the dev menu button aren't in it.
 // Five Wonder illustrations, each on perforated paper with its name, the way the app
 // shows a collected stamp. Ancient sites and a mountain, so none has rights of its own.
 const wonders = [
@@ -132,6 +122,35 @@ const wonders = [
   { slug: 'fuji', name: 'Mount Fuji' },
   { slug: 'petra', name: 'Petra' },
 ]
+
+// A stamp's outline: a rectangle with round bites along every edge. Going round it
+// clockwise, an arc with sweep 0 bites inward.
+function perforated(x: number, y: number, w: number, h: number, r: number, across: number, down: number) {
+  const parts = [`M${x} ${y}`]
+  const bite = (fromX: number, fromY: number, toX: number, toY: number) =>
+    parts.push(`L${fromX} ${fromY}`, `A${r} ${r} 0 0 0 ${toX} ${toY}`)
+  for (let i = 0; i < across; i++) {
+    const cx = x + (w / across) * (i + 0.5)
+    bite(cx - r, y, cx + r, y)
+  }
+  parts.push(`L${x + w} ${y}`)
+  for (let i = 0; i < down; i++) {
+    const cy = y + (h / down) * (i + 0.5)
+    bite(x + w, cy - r, x + w, cy + r)
+  }
+  parts.push(`L${x + w} ${y + h}`)
+  for (let i = across - 1; i >= 0; i--) {
+    const cx = x + (w / across) * (i + 0.5)
+    bite(cx + r, y + h, cx - r, y + h)
+  }
+  parts.push(`L${x} ${y + h}`)
+  for (let i = down - 1; i >= 0; i--) {
+    const cy = y + (h / down) * (i + 0.5)
+    bite(x, cy + r, x, cy - r)
+  }
+  parts.push('Z')
+  return parts.join(' ')
+}
 
 const stampEdge = perforated(0, 0, 100, 118, 2.2, 10, 12)
 

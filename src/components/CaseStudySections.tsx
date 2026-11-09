@@ -28,7 +28,7 @@ export function Section({
         <div className="flex flex-col gap-3 text-body">{children}</div>
         {link && (
           <a href={link.href} className="mt-3 inline-block text-sm text-muted hover:text-fg">
-            {link.label} ↗
+            {link.label} <span aria-hidden="true">↗</span>
           </a>
         )}
         {Art && (

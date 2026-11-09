@@ -17,12 +17,25 @@ export function useRememberHome() {
 // A link back to the home page. Opened from the home page (the entry right after it), it
 // goes back in history, which restores the scroll position; opened any other way, as from
 // a shared link, it opens the home page.
-export function HomeLink({ className, children }: { className?: string; children: ReactNode }) {
+//
+// With carryName, it's the site name the home page's title moves into on a page
+// transition (see styles.css). Only the About page uses it: on a case study the painting
+// moves, and one moving thing is enough.
+export function HomeLink({
+  className,
+  carryName,
+  children,
+}: {
+  className?: string
+  carryName?: boolean
+  children: ReactNode
+}) {
   const router = useRouter()
   const index = useLocation({ select: (location) => location.state.__TSR_index })
   return (
     <Link
       to="/"
+      data-site-name={carryName ? '' : undefined}
       className={className}
       onClick={(event) => {
         const plain = event.button === 0 && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)

@@ -22,7 +22,7 @@ export function MeerlumeCaseStudy() {
         and we launched on 11 August. The bot below is a real one, made with Meerlume: ask it anything about it.
       </p>
       <p className="mt-4">
-        <a href="https://meerlume.com">meerlume.com ↗</a>
+        <a href="https://meerlume.com">meerlume.com <span aria-hidden="true">↗</span></a>
       </p>
       <MeerlumeChat />
 

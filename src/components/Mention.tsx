@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { useState, type ReactNode } from 'react'
 import type { DemoKind } from '../content/projects'
-import { Demo, paintings } from './Demo'
+import { Credit, Demo, paintings } from './Demo'
 
 type MentionProps = {
   children: ReactNode
@@ -50,7 +50,7 @@ export function Mention({ children, slug, preview }: MentionProps) {
             <span className="block [zoom:0.5]">
               <Demo kind={preview} />
             </span>
-            <span className="block px-2 pt-1.5 pb-1 font-mono text-[11px] text-muted">{paintings[preview].credit}</span>
+            <span className="block px-2 pt-1.5 pb-1 font-mono text-[11px] text-muted"><Credit painting={paintings[preview]} /></span>
           </span>
         </span>
       )}

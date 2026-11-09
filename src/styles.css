@@ -108,7 +108,7 @@ html:active-view-transition-type(page) {
   }
   /* The painting is the same picture on both pages: move one copy, the incoming one,
      instead of crossfading two. The outgoing copy, scaled to the new size, would show
-     its frame and shadow at the wrong thickness around the edges. */
+     its shadow at the wrong size around the edges. */
   &::view-transition-old(*.painting) {
     animation: none;
     opacity: 0;
@@ -116,6 +116,18 @@ html:active-view-transition-type(page) {
   &::view-transition-new(*.painting) {
     animation: none;
     mix-blend-mode: normal;
+  }
+  /* The site name moves between the home page's title and the small link at the top of
+     the About page, crossfading from one style to the other on the way. Named only during
+     page transitions, so a theme change still fades the page as one. */
+  & [data-site-name] {
+    view-transition-name: site-name;
+  }
+  /* It barely moves, so it shouldn't linger: quicker than the page and the paintings. Its
+     old and new images inherit the duration from the group. */
+  &::view-transition-group(site-name) {
+    animation-duration: 150ms;
+    animation-timing-function: var(--ease-out);
   }
 }
 

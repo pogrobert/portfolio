@@ -62,7 +62,7 @@ function CaseStudy({ project }: { project: Project }) {
       <p className="mt-5 text-lg text-body">{project.summary}</p>
       {project.link && (
         <p className="mt-4">
-          <a href={project.link.href}>{project.link.label} ↗</a>
+          <a href={project.link.href}>{project.link.label} <span aria-hidden="true">↗</span></a>
         </p>
       )}
       {project.timeline ? (

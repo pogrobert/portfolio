@@ -55,7 +55,7 @@ export const projects: Project[] = [
     role: 'Front-end engineer',
     period: '2022–2026',
     summary:
-      'Three years on the blocks team during a redesign of every block: Conditional Form and its condition engine, Comments, the new account blocks, and nearly every other block along the way.',
+      'Three years on the blocks team during a redesign of every block: Conditional Form and its condition engine, Comments, the new account blocks, and every other block along the way.',
     highlights: [],
     demo: 'softr',
     kind: 'work',
@@ -63,32 +63,28 @@ export const projects: Project[] = [
   {
     slug: 'goya',
     name: 'Goya',
-    tagline: 'My first job, where the fundamentals were forged.',
+    tagline: 'My first job, building apps for clients.',
     role: 'Full-stack developer',
     period: '2021–2022',
     summary:
-      'Goya was a Yerevan company that started as a school for software engineering and later opened an outsourcing team. I took its course and was offered a job: my first, and where the fundamentals were forged. Goya has since closed.',
+      'Goya was a Yerevan company that started as a school for software engineering and later opened an outsourcing team. I took its course, and it gave me my first job. Goya has since closed.',
     highlights: [],
     timeline: [
       {
         title: 'The course',
-        text: 'I took Goya’s software engineering course from early to late 2020 and finished as the best student in my class. When Goya started doing client work, I was offered a job on the team.',
+        text: 'I took Goya’s software engineering course from early to late 2020 and finished as the best student in my class. Goya was already doing client work by then, and offered me a job on the team as soon as the course ended.',
       },
       {
         title: 'A fitness app',
-        text: 'My first project: the front end of the web app for one of the biggest US at-home fitness companies, known for its streaming workout programs. React and Redux.',
-      },
-      {
-        title: 'A rescue',
-        text: 'A client website in React had fallen a few weeks behind. I took it over, worked overtime and finished it within a month. It launched, and the client was happy with the result.',
+        text: 'My first project: the front end of the web app for one of the biggest US at-home fitness companies, known for its streaming workout programs, built with React and Redux. It’s where I learned React properly: breaking a screen into small components, passing data down through props, keeping shared state in one Redux store instead of scattered across the app, and understanding when and why a component re-renders. Those fundamentals are what I still build on.',
       },
       {
         title: 'Smart greenhouses',
-        text: 'After a month of QA automation, writing end-to-end tests for cross-platform mobile apps, I moved on to building one: an app for managing smart greenhouses, with live sensor readings and controls for things like fans and windows. I evaluated Flutter and React Native and chose Flutter. Today I’d pick React Native, which renders the platform’s own components, so apps look and feel native.',
+        text: 'After a month of QA automation, writing end-to-end tests for a mobile fitness app, I moved on to building a mobile app myself: one for managing smart greenhouses, with live sensor readings and controls for things like fans and windows. I chose Flutter over React Native. At the time, Flutter compiled to native code and drew its own interface, while React Native still passed everything between JavaScript and native code over a bridge, so Flutter apps usually ran smoother, especially in animations; React Native only replaced the bridge with its New Architecture in 2024. Flutter was also overtaking React Native in developer surveys, and before Apple’s Liquid Glass redesign, an interface Flutter drew itself looked at home on both iPhone and Android. Today I’d pick React Native, which renders the platform’s own components, so apps look and feel native.',
       },
       {
         title: 'A marketplace platform',
-        text: 'A US marketplace app connecting consumers with local and online businesses, built inside a partner agency’s team. I owned the CRM and worked across the Express and MongoDB backend and the web app, and became the person the team came to with questions about any part of it. I worked on it until I left for Softr.',
+        text: 'A US marketplace app connecting consumers with local and online businesses, built inside a partner agency’s team. I owned the CRM, an admin panel built with React Admin, and worked across the web app and the Express and MongoDB backend: my first real backend work, from API endpoints to how the data was stored. Over time I became the person the team came to with questions about any part of it. I worked on it until I left for Softr.',
       },
     ],
     demo: 'goya',

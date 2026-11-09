@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useLayoutEffect } from 'react'
-import { Demo, paintingJustLeft } from '../components/Demo'
+import { HungPainting, paintingJustLeft, paintings } from '../components/Demo'
 import { useRememberHome } from '../components/HomeLink'
 import { Mention } from '../components/Mention'
 import { SiteFooter } from '../components/SiteChrome'
@@ -17,7 +17,11 @@ function Home() {
   return (
     <>
       <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
-        <h1 className="font-semibold">{site.name}</h1>
+        {/* Sized to the name, not the page: on the way to and from the About page it moves
+            into the name there (see styles.css), and a full-width box would squash the text. */}
+        <h1 data-site-name="" className="w-fit font-semibold">
+          {site.name}
+        </h1>
         <p className="text-muted">{site.title}</p>
 
         {/* Divs, not <p>: a Mention's hover preview holds block elements. */}
@@ -31,7 +35,7 @@ function Home() {
             <Mention slug="meerlume" preview="meerlume">
               Meerlume
             </Mention>
-            , which turns a plain description of how a business works into a WhatsApp or Telegram bot, and{' '}
+            , which turns a plain description of how a business works into a chatbot for messaging apps, and{' '}
             <Mention slug="stamplyn" preview="stamplyn">
               Stamplyn
             </Mention>
@@ -62,40 +66,55 @@ function Home() {
   )
 }
 
-// Each project appears once: its card carries the years, and links to its
-// case study. Work is jobs and companies; side projects are built on the side.
+// Each project appears once, linking to its case study. Work is jobs and companies; side
+// projects are built on the side.
 function ProjectList({ title, items }: { title: string; items: Project[] }) {
   if (items.length === 0) return null
   return (
     <section className="mt-20">
-      <h2 className="mb-6 text-muted">{title}</h2>
-      <div className="flex flex-col gap-12">
-        {items.map((project) => (
-          <div key={project.slug}>
-            {/* The hover tint bleeds 12px past the card, so the painting and text stay
-                aligned with the heading; its corners follow the painting's, 12px out. Below
-                the text it bleeds 20px, since a line of text has its own space under it. It's
-                a layer behind the card that fades in while growing from just inside it,
-                opacity and scale only; reduced motion keeps the fade. */}
-            <Link
-              to="/work/$slug"
-              params={{ slug: project.slug }}
-              data-slug={project.slug}
-              onClick={(event) => {
-                openedFromCard = project.slug
-                carryPainting(event.currentTarget, `painting-${project.demo}`)
-              }}
-              className="relative isolate -m-3 -mb-5 flex flex-col gap-3 rounded-[1.75rem] p-3 pb-5 no-underline before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-fg/4 before:opacity-0 before:transition-[opacity,scale] before:duration-150 before:ease-out before:content-[''] motion-safe:before:scale-[0.98] hover:before:scale-100 hover:before:opacity-100"
-            >
-              <Demo kind={project.demo} />
-              <div>
-                <h3 className="font-medium">{project.name}</h3>
-                <p className="text-muted">{project.tagline}</p>
-                <p className="mt-1 text-sm text-muted tabular-nums">{project.period}</p>
-              </div>
-            </Link>
-          </div>
-        ))}
+      <h2 className="mb-8 text-muted">{title}</h2>
+      <div className="flex flex-col gap-16">
+        {items.map((project) => {
+          const painting = paintings[project.demo]
+          return (
+            <div key={project.slug}>
+              {/* Each card is a painting hung on the page with a wall label beside it, as in
+                  a museum: the project, then the painting's own details under a rule, level
+                  with the foot of the painting. On a phone the label goes under it. The hover
+                  tint bleeds 12px past the card, so the painting and label stay aligned with
+                  the heading. It's a layer behind the card that fades in while growing from
+                  just inside it, opacity and scale only; reduced motion keeps the fade. */}
+              <Link
+                to="/work/$slug"
+                params={{ slug: project.slug }}
+                data-slug={project.slug}
+                onClick={(event) => {
+                  openedFromCard = project.slug
+                  carryPainting(event.currentTarget, `painting-${project.demo}`)
+                }}
+                className="relative isolate -m-3 grid gap-x-8 gap-y-4 rounded-2xl p-3 no-underline before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-fg/4 before:opacity-0 before:transition-[opacity,scale] before:duration-150 before:ease-out before:content-[''] hover:before:scale-100 hover:before:opacity-100 motion-safe:before:scale-[0.98] sm:grid-cols-[minmax(0,1fr)_14rem] sm:items-end"
+              >
+                <HungPainting kind={project.demo} />
+                <div className="flex flex-col gap-2.5">
+                  <div>
+                    <h3 className="font-medium">{project.name}</h3>
+                    <p className="text-sm text-muted tabular-nums">
+                      {project.role}, {project.period}
+                    </p>
+                  </div>
+                  <p className="text-sm text-body">{project.tagline}</p>
+                  <p className="border-t border-line pt-2.5 font-mono text-[11px] leading-relaxed text-muted">
+                    {painting.artist} ({painting.lifespan})
+                    <br />
+                    {painting.work}
+                    <br />
+                    {painting.medium}
+                  </p>
+                </div>
+              </Link>
+            </div>
+          )
+        })}
       </div>
     </section>
   )
