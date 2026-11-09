@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 // Moving between pages swaps the content without a page load, so the browser leaves focus
 // where it was, on an element that's gone, and a screen reader doesn't hear about the new
 // page. After each move to another page, focus goes to the new page's title, which a screen
-// reader then reads. Coming back home, it goes to the card or link the visitor left from
+// reader then reads. Coming back to a page, it goes to the link the visitor left it by
 // instead, so they carry on where they were. The first load is left to the browser.
 //
 // Safari draws the keyboard focus ring on focus moved by script even after a tap, so the ring
@@ -16,6 +16,23 @@ function quiet(target: HTMLElement) {
   target.addEventListener('blur', () => target.removeAttribute('data-quiet-focus'), { once: true })
 }
 
+// The link each page was last left by: the page it opens, and which of the links to that
+// page it was. A project has two on the home page, its name in the bio and its card.
+const leftBy = new Map<string, { href: string; nth: number }>()
+
+function linksTo(href: string) {
+  return [...document.querySelectorAll<HTMLElement>(`main a[href="${CSS.escape(href)}"]`)]
+}
+
+// Links to another page of the site. The link back to the home page doesn't count: it's
+// how a visitor returns, and a page they return to is entered again from its title.
+function noteLink(event: MouseEvent) {
+  const link = event.target instanceof Element ? event.target.closest<HTMLElement>('main a[href]') : null
+  const href = link?.getAttribute('href')
+  if (!link || !href?.startsWith('/') || href === '/') return
+  leftBy.set(location.pathname, { href, nth: linksTo(href).indexOf(link) })
+}
+
 export function RouteFocus() {
   const router = useRouter()
   useEffect(() => {
@@ -23,9 +40,11 @@ export function RouteFocus() {
     const onPointer = () => (keyboard = false)
     document.addEventListener('keydown', onKey, true)
     document.addEventListener('pointerdown', onPointer, true)
+    document.addEventListener('click', noteLink, true)
     return () => {
       document.removeEventListener('keydown', onKey, true)
       document.removeEventListener('pointerdown', onPointer, true)
+      document.removeEventListener('click', noteLink, true)
     }
   }, [])
   useEffect(
@@ -35,15 +54,10 @@ export function RouteFocus() {
         // After the new page is on screen (page transitions update it a frame later).
         requestAnimationFrame(() =>
           requestAnimationFrame(() => {
-            const from = fromLocation.pathname
-            let target: HTMLElement | null = null
-            if (toLocation.pathname === '/') {
-              if (from.startsWith('/work/')) {
-                target = document.querySelector(`a[data-slug="${CSS.escape(from.slice('/work/'.length))}"]`)
-              } else if (from === '/about') {
-                target = document.querySelector('main a[href="/about"]')
-              }
-            }
+            // Only when coming back from the page that link opened: reached any other way,
+            // the link may be far off screen.
+            const left = leftBy.get(toLocation.pathname)
+            let target = (left?.href === fromLocation.pathname && linksTo(left.href)[left.nth]) || null
             if (!target) {
               target = document.querySelector('main h1')
               // A title isn't focusable by itself; -1 lets script focus it without adding

@@ -1,26 +1,19 @@
 import type { ComponentType, ReactNode } from 'react'
+import type { Slug } from '../content/projects'
 
 // Company marks that sit next to a case study's title. They're still: the case study's
 // painting moves in as the page opens, and a moving mark beside it would compete with it.
 
-// `ratio` is for a mark that isn't square, sized by its height alone.
-function Mark({
-  className,
-  viewBox,
-  ratio,
-  children,
-}: {
-  className?: string
-  viewBox: string
-  ratio?: string
-  children: ReactNode
-}) {
+// A mark is sized by its height alone and takes its shape from its viewBox, so one that
+// isn't square (Goya's) sits beside a title the same way as the rest.
+function Mark({ className, viewBox, children }: { className?: string; viewBox: string; children: ReactNode }) {
+  const [, , width, height] = viewBox.split(' ')
   return (
     <svg
       aria-hidden="true"
       viewBox={viewBox}
       className={`inline-block shrink-0 overflow-visible ${className ?? ''}`}
-      style={ratio ? { aspectRatio: ratio } : undefined}
+      style={{ aspectRatio: `${width} / ${height}` }}
     >
       {children}
     </svg>
@@ -74,7 +67,7 @@ const goyaBox = '-12 -12 206 334'
 
 export function GoyaMark({ className }: { className?: string }) {
   return (
-    <Mark className={className} viewBox={goyaBox} ratio="206 / 334">
+    <Mark className={className} viewBox={goyaBox}>
       <circle cx="91" cy="123" r="68.5" fill="none" stroke="currentColor" strokeWidth="37" />
       <circle cx="163" cy="19" r="16" fill={goyaGreen} />
       <path d="M66 284 Q118 306 152 257" fill="none" stroke={goyaGreen} strokeWidth="32" strokeLinecap="round" />
@@ -101,8 +94,8 @@ export function StamplynMark({ className }: { className?: string }) {
   )
 }
 
-// Each project's mark, by slug.
-export const marks: Partial<Record<string, ComponentType<{ className?: string }>>> = {
+// Each project's mark.
+export const marks: Record<Slug, ComponentType<{ className?: string }>> = {
   meerlume: MeerlumeMark,
   stamplyn: StamplynMark,
   softr: SoftrMark,

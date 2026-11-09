@@ -1,0 +1,11 @@
+# Cloudflare serves static files to be checked with the server on every visit. Files under
+# /assets have a hash of their contents in the name, so one name never changes what it
+# holds, and browsers can keep them for good.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Pictures keep their names, so they're kept for a day: replace one under the same name
+# and returning visitors see the old one until then. Give a replacement a new name to
+# show it at once.
+/images/*
+  Cache-Control: public, max-age=86400

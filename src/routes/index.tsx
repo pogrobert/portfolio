@@ -1,8 +1,9 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useLayoutEffect } from 'react'
-import { HungPainting, paintingJustLeft, paintings, Period } from '../components/Demo'
-import { useRememberHome } from '../components/HomeLink'
+import { fromHome } from '../components/HomeLink'
 import { Mention } from '../components/Mention'
+import { HungPainting, paintingJustLeft, paintings } from '../components/Painting'
+import { Period } from '../components/Period'
 import { projects, type Project } from '../content/projects'
 import { site } from '../content/site'
 
@@ -11,11 +12,10 @@ export const Route = createFileRoute('/')({
 })
 
 function Home() {
-  useRememberHome()
   useCarryPaintingHome()
   return (
     <>
-      <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
+      <main className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
         {/* Sized to the name, not the page: on the way to and from the About page it moves
             into the name there (see styles.css), and a full-width box would squash the text. */}
         <h1 data-site-name="" className="w-fit font-semibold">
@@ -31,25 +31,25 @@ function Home() {
           </div>
           <div>
             I co-founded{' '}
-            <Mention slug="meerlume" preview="meerlume">
+            <Mention slug="meerlume">
               Meerlume
             </Mention>
             , which turns a plain description of how a business works into a chatbot for messaging apps, and{' '}
-            <Mention slug="stamplyn" preview="stamplyn">
+            <Mention slug="stamplyn">
               Stamplyn
             </Mention>
             , a travel app where you collect a stamp from every landmark you visit.
           </div>
           <div>
             Before that, I spent three years on the blocks team at{' '}
-            <Mention slug="softr" preview="softr">
+            <Mention slug="softr">
               Softr
             </Mention>{' '}
             and started out at{' '}
-            <Mention slug="goya" preview="goya">
+            <Mention slug="goya">
               Goya
             </Mention>
-            . <Link to="/about">More about me</Link>
+            . <Link to="/about" state={fromHome}>More about me</Link>
           </div>
           <div>
             You can find me on <a href={site.links.github}>GitHub</a>, <a href={site.links.linkedin}>LinkedIn</a> and{' '}
@@ -57,7 +57,7 @@ function Home() {
           </div>
         </div>
 
-        <ProjectList title="Work" items={projects.filter((p) => p.kind === 'work')} />
+        <ProjectList title="Work" items={projects.filter((p) => p.kind === 'work')} lead />
         <ProjectList title="Side projects" items={projects.filter((p) => p.kind === 'side')} />
       </main>
     </>
@@ -65,15 +65,16 @@ function Home() {
 }
 
 // Each project appears once, linking to its case study. Work is jobs and companies; side
-// projects are built on the side.
-function ProjectList({ title, items }: { title: string; items: Project[] }) {
+// projects are built on the side. The lead list is the first on the page: its first
+// painting is in view when the page opens, so it loads with the page.
+function ProjectList({ title, items, lead }: { title: string; items: Project[]; lead?: boolean }) {
   if (items.length === 0) return null
   return (
     <section className="mt-20">
       <h2 className="mb-8 text-muted">{title}</h2>
       <div className="flex flex-col gap-16">
-        {items.map((project) => {
-          const painting = paintings[project.demo]
+        {items.map((project, i) => {
+          const painting = paintings[project.slug]
           return (
             <div key={project.slug}>
               {/* Each card is a painting hung on the page with a wall label beside it, as in
@@ -85,6 +86,7 @@ function ProjectList({ title, items }: { title: string; items: Project[] }) {
               <Link
                 to="/work/$slug"
                 params={{ slug: project.slug }}
+                state={fromHome}
                 data-slug={project.slug}
                 // Named by the project alone, and described by its role and tagline: read whole,
                 // the card would start with the painting and name it twice.
@@ -92,11 +94,11 @@ function ProjectList({ title, items }: { title: string; items: Project[] }) {
                 aria-describedby={`${project.slug}-role ${project.slug}-tagline`}
                 onClick={(event) => {
                   openedFromCard = project.slug
-                  carryPainting(event.currentTarget, `painting-${project.demo}`)
+                  carryPainting(event.currentTarget, `painting-${project.slug}`)
                 }}
                 className="relative isolate -m-3 grid gap-x-8 gap-y-4 rounded-2xl p-3 no-underline before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-fg/4 before:opacity-0 before:transition-[opacity,scale] before:duration-150 before:ease-out before:content-[''] hover:before:scale-100 hover:before:opacity-100 motion-safe:before:scale-[0.98] sm:grid-cols-[minmax(0,1fr)_14rem] sm:items-end"
               >
-                <HungPainting kind={project.demo} />
+                <HungPainting slug={project.slug} eager={lead && i === 0} />
                 <div className="flex flex-col gap-2.5">
                   <div>
                     <h3 id={`${project.slug}-name`} className="font-medium">
@@ -141,7 +143,7 @@ function useCarryPaintingHome() {
     openedFromCard = null
     const project = projects.find((p) => p.slug === slug)
     const card = document.querySelector<HTMLElement>(`a[data-slug="${slug}"]`)
-    if (project && card && slug === paintingJustLeft()) carryPainting(card, `painting-${project.demo}`)
+    if (project && card && slug === paintingJustLeft()) carryPainting(card, `painting-${project.slug}`)
   }, [])
 }
 

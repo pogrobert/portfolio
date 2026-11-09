@@ -12,16 +12,6 @@
   --color-body: var(--body);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --color-tile: var(--tile);
-  --color-card: var(--card);
-
-  --color-teal: var(--teal);
-  --color-teal-tint: var(--teal-tint);
-  --color-teal-line: var(--teal-line);
-  --color-orange: var(--orange);
-  --color-orange-tint: var(--orange-tint);
-  --color-blue: var(--blue);
-  --color-violet-tint: var(--violet-tint);
   --color-wall: var(--wall);
 
   /* Motion curves (from Emil Kowalski's animation guidance). Tailwind's built-in
@@ -29,12 +19,13 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
-
-  /* Softr's logo colors, the same in both themes. */
-  --color-softr-yellow: #fcb500;
-  --color-softr-pink: #f53878;
-  --color-softr-blue: #386af5;
 }
+
+/* Inside a `group` that holds a link with keyboard focus. Unlike group-focus-within, it
+   leaves out focus from a click, and focus moved by script after one (RouteFocus.tsx): a
+   visitor who comes back to a name in the bio with the mouse doesn't find its hover
+   preview open. */
+@custom-variant group-keyboard-focus (&:is(:where(.group):has(a:focus-visible:not([data-quiet-focus])) *));
 
 /* One value per theme: light-dark() picks by color-scheme, which follows the visitor's
    system setting. Dark is near-black, not #000: pure black
@@ -47,19 +38,8 @@
   --body: light-dark(#3d3d39, #c4c3bd);
   --muted: light-dark(#66665f, #94938b);
   --line: light-dark(#e8e8e5, #262624);
-  --tile: light-dark(#ffffff, #141413);
-  --card: light-dark(#ffffff, #1b1b19);
-
-  --teal: light-dark(#0f766e, #2dd4bf);
-  --teal-tint: light-dark(#f1f5f4, #101a19);
-  --teal-line: light-dark(#9db8b3, #2a524d);
-  --orange: light-dark(#9a3412, #fdba74);
-  --orange-tint: light-dark(#f7f1ec, #1c1611);
-  --blue: light-dark(#1d4ed8, #93b4ff);
-  --violet-tint: light-dark(#f1f0fb, #141323);
   --wall: light-dark(#e9e5dc, #1f1d1a);
 }
-
 
 body {
   background: var(--bg);
@@ -74,6 +54,9 @@ body {
     text-decoration-line: underline;
     text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
     text-underline-offset: 3px;
+    /* Shows only in the focus ring, which follows it: soft corners around a link in text.
+       A card or button sets its own. */
+    border-radius: 4px;
   }
 
   a:hover {
@@ -81,8 +64,10 @@ body {
   }
 }
 
+/* Keyboard focus: a ring in the text color, so it adds nothing to the palette and stands
+   out in both themes. It appears at once, with no animation, to keep up with the Tab key. */
 :focus-visible {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--fg);
   outline-offset: 3px;
 }
 
@@ -106,8 +91,9 @@ body {
 /* Page navigations (see defaultViewTransition in src/router.tsx): the painting a card
    shows moves into the case study's painting, and the rest of the page crossfades. */
 html:active-view-transition-type(page) {
+  /* The painting arrives as the page finishes fading in: both take 200ms. */
   &::view-transition-group(*) {
-    animation-duration: 300ms;
+    animation-duration: 200ms;
     animation-timing-function: var(--ease-in-out);
   }
   &::view-transition-old(root),
@@ -126,6 +112,15 @@ html:active-view-transition-type(page) {
     animation: none;
     mix-blend-mode: normal;
   }
+  /* A painting with no partner on the other page, as when a case study is opened from a
+     name in the bio rather than its card: it fades with the page. Left still, it would
+     show at full strength over a page that's still fading. */
+  &::view-transition-old(*.painting):only-child {
+    animation: 200ms var(--ease-out) both painting-out;
+  }
+  &::view-transition-new(*.painting):only-child {
+    animation: 200ms var(--ease-out) both painting-in;
+  }
   /* The site name moves between the home page's title and the small link at the top of
      the About page, crossfading from one style to the other on the way. Named only during
      page transitions, so a theme change still fades the page as one. */
@@ -140,10 +135,24 @@ html:active-view-transition-type(page) {
   }
 }
 
+@keyframes painting-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes painting-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Reduced motion drops the movement and keeps the fade, as everywhere else on the site:
+   nothing is named, so the painting and the site name stay part of the page, and the page
+   crossfades as one. Important, to win over the names set in style attributes. */
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
-    animation: none !important;
+  [data-painting],
+  [data-site-name] {
+    view-transition-name: none !important;
   }
 }

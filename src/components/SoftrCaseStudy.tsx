@@ -1,7 +1,6 @@
-import { PaintingFigure } from './Demo'
+import type { Project } from '../content/projects'
+import { CaseStudyHeader, Note, Section } from './CaseStudySections'
 import { AccountsLinework, BlocksLinework, CommentsLinework, FormLinework } from './Linework'
-import { Note, Section } from './CaseStudySections'
-import { SoftrMark } from './Marks'
 
 const docs = 'https://docs.softr.io/building-blocks'
 
@@ -10,24 +9,15 @@ function StackLinework({ className }: { className?: string }) {
   return <BlocksLinework className={className} lifted />
 }
 
-export function SoftrCaseStudy() {
+export function SoftrCaseStudy({ project }: { project: Project }) {
   return (
     <>
-      <h1 className="mt-8 flex items-center gap-3 text-4xl font-semibold tracking-tight">
-        <SoftrMark className="size-10" />
-        Softr
-      </h1>
-      <p className="mt-3 font-mono text-[0.8125rem] text-muted">Front-end engineer, blocks team · Dec 2022 – Jan 2026</p>
-      <PaintingFigure kind="softr" />
-      <p className="mt-5 text-lg text-body">
+      <CaseStudyHeader project={project}>
         A Berlin-based no-code platform where every page is a stack of blocks, used by over a million people,
         including teams at Netflix, Google and Stripe. About nine months after I joined, Softr started the v5
         redesign, which rebuilt every block, so I worked on both sides of it: maintaining and extending the old
         blocks while building the new ones.
-      </p>
-      <p className="mt-4">
-        <a href="https://www.softr.io">softr.io <span aria-hidden="true">↗</span></a>
-      </p>
+      </CaseStudyHeader>
 
       <div className="mt-16 flex flex-col gap-16">
         <Section title="Conditional Form" art={FormLinework} side="right" link={{ label: 'Softr docs', href: `${docs}/conditional-forms` }}>

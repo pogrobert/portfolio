@@ -1,12 +1,11 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import type { ComponentType } from 'react'
-import { PaintingFigure, Period } from '../../components/Demo'
+import { CaseStudyHeader } from '../../components/CaseStudySections'
 import { HomeLink } from '../../components/HomeLink'
-import { marks } from '../../components/Marks'
 import { MeerlumeCaseStudy } from '../../components/MeerlumeCaseStudy'
 import { SoftrCaseStudy } from '../../components/SoftrCaseStudy'
 import { StamplynCaseStudy } from '../../components/StamplynCaseStudy'
-import { getProject, type Project } from '../../content/projects'
+import { getProject, type Project, type Slug } from '../../content/projects'
 import { site } from '../../content/site'
 
 export const Route = createFileRoute('/work/$slug')({
@@ -28,8 +27,8 @@ export const Route = createFileRoute('/work/$slug')({
   component: CaseStudyPage,
 })
 
-// Case studies with their own layout; the rest share CaseStudy below.
-const pages: Partial<Record<string, ComponentType>> = {
+// Case studies with their own page; the rest share CaseStudy below.
+const pages: Partial<Record<Slug, ComponentType<{ project: Project }>>> = {
   softr: SoftrCaseStudy,
   meerlume: MeerlumeCaseStudy,
   stamplyn: StamplynCaseStudy,
@@ -37,39 +36,27 @@ const pages: Partial<Record<string, ComponentType>> = {
 
 function CaseStudyPage() {
   const project = Route.useLoaderData()
-  const Page = pages[project.slug]
+  const Page = pages[project.slug] ?? CaseStudy
   return (
-    <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
+    <main className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
       <nav aria-label="Site">
         <HomeLink className="text-sm text-muted no-underline hover:text-fg">{site.name}</HomeLink>
       </nav>
       {/* An article, so reader views know where the case study starts and ends: the name
           link above it is navigation. */}
-      <article>{Page ? <Page /> : <CaseStudy project={project} />}</article>
+      <article>
+        <Page project={project} />
+      </article>
     </main>
   )
 }
 
-// The mark sits beside the title, like Softr's on its own page.
+// A job made of several projects, told in order.
 function CaseStudy({ project }: { project: Project }) {
-  const Mark = marks[project.slug]
   return (
     <>
-      <h1 className="mt-8 flex items-center gap-3 text-4xl font-semibold tracking-tight">
-        {Mark && <Mark className="h-10 w-auto" />}
-        {project.name}
-      </h1>
-      <p className="mt-3 font-mono text-[0.8125rem] text-muted">
-        {project.role} · <Period period={project.period} />
-      </p>
-      <PaintingFigure kind={project.demo} />
-      <p className="mt-5 text-lg text-body">{project.summary}</p>
-      {project.link && (
-        <p className="mt-4">
-          <a href={project.link.href}>{project.link.label} <span aria-hidden="true">↗</span></a>
-        </p>
-      )}
-      {project.timeline ? (
+      <CaseStudyHeader project={project}>{project.summary}</CaseStudyHeader>
+      {project.timeline && (
         <ol className="mt-12 flex flex-col gap-8">
           {project.timeline.map((step) => (
             <li key={step.title}>
@@ -78,12 +65,6 @@ function CaseStudy({ project }: { project: Project }) {
             </li>
           ))}
         </ol>
-      ) : (
-        <ul className="mt-10 flex flex-col gap-3 border-l border-line pl-5 text-body">
-          {project.highlights.map((h) => (
-            <li key={h}>{h}</li>
-          ))}
-        </ul>
       )}
     </>
   )

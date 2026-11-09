@@ -1,12 +1,8 @@
 import { useLayoutEffect, type ReactNode } from 'react'
-import type { DemoKind } from '../content/projects'
-
-type DemoProps = { kind: DemoKind }
+import type { Slug } from '../content/projects'
 
 type Painting = {
   src: string
-  width: number
-  height: number
   // What the painting shows. Wherever it appears, the caption or label next to it gives the
   // artist and title, so the alt text doesn't repeat them.
   alt: string
@@ -25,12 +21,10 @@ type Painting = {
 
 // Each project is pictured with a public-domain painting that winks at its name, until
 // Surfaces is published and can draw covers instead.
-export const paintings: Record<DemoKind, Painting> = {
+export const paintings: Record<Slug, Painting> = {
   // Meer is sea, lume is light: the painter of light on the sea, who was Armenian.
   meerlume: {
     src: '/images/aivazovsky-the-ninth-wave.webp',
-    width: 1200,
-    height: 807,
     alt: 'Survivors clinging to a mast as the sun breaks through a storm at sea',
     artist: 'Ivan Aivazovsky',
     lifespan: '1817–1900',
@@ -46,8 +40,6 @@ export const paintings: Record<DemoKind, Painting> = {
   // stamps: here it sits small in the distance, framed by stacks of timber.
   stamplyn: {
     src: '/images/hokusai-honjo-tatekawa.webp',
-    width: 1200,
-    height: 804,
     alt: 'Workers stack and saw lumber beside a canal, with tall bundles of timber and Mount Fuji small in the distance',
     artist: 'Katsushika Hokusai',
     lifespan: '1760–1849',
@@ -61,12 +53,10 @@ export const paintings: Record<DemoKind, Painting> = {
     nod: 'A nod to the landmarks',
   },
   // Blocks of color in a De Stijl grid, tilted 45° so they seem to move. The painting is
-  // 1.8 times as wide as it's tall; this detail is cropped to the shape of the other three
-  // paintings, so the cards on the home page match, and the caption says it's a detail.
+  // 1.8 times as wide as it's tall; the file is a detail cropped to about the shape of the
+  // other three, and the caption says it's a detail.
   softr: {
     src: '/images/van-doesburg-counter-composition-xvi.webp',
-    width: 1200,
-    height: 823,
     alt: 'Blue, yellow, red, black and gray rectangles in a grid of black bars, tilted 45 degrees',
     artist: 'Theo van Doesburg',
     lifespan: '1883–1931',
@@ -84,8 +74,6 @@ export const paintings: Record<DemoKind, Painting> = {
   // his career.
   goya: {
     src: '/images/goya-the-parasol.webp',
-    width: 1200,
-    height: 832,
     alt: 'A young woman in a yellow skirt sits with a small dog in her lap while a young man holds a green parasol over her',
     artist: 'Francisco de Goya',
     lifespan: '1746–1828',
@@ -100,6 +88,13 @@ export const paintings: Record<DemoKind, Painting> = {
   },
 }
 
+// Every painting is shown in one frame, three wide to two tall, so all four come out the
+// same size wherever they hang. The files are 1200 wide and between 804 and 832 tall: the
+// frame trims the difference off the top and bottom (16px each at most, of The Parasol)
+// in the browser, so no file is cropped or saved again. A new painting needs to be close
+// to 3:2 to begin with, or be cropped to a detail first, as the Van Doesburg was.
+const frame = { width: 1200, height: 800, className: 'aspect-3/2 object-cover' }
+
 // The painting's credit: who painted it, its title and its date.
 export function Credit({ painting }: { painting: Painting }) {
   return (
@@ -109,61 +104,63 @@ export function Credit({ painting }: { painting: Painting }) {
   )
 }
 
-// A span of years as written, "2021–2022" or an open-ended "2026–". Screen readers drop
-// the dash, so an open end gets a hidden "present".
-export function Period({ period }: { period: string }) {
-  if (!period.endsWith('–')) return <>{period}</>
-  return (
-    <>
-      {period}
-      <span className="sr-only"> present</span>
-    </>
-  )
+// Starts loading a painting ahead of its hover preview. The preview's image is lazy and
+// not displayed until the preview opens, so by itself it would only start loading then,
+// and the preview would open on an empty wall. Asked for when the pointer or focus
+// reaches the name, it has the preview's opening delay as a head start; and the case
+// study the name links to shows the same file.
+const preloaded = new Set<Slug>()
+
+export function preloadPainting(slug: Slug) {
+  if (preloaded.has(slug)) return
+  preloaded.add(slug)
+  new Image().src = paintings[slug].src
 }
 
 // A project's painting, hung on a wall, for the bio's hover previews, with its credit
-// under it. The height is set and the width follows from the width and height
-// attributes, so the painting has its size before the lazy image loads; on a narrow
-// screen a wide painting is cropped at the sides rather than squashed.
-export function Demo({ kind }: DemoProps) {
-  const painting = paintings[kind]
+// under it. The height is set and the width follows from the frame, so the painting has
+// its size before the lazy image loads.
+export function PaintingPreview({ slug }: { slug: Slug }) {
+  const painting = paintings[slug]
   return (
     <div className="flex h-60 items-center justify-center overflow-hidden rounded-2xl border border-line bg-wall">
       <img
         src={painting.src}
-        width={painting.width}
-        height={painting.height}
+        width={frame.width}
+        height={frame.height}
         loading="lazy"
         alt={painting.alt}
         data-painting=""
-        className="h-[82%] w-auto max-w-[86%] object-cover shadow-[0_6px_18px_rgba(0,0,0,0.25)] [view-transition-class:painting]"
+        className={`h-[82%] w-auto max-w-[86%] shadow-[0_6px_18px_rgba(0,0,0,0.25)] [view-transition-class:painting] ${frame.className}`}
       />
     </div>
   )
 }
 
 // A project's painting on its home page card: hung on the page itself, no wall, with the
-// card's wall label beside it. The paintings are all about 3:2 landscape, so at one
-// height they come out nearly the same size, and the label sits the same distance from
-// each. It's at most 15rem tall, or narrower where the width runs out, keeping its shape.
-// Sized by width with the height from the width and height attributes, it has its size
-// before the lazy image loads.
+// card's wall label beside it. In the one frame, the paintings are all the same size, and
+// the label sits the same distance from each. It's at most 15rem tall (22.5rem wide), or
+// narrower where the width runs out, keeping its shape. Sized by width with the height
+// from the frame, it has its size before the lazy image loads.
 //
 // Page transitions carry this painting into the case study's (see styles.css): both are
-// the same image, so it moves and scales without changing shape.
-export function HungPainting({ kind }: DemoProps) {
-  const painting = paintings[kind]
+// the same image in the same frame, so it moves and scales without changing shape.
+//
+// The first card's painting is on screen when the home page opens, or nearly, so it's
+// eager: it loads with the page instead of waiting for the layout to say it's in view.
+export function HungPainting({ slug, eager }: { slug: Slug; eager?: boolean }) {
+  const painting = paintings[slug]
   return (
     <img
       src={painting.src}
-      width={painting.width}
-      height={painting.height}
-      loading="lazy"
+      width={frame.width}
+      height={frame.height}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchPriority={eager ? 'high' : undefined}
       // The card's wall label already credits it, and the card links by the project's name.
       alt=""
       data-painting=""
-      style={{ maxWidth: `min(100%, calc(15rem * ${painting.width} / ${painting.height}))` }}
-      className="h-auto w-full shadow-[0_10px_24px_rgba(0,0,0,0.18),0_2px_4px_rgba(0,0,0,0.12)] [view-transition-class:painting]"
+      className={`h-auto w-full max-w-[min(100%,22.5rem)] shadow-[0_10px_24px_rgba(0,0,0,0.18),0_2px_4px_rgba(0,0,0,0.12)] [view-transition-class:painting] ${frame.className}`}
     />
   )
 }
@@ -171,38 +168,34 @@ export function HungPainting({ kind }: DemoProps) {
 // The case study painting a visitor just left, so the home page can carry it back to its
 // card, whether they went back with the site's link or the browser's back button. Noted
 // as the page goes, and only good for a moment.
-let left: { kind: DemoKind; at: number } | null = null
+let left: { slug: Slug; at: number } | null = null
 
-export function paintingJustLeft(): DemoKind | null {
-  return left && performance.now() - left.at < 1000 ? left.kind : null
+export function paintingJustLeft(): Slug | null {
+  return left && performance.now() - left.at < 1000 ? left.slug : null
 }
 
 // The painting at the top of a case study, under its title: no wall, hung on the page
 // itself as wide as the text, with a nod to why it was chosen and its credit under it
-// like a museum label. A painting that isn't clearly wide (a portrait or a square)
-// is narrowed to what makes it 28rem tall and centered, or it would fill the screen; sized
-// by width, it keeps its shape on a narrow screen too.
-const narrowed = (p: Painting) => (p.width >= p.height * 1.2 ? undefined : `calc(28rem * ${p.width} / ${p.height})`)
-
-export function PaintingFigure({ kind }: { kind: DemoKind }) {
-  const painting = paintings[kind]
+// like a museum label. Sized by width, it keeps its shape on a narrow screen too.
+export function PaintingFigure({ slug }: { slug: Slug }) {
+  const painting = paintings[slug]
   useLayoutEffect(
     () => () => {
-      left = { kind, at: performance.now() }
+      left = { slug, at: performance.now() }
     },
-    [kind],
+    [slug],
   )
   return (
     <figure className="mt-8 mb-8">
       <img
         src={painting.src}
-        width={painting.width}
-        height={painting.height}
+        width={frame.width}
+        height={frame.height}
         fetchPriority="high"
         alt={painting.alt}
         data-painting=""
-        style={{ viewTransitionName: `painting-${kind}`, maxWidth: narrowed(painting) }}
-        className="mx-auto h-auto w-full shadow-[0_10px_30px_rgba(0,0,0,0.22)] [view-transition-class:painting]"
+        style={{ viewTransitionName: `painting-${slug}` }}
+        className={`h-auto w-full shadow-[0_10px_30px_rgba(0,0,0,0.22)] [view-transition-class:painting] ${frame.className}`}
       />
       <figcaption className="mt-3 font-mono text-xs text-muted">
         {painting.nod}: <Credit painting={painting} />.{painting.museum && ` ${painting.museum}.`}

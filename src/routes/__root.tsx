@@ -61,13 +61,9 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <head>
         <HeadContent />
       </head>
+      {/* No "skip to content" link: every page starts with its content, with at most the one
+          link home ahead of it, so there's nothing for it to skip. */}
       <body className="font-sans leading-relaxed">
-        <a
-          href="#content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-10 focus:rounded-md focus:bg-fg focus:px-3 focus:py-2 focus:text-bg"
-        >
-          Skip to content
-        </a>
         {children}
         <RouteFocus />
         <Scripts />

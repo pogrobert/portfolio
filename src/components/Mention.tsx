@@ -1,22 +1,22 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import type { DemoKind } from '../content/projects'
-import { Credit, Demo, paintings } from './Demo'
+import type { Slug } from '../content/projects'
+import { fromHome } from './HomeLink'
+import { Credit, PaintingPreview, paintings, preloadPainting } from './Painting'
 
 type MentionProps = {
   children: ReactNode
-  // A case study to link to; mentions without one are plain text.
-  slug?: string
-  // Shown in a small card above the name on hover or keyboard focus, with the
-  // painting's credit under it at full size.
-  preview?: DemoKind
+  // The project: the name links to its case study, and its painting shows in a small card
+  // above the name on hover or keyboard focus, with the painting's credit under it.
+  slug: Slug
 }
 
-// Shown on hover or keyboard focus, with a fine pointer only. starting: is the style it fades
-// in from when it starts being displayed; closing fades back to the resting style above,
-// and display switches off when that fade ends (transition-discrete).
+// Shown on hover or keyboard focus (the group-keyboard-focus variant, see styles.css), with
+// a fine pointer only. starting: is the style it fades in from when it starts being
+// displayed; closing fades back to the resting style above, and display switches off when
+// that fade ends (transition-discrete).
 const shown =
-  'pointer-fine:group-hover:block pointer-fine:group-focus-within:block group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:delay-0 starting:opacity-0 motion-safe:starting:translate-y-1 motion-safe:starting:scale-[0.97]'
+  'pointer-fine:group-hover:block pointer-fine:group-keyboard-focus:block group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-keyboard-focus:opacity-100 group-keyboard-focus:translate-y-0 group-keyboard-focus:scale-100 group-keyboard-focus:delay-0 starting:opacity-0 motion-safe:starting:translate-y-1 motion-safe:starting:scale-[0.97]'
 
 // Once one preview has been open, the next opens at once: someone moving from name to
 // name is reading previews, not passing by. 300ms is Radix Tooltip's skip window.
@@ -25,7 +25,8 @@ const skipWindow = 300
 
 // A name in running text with a hover preview. The preview holds block elements,
 // so a Mention can't sit inside a <p>; the bio uses divs.
-export function Mention({ children, slug, preview }: MentionProps) {
+export function Mention({ children, slug }: MentionProps) {
+  const onHome = useLocation({ select: (location) => location.pathname === '/' })
   const [instant, setInstant] = useState(false)
   // Escape closes an open preview until the pointer or focus comes back (WCAG 1.4.13). It's
   // heard on the whole page: a preview opened by the pointer doesn't have keyboard focus.
@@ -43,6 +44,7 @@ export function Mention({ children, slug, preview }: MentionProps) {
       ref={root}
       className="group relative inline-block"
       onPointerEnter={() => {
+        preloadPainting(slug)
         setDismissed(false)
         setInstant(performance.now() - lastClosed < skipWindow)
       }}
@@ -50,17 +52,21 @@ export function Mention({ children, slug, preview }: MentionProps) {
         lastClosed = performance.now()
         setInstant(false)
       }}
-      onFocus={() => setDismissed(false)}
+      onFocus={() => {
+        preloadPainting(slug)
+        setDismissed(false)
+      }}
     >
-      {slug ? (
-        // Bold already marks the name; the underline appears on hover.
-        <Link to="/work/$slug" params={{ slug }} className="font-medium text-fg no-underline hover:underline">
-          {children}
-        </Link>
-      ) : (
-        <span className="font-medium text-fg">{children}</span>
-      )}
-      {preview && (
+      {/* Bold already marks the name; the underline appears on hover. */}
+      <Link
+        to="/work/$slug"
+        params={{ slug }}
+        state={onHome ? fromHome : undefined}
+        className="font-medium text-fg no-underline hover:underline"
+      >
+        {children}
+      </Link>
+      {
         // Hover previews are a mouse nicety: touch screens and screen readers get the link alone.
         // They open after a short wait, so reading past a name doesn't flash one open, and close
         // at once; keyboard focus opens them straight away. Reduced motion keeps only the fade.
@@ -74,14 +80,14 @@ export function Mention({ children, slug, preview }: MentionProps) {
         >
           <span className="block overflow-hidden rounded-2xl bg-bg p-1 shadow-xl ring-1 ring-line">
             <span className="block [zoom:0.5]">
-              <Demo kind={preview} />
+              <PaintingPreview slug={slug} />
             </span>
             <span className="block px-2 pt-1.5 pb-1 font-mono text-[0.6875rem] text-muted">
-              <Credit painting={paintings[preview]} />
+              <Credit painting={paintings[slug]} />
             </span>
           </span>
         </span>
-      )}
+      }
     </span>
   )
 }

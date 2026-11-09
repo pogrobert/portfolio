@@ -1,25 +1,15 @@
-import { PaintingFigure } from './Demo'
-import { Section } from './CaseStudySections'
-import { StamplynMark } from './Marks'
+import type { Project } from '../content/projects'
+import { CaseStudyHeader, Section } from './CaseStudySections'
 
-export function StamplynCaseStudy() {
+export function StamplynCaseStudy({ project }: { project: Project }) {
   return (
     <>
-      <h1 className="mt-8 flex items-center gap-3 text-4xl font-semibold tracking-tight">
-        <StamplynMark className="size-10" />
-        Stamplyn
-      </h1>
-      <p className="mt-3 font-mono text-[0.8125rem] text-muted">Co-founder · Sep 2026 – present</p>
-      <PaintingFigure kind="stamplyn" />
-      <p className="mt-5 text-lg text-body">
+      <CaseStudyHeader project={project}>
         Stamplyn is a travel app where you collect a stamp from every landmark you visit, by being there. Your
         passport fills up as you travel, and you can follow your friends’ stamps and see where you rank in your
         city, your country and the world. We’re a team of four co-founders, and I lead product, design and
         engineering. It’s in its final stage, being tested ahead of launch.
-      </p>
-      <p className="mt-4">
-        <a href="https://stamplyn.com">stamplyn.com <span aria-hidden="true">↗</span></a>
-      </p>
+      </CaseStudyHeader>
 
       <div className="mt-16 flex flex-col gap-16">
         <Section title="From booking app to stamps">
@@ -154,17 +144,20 @@ function perforated(x: number, y: number, w: number, h: number, r: number, acros
 
 const stampEdge = perforated(0, 0, 100, 118, 2.2, 10, 12)
 
+// Five in a row where there's room. On a phone that would shrink the names past reading,
+// so they go three and two, the two centered under the three: a grid of six columns, each
+// stamp two wide, the fourth starting a column in.
 function WonderStamps() {
   return (
     <figure className="my-4">
-      <div className="grid grid-cols-5 gap-3 sm:gap-5">
+      <div className="grid grid-cols-6 gap-3 sm:grid-cols-5 sm:gap-5">
         {wonders.map((w) => (
           <svg
             key={w.slug}
             viewBox="0 0 100 118"
             role="img"
             aria-label={`${w.name} stamp`}
-            className="h-auto w-full drop-shadow-[0_3px_6px_rgba(0,0,0,0.18)]"
+            className="col-span-2 h-auto w-full drop-shadow-[0_3px_6px_rgba(0,0,0,0.18)] nth-4:col-start-2 sm:col-span-1 sm:nth-4:col-start-auto"
           >
             <path d={stampEdge} fill="#f6f1e4" />
             <image
@@ -182,7 +175,8 @@ function WonderStamps() {
               fontSize="7.5"
               fontWeight="600"
               letterSpacing="0.6"
-              fill="#8a6a1f"
+              // Gold, a shade darker than the app's so it passes contrast (5:1) at this size.
+              fill="#80621c"
             >
               {w.name.toUpperCase()}
             </text>

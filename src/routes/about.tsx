@@ -16,7 +16,7 @@ export const Route = createFileRoute('/about')({
 function About() {
   return (
     <>
-      <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
+      <main className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
         <nav aria-label="Site">
           <HomeLink carryName className="inline-block text-sm text-muted no-underline hover:text-fg">
             {site.name}
@@ -41,13 +41,13 @@ function About() {
             </div>
             <div>
               I started my career at{' '}
-              <Mention slug="goya" preview="goya">
+              <Mention slug="goya">
                 Goya
               </Mention>
               , which began as a school for software engineering. I took its course, finished as the best student in
               my class, and joined its new outsourcing team, building web and mobile apps for clients with React,
               Flutter and Node. Then I joined{' '}
-              <Mention slug="softr" preview="softr">
+              <Mention slug="softr">
                 Softr
               </Mention>
               , a no-code platform with over a million users, and spent three years on its blocks team during a
@@ -58,7 +58,7 @@ function About() {
               Now that LLMs make writing code faster than ever, I get to spend more of my time on the bigger picture:
               UX, interface details and product decisions. Earlier this year I left
               Softr to start something of my own and co-founded{' '}
-              <Mention slug="meerlume" preview="meerlume">
+              <Mention slug="meerlume">
                 Meerlume
               </Mention>
               , which turns a plain description of how a business works into a chatbot for WhatsApp, Instagram, Messenger, Telegram and the web. I built
@@ -66,7 +66,7 @@ function About() {
             </div>
             <div>
               Since late September I’ve also been working on{' '}
-              <Mention slug="stamplyn" preview="stamplyn">
+              <Mention slug="stamplyn">
                 Stamplyn
               </Mention>
               , a travel app where you book trips and collect a stamp from every landmark you visit. I co-founded it

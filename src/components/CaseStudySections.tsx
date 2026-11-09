@@ -1,4 +1,35 @@
 import type { ComponentType, ReactNode } from 'react'
+import type { Project } from '../content/projects'
+import { marks } from './Marks'
+import { PaintingFigure } from './Painting'
+import { Period } from './Period'
+
+// The top of every case study: the mark beside the title, the role and dates, the
+// painting as the cover, then the summary and the project's own site.
+export function CaseStudyHeader({ project, children }: { project: Project; children: ReactNode }) {
+  const Mark = marks[project.slug]
+  return (
+    <>
+      <h1 className="mt-8 flex items-center gap-3 text-4xl font-semibold tracking-tight">
+        <Mark className="h-10 w-auto" />
+        {project.name}
+      </h1>
+      <p className="mt-3 font-mono text-[0.8125rem] text-muted">
+        {project.role}
+        {project.team && `, ${project.team}`} · {project.dates ?? <Period period={project.period} />}
+      </p>
+      <PaintingFigure slug={project.slug} />
+      <p className="mt-5 text-lg text-body">{children}</p>
+      {project.link && (
+        <p className="mt-4">
+          <a href={project.link.href}>
+            {project.link.label} <span aria-hidden="true">↗</span>
+          </a>
+        </p>
+      )}
+    </>
+  )
+}
 
 // A section can have a line drawing of its subject in the page margin, alternating
 // sides. It only shows where the screen is wide enough to have a margin, and plays when

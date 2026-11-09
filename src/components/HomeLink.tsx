@@ -1,22 +1,21 @@
 import { Link, useLocation, useRouter } from '@tanstack/react-router'
-import { useLayoutEffect, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-// The history entry of the home page last shown, so a page opened from it can link back
-// to that entry instead of opening the home page anew: the visitor lands where they were.
-let homeIndex: number | null = null
-
-// Called by the home page. Only while the address is still the home page's: leaving it,
-// the page renders once more with the next page's address before it unmounts.
-export function useRememberHome() {
-  const index = useLocation({ select: (location) => (location.pathname === '/' ? location.state.__TSR_index : null) })
-  useLayoutEffect(() => {
-    if (index !== null) homeIndex = index
-  }, [index])
+declare module '@tanstack/react-router' {
+  interface HistoryState {
+    fromHome?: boolean
+  }
 }
 
-// A link back to the home page. Opened from the home page (the entry right after it), it
-// goes back in history, which restores the scroll position; opened any other way, as from
-// a shared link, it opens the home page.
+// What every link on the home page to another page of the site passes as its `state`. The
+// router keeps it in the history entry the link opens, so a page knows it was opened from
+// the home page: the entry before its own is the home page, as the visitor left it. Kept
+// in the browser's history, it holds after a reload too.
+export const fromHome = { fromHome: true }
+
+// A link back to the home page. On a page opened from the home page, it goes back in
+// history, which restores the scroll position; opened any other way, as from a shared
+// link, it opens the home page.
 //
 // With carryName, it's the site name the home page's title moves into on a page
 // transition (see styles.css). Only the About page uses it: on a case study the painting
@@ -31,7 +30,7 @@ export function HomeLink({
   children: ReactNode
 }) {
   const router = useRouter()
-  const index = useLocation({ select: (location) => location.state.__TSR_index })
+  const openedFromHome = useLocation({ select: (location) => location.state.fromHome === true })
   return (
     <Link
       to="/"
@@ -39,7 +38,7 @@ export function HomeLink({
       className={className}
       onClick={(event) => {
         const plain = event.button === 0 && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
-        if (plain && homeIndex !== null && index === homeIndex + 1) {
+        if (plain && openedFromHome) {
           event.preventDefault()
           router.history.back()
         }

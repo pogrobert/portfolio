@@ -1,29 +1,19 @@
-import { PaintingFigure } from './Demo'
-import { Section } from './CaseStudySections'
+import type { Project } from '../content/projects'
+import { CaseStudyHeader, Section } from './CaseStudySections'
 import { BowlerHat, Beret, CaptainHat, FireHelmet, HardHat, TopHat } from './Hats'
-import { MeerlumeMark } from './Marks'
 import { MeerlumeChat } from './MeerlumeChat'
 
 // The page is about Robert's part in Meerlume; how the product works is the bot's to
 // explain.
-export function MeerlumeCaseStudy() {
+export function MeerlumeCaseStudy({ project }: { project: Project }) {
   return (
     <>
-      <h1 className="mt-8 flex items-center gap-3 text-4xl font-semibold tracking-tight">
-        <MeerlumeMark className="size-10" />
-        Meerlume
-      </h1>
-      <p className="mt-3 font-mono text-[0.8125rem] text-muted">Co-founder · Mar 2026 – present</p>
-      <PaintingFigure kind="meerlume" />
-      <p className="mt-5 text-lg text-body">
+      <CaseStudyHeader project={project}>
         Meerlume lets a business build any chatbot it needs by describing it in plain words: one that answers
         questions, takes bookings or orders, or collects requests, on WhatsApp, Instagram, Messenger, Telegram
         and its own website. I co-founded it in March 2026,
         and we launched on 11 August. The bot below is a real one, made with Meerlume: ask it anything about it.
-      </p>
-      <p className="mt-4">
-        <a href="https://meerlume.com">meerlume.com <span aria-hidden="true">↗</span></a>
-      </p>
+      </CaseStudyHeader>
       <MeerlumeChat />
 
       <section className="mt-16">

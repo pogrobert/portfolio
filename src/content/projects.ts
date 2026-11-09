@@ -1,20 +1,26 @@
-export type DemoKind = 'meerlume' | 'stamplyn' | 'softr' | 'goya'
+export type Slug = 'stamplyn' | 'meerlume' | 'softr' | 'goya'
 
 export type Project = {
-  slug: string
+  // Also the key of the project's painting, mark and case study page.
+  slug: Slug
   name: string
   // One line for the home page list.
   tagline: string
+  // The role and years, as the home page card shows them.
   role: string
   period: string
+  // On the case study page, where there's room: the team after the role, and the months
+  // in place of the years.
+  team?: string
+  dates?: string
+  // The page description for search engines and link previews. A case study with its own
+  // page opens with a longer text of its own.
   summary: string
-  highlights: string[]
-  demo: DemoKind
   link?: { label: string; href: string }
   // Jobs and companies go under Work on the home page; things built on the side
   // (open source, libraries) under Side projects.
   kind: 'work' | 'side'
-  // For a job made of several projects: shown in order instead of the highlights.
+  // For a job made of several projects, on a case study without a page of its own.
   timeline?: { title: string; text: string }[]
 }
 
@@ -26,11 +32,9 @@ export const projects: Project[] = [
     tagline: 'Collect a stamp from every landmark you visit.',
     role: 'Co-founder',
     period: '2026–',
+    dates: 'Sep 2026 – present',
     summary:
       'A travel app where you collect a stamp from every landmark you visit, by being there, and follow your friends’ stamps. Built with Expo and React Native, for iPhone and Android.',
-    // The case study has its own page (StamplynCaseStudy).
-    highlights: [],
-    demo: 'stamplyn',
     link: { label: 'stamplyn.com', href: 'https://stamplyn.com' },
     kind: 'work',
   },
@@ -40,11 +44,9 @@ export const projects: Project[] = [
     tagline: 'Describe the business, get a chatbot on five channels.',
     role: 'Co-founder',
     period: '2026–',
+    dates: 'Mar 2026 – present',
     summary:
       'A no-code builder that turns a plain description of a business into a chatbot for WhatsApp, Instagram, Messenger, Telegram and the web. A model builds the bot; no model writes its replies.',
-    // The case study has its own page (MeerlumeCaseStudy).
-    highlights: [],
-    demo: 'meerlume',
     link: { label: 'meerlume.com', href: 'https://meerlume.com' },
     kind: 'work',
   },
@@ -54,10 +56,11 @@ export const projects: Project[] = [
     tagline: 'The hardest blocks on a no-code platform with 1M+ users.',
     role: 'Front-end engineer',
     period: '2022–2026',
+    team: 'blocks team',
+    dates: 'Dec 2022 – Jan 2026',
     summary:
       'Three years on the blocks team during a redesign of every block: Conditional Form and its condition engine, Comments, the new account blocks, and every other block along the way.',
-    highlights: [],
-    demo: 'softr',
+    link: { label: 'softr.io', href: 'https://www.softr.io' },
     kind: 'work',
   },
   {
@@ -68,7 +71,6 @@ export const projects: Project[] = [
     period: '2021–2022',
     summary:
       'Goya was a Yerevan company that started as a school for software engineering and later opened an outsourcing team. I took its course, and it gave me my first job. Goya has since closed.',
-    highlights: [],
     timeline: [
       {
         title: 'The course',
@@ -87,7 +89,6 @@ export const projects: Project[] = [
         text: 'A US marketplace app connecting consumers with local and online businesses, built inside a partner agency’s team. I owned the CRM, an admin panel built with React Admin, and worked across the web app and the Express and MongoDB backend: my first real backend work, from API endpoints to how the data was stored. Over time I became the person the team came to with questions about any part of it. I worked on it until I left for Softr.',
       },
     ],
-    demo: 'goya',
     kind: 'work',
   },
 ]
