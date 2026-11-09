@@ -9,7 +9,7 @@
 // animations".
 //
 // It wraps document.startViewTransition, so it covers the router's page transitions and
-// the theme switch alike. Where the browser doesn't expose the animations it does nothing,
+// the theme switch alike (which has no painting to wait for). Where the browser doesn't expose the animations it does nothing,
 // and the default animation runs.
 
 const group = '::view-transition-group('
@@ -47,6 +47,54 @@ function scaleGroups() {
   }
 }
 
+// The painting a page transition moves is snapshotted on the new page as soon as the page
+// is updated. Coming back home, the card's image is a new element, and Safari decodes it
+// after that, so the snapshot was blank: the painting vanished for a few frames, then
+// popped in (the old page's copy is hidden on purpose, see styles.css). So the update waits
+// for the moving painting to be decoded, a quarter second at most, before the snapshot.
+const decodeWait = 250
+
+async function paintingDecoded() {
+  const moving = [...document.querySelectorAll<HTMLImageElement>('img[data-painting]')].filter(
+    (img) => img.style.viewTransitionName,
+  )
+  if (moving.length === 0) return
+  await Promise.race([
+    Promise.all(
+      moving.map((img) => {
+        // A card's painting loads lazily; the one about to be shown has to load now.
+        img.loading = 'eager'
+        return img.decode().catch(() => {})
+      }),
+    ),
+    new Promise((resolve) => setTimeout(resolve, decodeWait)),
+  ])
+}
+
+type Start = Document['startViewTransition']
+type Options = Parameters<Start>[0]
+
+function waitForPainting(options: Options): Options {
+  if (typeof options === 'function') {
+    const update = options
+    return async () => {
+      await update()
+      await paintingDecoded()
+    }
+  }
+  if (options && typeof options === 'object' && typeof options.update === 'function') {
+    const update = options.update
+    return {
+      ...options,
+      update: async () => {
+        await update()
+        await paintingDecoded()
+      },
+    }
+  }
+  return options
+}
+
 export function composeViewTransitions() {
   if (typeof document === 'undefined' || !('startViewTransition' in document)) return
   // Hot reloads run this again; wrap only once.
@@ -54,8 +102,8 @@ export function composeViewTransitions() {
   if (marked.__composedViewTransitions) return
   marked.__composedViewTransitions = true
   const start = document.startViewTransition.bind(document)
-  document.startViewTransition = ((update?: Parameters<typeof start>[0]) => {
-    const transition = start(update)
+  document.startViewTransition = ((options?: Options) => {
+    const transition = start(waitForPainting(options))
     transition.ready
       .then(() => {
         try {
