@@ -38,20 +38,21 @@ export const paintings: Record<DemoKind, Painting> = {
     nod: 'Sea and light',
     frame: 'border-[#8f7440]',
   },
-  // A series collecting one landmark from 36 places, and Fuji is one of the app's stamps.
+  // From a series collecting one landmark from 36 places, and Fuji is one of the app's
+  // stamps: it sits small in the distance, under the wave.
   stamplyn: {
-    src: '/images/hokusai-red-fuji.webp',
+    src: '/images/hokusai-great-wave.webp',
     width: 1000,
-    height: 690,
-    alt: 'Katsushika Hokusai, Fine Wind, Clear Morning: Mount Fuji glowing red under a sky of small white clouds',
+    height: 684,
+    alt: 'Katsushika Hokusai, The Great Wave off Kanagawa: a huge wave curling over three boats, with Mount Fuji small in the distance',
     credit: (
       <>
-        Katsushika Hokusai, <cite>Fine Wind, Clear Morning</cite>, c. 1830–32
+        Katsushika Hokusai, <cite>The Great Wave off Kanagawa</cite>, c. 1830–32
       </>
     ),
     museum: 'The Metropolitan Museum of Art',
     nod: 'One landmark, thirty-six views',
-    frame: 'border-[#2f2b28]',
+    frame: 'border-[#2c3440]',
   },
   // Softr's blocks, and its yellow, pink and blue logo, in Mondrian's colored planes.
   softr: {

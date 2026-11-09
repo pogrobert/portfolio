@@ -88,20 +88,6 @@ body {
   }
 }
 
-/* Entrance for the pieces of Softr's mark: each arrives from its own offset. */
-@keyframes piece-in {
-  from {
-    opacity: 0;
-    translate: var(--piece-x, 0) var(--piece-y, 0);
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
 :focus-visible {
   outline: 2px solid var(--teal);
   outline-offset: 3px;
