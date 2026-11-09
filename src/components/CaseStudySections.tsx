@@ -25,7 +25,10 @@ export function Section({
       <Heading className="text-xl font-semibold tracking-tight">{title}</Heading>
       {/* The drawing lines up with the text, not the title above it. */}
       <div className="relative mt-3">
-        <div className="flex flex-col gap-3 text-body">{children}</div>
+        {/* Plain text becomes a paragraph, so it reads as one in reader views too. */}
+        <div className="flex flex-col gap-3 text-body">
+          {typeof children === 'string' ? <p>{children}</p> : children}
+        </div>
         {link && (
           <a href={link.href} className="mt-3 inline-block text-sm text-muted hover:text-fg">
             {link.label} <span aria-hidden="true">↗</span>

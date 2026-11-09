@@ -41,7 +41,9 @@ function CaseStudyPage() {
   return (
     <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
       <HomeLink className="text-sm text-muted no-underline hover:text-fg">{site.name}</HomeLink>
-      {Page ? <Page /> : <CaseStudy project={project} />}
+      {/* An article, so reader views know where the case study starts and ends: the name
+          link above it is navigation. */}
+      <article>{Page ? <Page /> : <CaseStudy project={project} />}</article>
     </main>
   )
 }

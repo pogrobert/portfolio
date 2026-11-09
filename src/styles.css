@@ -94,6 +94,12 @@ body {
   border-radius: 4px;
 }
 
+/* Moving groups scale from their top-left corner: viewTransitions.ts animates them with
+   position and scale instead of width and height. */
+::view-transition-group(*) {
+  transform-origin: 0 0;
+}
+
 /* Page navigations (see defaultViewTransition in src/router.tsx): the painting a card
    shows moves into the case study's painting, and the rest of the page crossfades. */
 html:active-view-transition-type(page) {

@@ -13,6 +13,8 @@ export const Route = createRootRoute({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { title: `${site.name} · ${site.title}` },
       { name: 'description', content: site.description },
+      // Reader views (Safari's, Firefox's) show this as the byline.
+      { name: 'author', content: site.name },
       { property: 'og:site_name', content: site.name },
       { property: 'og:type', content: 'website' },
       { property: 'og:title', content: `${site.name} · ${site.title}` },

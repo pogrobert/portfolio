@@ -1,7 +1,10 @@
 import { createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
+import { composeViewTransitions } from './viewTransitions'
 
 export function getRouter() {
+  // Keeps page transitions on the compositor (see viewTransitions.ts).
+  composeViewTransitions()
   return createRouter({
     routeTree,
     scrollRestoration: true,
