@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { HomeLink } from '../components/HomeLink'
 import { Mention } from '../components/Mention'
-import { SiteFooter } from '../components/SiteChrome'
 import { site } from '../content/site'
 
 export const Route = createFileRoute('/about')({
@@ -80,7 +79,6 @@ function About() {
           </div>
         </article>
       </main>
-      <SiteFooter />
     </>
   )
 }

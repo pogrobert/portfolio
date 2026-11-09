@@ -36,8 +36,8 @@
   --color-softr-blue: #386af5;
 }
 
-/* One value per theme: light-dark() picks by color-scheme, which follows the system
-   unless the theme switch sets data-theme. Dark is near-black, not #000: pure black
+/* One value per theme: light-dark() picks by color-scheme, which follows the visitor's
+   system setting. Dark is near-black, not #000: pure black
    makes light text glow and is harder to read for people with astigmatism. */
 :root {
   color-scheme: light dark;
@@ -60,13 +60,6 @@
   --wall: light-dark(#e9e5dc, #1f1d1a);
 }
 
-:root[data-theme='light'] {
-  color-scheme: light;
-}
-
-:root[data-theme='dark'] {
-  color-scheme: dark;
-}
 
 body {
   background: var(--bg);
@@ -144,19 +137,6 @@ html:active-view-transition-type(page) {
   &::view-transition-group(site-name) {
     animation-duration: 150ms;
     animation-timing-function: var(--ease-out);
-  }
-}
-
-/* Theme changes (see applyTheme): the old colors fade into the new. The transition ends
-   with the fade, not at the browser's default 250ms. */
-html:active-view-transition-type(theme) {
-  &::view-transition-group(root) {
-    animation-duration: 200ms;
-  }
-  &::view-transition-old(root),
-  &::view-transition-new(root) {
-    animation-duration: 200ms;
-    animation-timing-function: ease;
   }
 }
 

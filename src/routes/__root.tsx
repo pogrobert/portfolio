@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import { HeadContent, Link, Outlet, Scripts, createRootRoute } from '@tanstack/react-router'
 import { RouteFocus } from '../components/RouteFocus'
-import { themeScript } from '../components/ThemeSwitch'
 import { site } from '../content/site'
 import appCss from '../styles.css?url'
 import monoFont from '@fontsource-variable/atkinson-hyperlegible-mono/files/atkinson-hyperlegible-mono-latin-wght-normal.woff2?url'
@@ -58,10 +57,8 @@ function NotFound() {
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    // The theme script sets data-theme on <html> before React hydrates.
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <HeadContent />
       </head>
       <body className="font-sans leading-relaxed">

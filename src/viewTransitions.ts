@@ -8,8 +8,7 @@
 // the technique Bramus (Bram Van Damme) describes in "More performant ::view-transition-group(*)
 // animations".
 //
-// It wraps document.startViewTransition, so it covers the router's page transitions and
-// the theme switch alike. Where the browser doesn't expose the animations it does nothing,
+// It wraps document.startViewTransition, so it covers every page transition. Where the browser doesn't expose the animations it does nothing,
 // and the default animation runs.
 
 const group = '::view-transition-group('

@@ -3,7 +3,6 @@ import { useLayoutEffect } from 'react'
 import { HungPainting, paintingJustLeft, paintings, Period } from '../components/Demo'
 import { useRememberHome } from '../components/HomeLink'
 import { Mention } from '../components/Mention'
-import { SiteFooter } from '../components/SiteChrome'
 import { projects, type Project } from '../content/projects'
 import { site } from '../content/site'
 
@@ -61,7 +60,6 @@ function Home() {
         <ProjectList title="Work" items={projects.filter((p) => p.kind === 'work')} />
         <ProjectList title="Side projects" items={projects.filter((p) => p.kind === 'side')} />
       </main>
-      <SiteFooter />
     </>
   )
 }
