@@ -6,8 +6,28 @@ import { useEffect } from 'react'
 // page. After each move to another page, focus goes to the new page's title, which a screen
 // reader then reads. Coming back home, it goes to the card or link the visitor left from
 // instead, so they carry on where they were. The first load is left to the browser.
+//
+// Safari draws the keyboard focus ring on focus moved by script even after a tap, so the ring
+// only shows if the last input was a key press: after a tap or click the focus is quiet.
+let keyboard = false
+
+function quiet(target: HTMLElement) {
+  target.setAttribute('data-quiet-focus', '')
+  target.addEventListener('blur', () => target.removeAttribute('data-quiet-focus'), { once: true })
+}
+
 export function RouteFocus() {
   const router = useRouter()
+  useEffect(() => {
+    const onKey = () => (keyboard = true)
+    const onPointer = () => (keyboard = false)
+    document.addEventListener('keydown', onKey, true)
+    document.addEventListener('pointerdown', onPointer, true)
+    return () => {
+      document.removeEventListener('keydown', onKey, true)
+      document.removeEventListener('pointerdown', onPointer, true)
+    }
+  }, [])
   useEffect(
     () =>
       router.subscribe('onResolved', ({ fromLocation, toLocation, pathChanged }) => {
@@ -30,7 +50,9 @@ export function RouteFocus() {
               // it to the tab order.
               target?.setAttribute('tabindex', '-1')
             }
-            target?.focus({ preventScroll: true })
+            if (!target) return
+            if (!keyboard) quiet(target)
+            target.focus({ preventScroll: true })
           }),
         )
       }),
