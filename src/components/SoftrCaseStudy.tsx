@@ -17,7 +17,7 @@ export function SoftrCaseStudy() {
         <SoftrMark className="size-10" />
         Softr
       </h1>
-      <p className="mt-3 font-mono text-[13px] text-muted">Front-end engineer, blocks team · Dec 2022 – Jan 2026</p>
+      <p className="mt-3 font-mono text-[0.8125rem] text-muted">Front-end engineer, blocks team · Dec 2022 – Jan 2026</p>
       <PaintingFigure kind="softr" />
       <p className="mt-5 text-lg text-body">
         A Berlin-based no-code platform where every page is a stack of blocks, used by over a million people,
@@ -60,7 +60,11 @@ export function SoftrCaseStudy() {
         </Section>
       </div>
 
-      <section className="mt-16 grid gap-8 sm:grid-cols-2">
+      {/* Its own heading, hidden, so the two notes don't read as part of the section above. */}
+      <section aria-labelledby="softr-notes" className="mt-16 grid gap-8 sm:grid-cols-2">
+        <h2 id="softr-notes" className="sr-only">
+          Also at Softr
+        </h2>
         <Note title="Dates and time zones">
           Standardized date handling across the app and ended a long-running class of formatting bugs.
         </Note>

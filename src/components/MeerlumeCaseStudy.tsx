@@ -13,7 +13,7 @@ export function MeerlumeCaseStudy() {
         <MeerlumeMark className="size-10" />
         Meerlume
       </h1>
-      <p className="mt-3 font-mono text-[13px] text-muted">Co-founder · Mar 2026 – present</p>
+      <p className="mt-3 font-mono text-[0.8125rem] text-muted">Co-founder · Mar 2026 – present</p>
       <PaintingFigure kind="meerlume" />
       <p className="mt-5 text-lg text-body">
         Meerlume lets a business build any chatbot it needs by describing it in plain words: one that answers

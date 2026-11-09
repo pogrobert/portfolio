@@ -7,6 +7,8 @@ type Painting = {
   src: string
   width: number
   height: number
+  // What the painting shows. Wherever it appears, the caption or label next to it gives the
+  // artist and title, so the alt text doesn't repeat them.
   alt: string
   // Who painted it, and when they lived, for the wall label on a home page card.
   artist: string
@@ -29,7 +31,7 @@ export const paintings: Record<DemoKind, Painting> = {
     src: '/images/aivazovsky-the-ninth-wave.webp',
     width: 1200,
     height: 807,
-    alt: 'Ivan Aivazovsky, The Ninth Wave: survivors clinging to a mast as the sun breaks through a storm at sea',
+    alt: 'Survivors clinging to a mast as the sun breaks through a storm at sea',
     artist: 'Ivan Aivazovsky',
     lifespan: '1817–1900',
     work: (
@@ -46,12 +48,13 @@ export const paintings: Record<DemoKind, Painting> = {
     src: '/images/hokusai-honjo-tatekawa.webp',
     width: 1200,
     height: 804,
-    alt: 'Katsushika Hokusai, The Timberyard at Honjo: workers stack and saw lumber beside a canal, with tall bundles of timber and Mount Fuji small in the distance',
+    alt: 'Workers stack and saw lumber beside a canal, with tall bundles of timber and Mount Fuji small in the distance',
     artist: 'Katsushika Hokusai',
     lifespan: '1760–1849',
     work: (
       <>
-        <cite>The Timberyard at Honjo</cite>, c. 1830–32
+        <cite>The Timberyard at Honjo</cite>, <span aria-hidden="true">c. 1830–32</span>
+        <span className="sr-only">circa 1830 to 1832</span>
       </>
     ),
     medium: 'Woodblock print',
@@ -64,7 +67,7 @@ export const paintings: Record<DemoKind, Painting> = {
     src: '/images/van-doesburg-counter-composition-xvi.webp',
     width: 1200,
     height: 823,
-    alt: 'Theo van Doesburg, Counter-Composition XVI in Dissonances: blue, yellow, red, black and gray rectangles in a grid of black bars, tilted 45 degrees',
+    alt: 'Blue, yellow, red, black and gray rectangles in a grid of black bars, tilted 45 degrees',
     artist: 'Theo van Doesburg',
     lifespan: '1883–1931',
     work: (
@@ -83,7 +86,7 @@ export const paintings: Record<DemoKind, Painting> = {
     src: '/images/goya-the-parasol.webp',
     width: 1200,
     height: 832,
-    alt: 'Francisco de Goya, The Parasol: a young woman in a yellow skirt sits with a small dog in her lap while a young man holds a green parasol over her',
+    alt: 'A young woman in a yellow skirt sits with a small dog in her lap while a young man holds a green parasol over her',
     artist: 'Francisco de Goya',
     lifespan: '1746–1828',
     work: (
@@ -102,6 +105,18 @@ export function Credit({ painting }: { painting: Painting }) {
   return (
     <>
       {painting.artist}, {painting.work}
+    </>
+  )
+}
+
+// A span of years as written, "2021–2022" or an open-ended "2026–". Screen readers drop
+// the dash, so an open end gets a hidden "present".
+export function Period({ period }: { period: string }) {
+  if (!period.endsWith('–')) return <>{period}</>
+  return (
+    <>
+      {period}
+      <span className="sr-only"> present</span>
     </>
   )
 }
@@ -144,7 +159,8 @@ export function HungPainting({ kind }: DemoProps) {
       width={painting.width}
       height={painting.height}
       loading="lazy"
-      alt={painting.alt}
+      // The card's wall label already credits it, and the card links by the project's name.
+      alt=""
       data-painting=""
       style={{ maxWidth: `min(100%, calc(15rem * ${painting.width} / ${painting.height}))` }}
       className="h-auto w-full shadow-[0_10px_24px_rgba(0,0,0,0.18),0_2px_4px_rgba(0,0,0,0.12)] [view-transition-class:painting]"

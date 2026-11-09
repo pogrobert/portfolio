@@ -9,7 +9,7 @@ export function StamplynCaseStudy() {
         <StamplynMark className="size-10" />
         Stamplyn
       </h1>
-      <p className="mt-3 font-mono text-[13px] text-muted">Co-founder · Sep 2026 – present</p>
+      <p className="mt-3 font-mono text-[0.8125rem] text-muted">Co-founder · Sep 2026 – present</p>
       <PaintingFigure kind="stamplyn" />
       <p className="mt-5 text-lg text-body">
         Stamplyn is a travel app where you collect a stamp from every landmark you visit, by being there. Your

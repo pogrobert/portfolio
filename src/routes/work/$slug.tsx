@@ -1,6 +1,6 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import type { ComponentType } from 'react'
-import { PaintingFigure } from '../../components/Demo'
+import { PaintingFigure, Period } from '../../components/Demo'
 import { HomeLink } from '../../components/HomeLink'
 import { marks } from '../../components/Marks'
 import { MeerlumeCaseStudy } from '../../components/MeerlumeCaseStudy'
@@ -40,7 +40,9 @@ function CaseStudyPage() {
   const Page = pages[project.slug]
   return (
     <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
-      <HomeLink className="text-sm text-muted no-underline hover:text-fg">{site.name}</HomeLink>
+      <nav aria-label="Site">
+        <HomeLink className="text-sm text-muted no-underline hover:text-fg">{site.name}</HomeLink>
+      </nav>
       {/* An article, so reader views know where the case study starts and ends: the name
           link above it is navigation. */}
       <article>{Page ? <Page /> : <CaseStudy project={project} />}</article>
@@ -57,8 +59,8 @@ function CaseStudy({ project }: { project: Project }) {
         {Mark && <Mark className="h-10 w-auto" />}
         {project.name}
       </h1>
-      <p className="mt-3 font-mono text-[13px] text-muted">
-        {project.role} · {project.period}
+      <p className="mt-3 font-mono text-[0.8125rem] text-muted">
+        {project.role} · <Period period={project.period} />
       </p>
       <PaintingFigure kind={project.demo} />
       <p className="mt-5 text-lg text-body">{project.summary}</p>

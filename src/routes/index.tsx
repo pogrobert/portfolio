@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useLayoutEffect } from 'react'
-import { HungPainting, paintingJustLeft, paintings } from '../components/Demo'
+import { HungPainting, paintingJustLeft, paintings, Period } from '../components/Demo'
 import { useRememberHome } from '../components/HomeLink'
 import { Mention } from '../components/Mention'
 import { SiteFooter } from '../components/SiteChrome'
@@ -88,6 +88,10 @@ function ProjectList({ title, items }: { title: string; items: Project[] }) {
                 to="/work/$slug"
                 params={{ slug: project.slug }}
                 data-slug={project.slug}
+                // Named by the project alone, and described by its role and tagline: read whole,
+                // the card would start with the painting and name it twice.
+                aria-labelledby={`${project.slug}-name`}
+                aria-describedby={`${project.slug}-role ${project.slug}-tagline`}
                 onClick={(event) => {
                   openedFromCard = project.slug
                   carryPainting(event.currentTarget, `painting-${project.demo}`)
@@ -97,13 +101,17 @@ function ProjectList({ title, items }: { title: string; items: Project[] }) {
                 <HungPainting kind={project.demo} />
                 <div className="flex flex-col gap-2.5">
                   <div>
-                    <h3 className="font-medium">{project.name}</h3>
-                    <p className="text-sm text-muted tabular-nums">
-                      {project.role}, {project.period}
+                    <h3 id={`${project.slug}-name`} className="font-medium">
+                      {project.name}
+                    </h3>
+                    <p id={`${project.slug}-role`} className="text-sm text-muted tabular-nums">
+                      {project.role}, <Period period={project.period} />
                     </p>
                   </div>
-                  <p className="text-sm text-body">{project.tagline}</p>
-                  <p className="border-t border-line pt-2.5 font-mono text-[11px] leading-relaxed text-muted">
+                  <p id={`${project.slug}-tagline`} className="text-sm text-body">
+                    {project.tagline}
+                  </p>
+                  <p className="border-t border-line pt-2.5 font-mono text-[0.6875rem] leading-relaxed text-muted">
                     {painting.artist} ({painting.lifespan})
                     <br />
                     {painting.work}

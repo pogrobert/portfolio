@@ -91,7 +91,12 @@ body {
 :focus-visible {
   outline: 2px solid var(--teal);
   outline-offset: 3px;
-  border-radius: 4px;
+}
+
+/* A page title focused by script after moving to another page (RouteFocus.tsx): it's where
+   reading starts, not a control, so it doesn't get a ring. */
+[tabindex='-1']:focus {
+  outline: none;
 }
 
 /* Moving groups scale from their top-left corner: viewTransitions.ts animates them with

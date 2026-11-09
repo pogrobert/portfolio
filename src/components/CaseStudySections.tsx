@@ -31,7 +31,9 @@ export function Section({
         </div>
         {link && (
           <a href={link.href} className="mt-3 inline-block text-sm text-muted hover:text-fg">
-            {link.label} <span aria-hidden="true">↗</span>
+            {link.label}
+            {/* Several sections link to the same docs; this tells their links apart. */}
+            <span className="sr-only">: {title}</span> <span aria-hidden="true">↗</span>
           </a>
         )}
         {Art && (
@@ -48,7 +50,7 @@ export function Note({ title, children }: { title: string; children: string }) {
   return (
     <div className="border-t border-line pt-4">
       <h3 className="font-semibold">{title}</h3>
-      <p className="mt-2 text-[15px] text-body">{children}</p>
+      <p className="mt-2 text-[0.9375rem] text-body">{children}</p>
     </div>
   )
 }

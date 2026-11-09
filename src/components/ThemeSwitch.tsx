@@ -83,7 +83,7 @@ export function ThemeSwitch() {
             setTheme(option.value)
             applyTheme(option.value)
           }}
-          className="min-h-8 rounded-full px-3 text-[13px] text-muted [transition:color_150ms_ease,background-color_150ms_ease,scale_160ms_var(--ease-out)] hover:text-fg motion-safe:active:scale-[0.97] aria-pressed:bg-tile aria-pressed:text-fg aria-pressed:shadow-sm"
+          className="min-h-8 rounded-full px-3 text-[0.8125rem] text-muted [transition:color_150ms_ease,background-color_150ms_ease,scale_160ms_var(--ease-out)] hover:text-fg motion-safe:active:scale-[0.97] aria-pressed:bg-tile aria-pressed:text-fg aria-pressed:shadow-sm aria-pressed:ring-1 aria-pressed:ring-muted"
         >
           {option.label}
         </button>

@@ -18,9 +18,11 @@ function About() {
   return (
     <>
       <main id="content" className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
-        <HomeLink carryName className="inline-block text-sm text-muted no-underline hover:text-fg">
-          {site.name}
-        </HomeLink>
+        <nav aria-label="Site">
+          <HomeLink carryName className="inline-block text-sm text-muted no-underline hover:text-fg">
+            {site.name}
+          </HomeLink>
+        </nav>
         {/* An article, so reader views pick up the text and leave the name link out. */}
         <article>
           <h1 className="mt-8 font-semibold">About</h1>
