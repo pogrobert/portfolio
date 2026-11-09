@@ -122,12 +122,12 @@ html:active-view-transition-type(page) {
     animation-duration: 200ms;
     animation-timing-function: var(--ease-out);
   }
-  /* The painting is the same picture on both pages: move one copy, the incoming one,
-     instead of crossfading two. The outgoing copy, scaled to the new size, would show
-     its shadow at the wrong size around the edges. */
+  /* The painting is the same picture on both pages, so the two copies don't crossfade:
+     both stay fully shown, the incoming one on top. The outgoing copy only shows while the
+     incoming one is still decoding, as when Safari comes back to the home page; hidden, the
+     painting would blink out for those frames. */
   &::view-transition-old(*.painting) {
     animation: none;
-    opacity: 0;
   }
   &::view-transition-new(*.painting) {
     animation: none;
