@@ -136,8 +136,7 @@ html:active-view-transition-type(page) {
     animation: 200ms var(--ease-out) both painting-in;
   }
   /* The site name moves between the home page's title and the small link at the top of
-     the About page, crossfading from one style to the other on the way. Named only during
-     page transitions, so a theme change still fades the page as one. */
+     the About page, crossfading from one style to the other on the way. */
   & [data-site-name] {
     view-transition-name: site-name;
   }
@@ -146,6 +145,12 @@ html:active-view-transition-type(page) {
   &::view-transition-group(site-name) {
     animation-duration: 150ms;
     animation-timing-function: var(--ease-out);
+  }
+  /* A case study has no name for it to move into, so there it's a layer of its own with
+     nowhere to go: it fades in step with the page, which takes 200ms. */
+  &::view-transition-old(site-name):only-child,
+  &::view-transition-new(site-name):only-child {
+    animation-duration: 200ms;
   }
 }
 

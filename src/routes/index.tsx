@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import { useLayoutEffect } from 'react'
 import { fromHome } from '../components/HomeLink'
 import { Mention } from '../components/Mention'
@@ -15,7 +15,15 @@ function Home() {
   useCarryPaintingHome()
   return (
     <>
-      <main className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
+      <main
+        className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24"
+        // Only a card carries its painting into a case study. Following any other link
+        // forgets the painting a card was left holding; a card's own click runs after
+        // this and names its painting again.
+        onClickCapture={(event) => {
+          if (event.target instanceof Element && event.target.closest('a')) forgetPainting()
+        }}
+      >
         {/* Sized to the name, not the page: on the way to and from the About page it moves
             into the name there (see styles.css), and a full-width box would squash the text. */}
         <h1 data-site-name="" className="w-fit font-semibold">
@@ -137,22 +145,39 @@ let openedFromCard: string | null = null
 // Names the card's painting on arrival, set on the image directly rather than as a React
 // prop: when that card is opened again the address changes first, and React would clear
 // the name before the page transition takes its snapshot.
+//
+// The card keeps the name, and stays remembered, after the painting lands: the browser's
+// forward button carries it into the case study again, and back brings it home again.
+// Both are forgotten when the visitor follows another link (see Home), and when they
+// leave with the painting scrolled out of view, as with the forward button after
+// scrolling: from there it would fly in from off screen, and back out on the return.
 function useCarryPaintingHome() {
+  const router = useRouter()
   useLayoutEffect(() => {
-    const slug = openedFromCard
-    openedFromCard = null
-    const project = projects.find((p) => p.slug === slug)
-    const card = document.querySelector<HTMLElement>(`a[data-slug="${slug}"]`)
-    if (project && card && slug === paintingJustLeft()) carryPainting(card, `painting-${project.slug}`)
-  }, [])
+    const project = projects.find((p) => p.slug === openedFromCard)
+    const card = document.querySelector<HTMLElement>(`a[data-slug="${openedFromCard}"]`)
+    if (project && card && project.slug === paintingJustLeft()) carryPainting(card, `painting-${project.slug}`)
+    else forgetPainting()
+    return router.subscribe('onBeforeNavigate', () => {
+      const box = namedPaintings()[0]?.getBoundingClientRect()
+      if (box && (box.bottom <= 0 || box.top >= window.innerHeight)) forgetPainting()
+    })
+  }, [router])
+}
+
+function namedPaintings() {
+  return [...document.querySelectorAll<HTMLElement>('[data-painting]')].filter((p) => p.style.viewTransitionName)
 }
 
 // Only the card being opened carries its painting into the case study: with every card
 // named, the others would animate as loose layers over the next page.
 function carryPainting(card: HTMLElement, name: string) {
-  for (const painting of document.querySelectorAll<HTMLElement>('[data-painting]')) {
-    painting.style.viewTransitionName = ''
-  }
+  for (const painting of namedPaintings()) painting.style.viewTransitionName = ''
   const painting = card.querySelector<HTMLElement>('[data-painting]')
   if (painting) painting.style.viewTransitionName = name
+}
+
+function forgetPainting() {
+  openedFromCard = null
+  for (const painting of namedPaintings()) painting.style.viewTransitionName = ''
 }
