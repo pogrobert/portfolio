@@ -104,9 +104,15 @@ html:active-view-transition-type(page) {
   /* The painting is the same picture on both pages, so the two copies don't crossfade:
      both stay fully shown, the incoming one on top. The outgoing copy only shows while the
      incoming one is still decoding, as when Safari comes back to the home page; hidden, the
-     painting would blink out for those frames. */
+     painting would blink out for those frames.
+
+     Each copy is captured with its shadow. Two at full strength would stack into one
+     darker shadow that drops back the moment the move ends, so the outgoing copy is
+     clipped to its frame, and the only shadow is the incoming one's, which is the one
+     that stays. */
   &::view-transition-old(*.painting) {
     animation: none;
+    clip-path: inset(0);
   }
   &::view-transition-new(*.painting) {
     animation: none;
@@ -117,6 +123,8 @@ html:active-view-transition-type(page) {
      show at full strength over a page that's still fading. */
   &::view-transition-old(*.painting):only-child {
     animation: 200ms var(--ease-out) both painting-out;
+    /* Nothing to stack with: it keeps its shadow and fades with it. */
+    clip-path: none;
   }
   &::view-transition-new(*.painting):only-child {
     animation: 200ms var(--ease-out) both painting-in;
