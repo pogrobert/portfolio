@@ -1,4 +1,4 @@
-import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useLayoutEffect } from 'react'
 import { fromHome } from '../components/HomeLink'
 import { Mention } from '../components/Mention'
@@ -148,21 +148,16 @@ let openedFromCard: string | null = null
 //
 // The card keeps the name, and stays remembered, after the painting lands: the browser's
 // forward button carries it into the case study again, and back brings it home again.
-// Both are forgotten when the visitor follows another link (see Home), and when they
-// leave with the painting scrolled out of view, as with the forward button after
-// scrolling: from there it would fly in from off screen, and back out on the return.
+// Both are forgotten when the visitor follows another link (see Home). A painting that's
+// scrolled out of view at either end doesn't travel, whatever is named here
+// (viewTransitions.ts).
 function useCarryPaintingHome() {
-  const router = useRouter()
   useLayoutEffect(() => {
     const project = projects.find((p) => p.slug === openedFromCard)
     const card = document.querySelector<HTMLElement>(`a[data-slug="${openedFromCard}"]`)
     if (project && card && project.slug === paintingJustLeft()) carryPainting(card, `painting-${project.slug}`)
     else forgetPainting()
-    return router.subscribe('onBeforeNavigate', () => {
-      const box = namedPaintings()[0]?.getBoundingClientRect()
-      if (box && (box.bottom <= 0 || box.top >= window.innerHeight)) forgetPainting()
-    })
-  }, [router])
+  }, [])
 }
 
 function namedPaintings() {

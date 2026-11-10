@@ -97,7 +97,6 @@ body {
 /* Page navigations (see defaultViewTransition in src/router.tsx): the painting a card
    shows moves into the case study's painting, and the rest of the page crossfades. */
 html:active-view-transition-type(page) {
-  /* The painting arrives as the page finishes fading in: both take 200ms. */
   &::view-transition-group(*) {
     animation-duration: 200ms;
     animation-timing-function: var(--ease-in-out);
@@ -106,6 +105,14 @@ html:active-view-transition-type(page) {
   &::view-transition-new(root) {
     animation-duration: 200ms;
     animation-timing-function: var(--ease-out);
+  }
+  /* The painting is the largest thing on the page and moves the farthest, so it takes a
+     little longer than the fade, on a gentler curve than --ease-in-out. That one packs
+     four fifths of the distance into about 70ms of 200, a third of it in a single frame
+     at 60Hz, which reads as a jump; this spreads the same share over about 115ms. */
+  &::view-transition-group(*.painting) {
+    animation-duration: 250ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
   /* The painting is the same picture on both pages, so the two copies don't crossfade:
      both stay fully shown, the incoming one on top. The outgoing copy only shows while the
@@ -164,6 +171,13 @@ html:active-view-transition-type(page) {
   from {
     opacity: 0;
   }
+}
+
+/* A painting or site name that's mostly out of view on either page doesn't travel
+   (viewTransitions.ts marks it): unnamed, it stays part of its page and fades with it.
+   Important, to win over the names set in style attributes. */
+[data-out-of-view] {
+  view-transition-name: none !important;
 }
 
 /* Reduced motion drops the movement and keeps the fade, as everywhere else on the site:

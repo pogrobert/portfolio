@@ -8,8 +8,17 @@
 // the technique Bramus (Bram Van Damme) describes in "More performant ::view-transition-group(*)
 // animations".
 //
-// It wraps document.startViewTransition, so it covers every page transition. Where the browser doesn't expose the animations it does nothing,
-// and the default animation runs.
+// It wraps document.startViewTransition, so it covers every page transition. Where the
+// browser doesn't expose the animations it does nothing, and the default animation runs.
+//
+// The same wrapper keeps an element that's out of view from travelling. A painting or the
+// site name moves between its places on the two pages, and if either place is off screen
+// it would fly in from past the edge of the window, or out past it: as when a visitor
+// scrolls down a case study and goes back, and the painting comes down from above the
+// top. So each is measured on the page being left, before its picture is taken, and
+// again on the new page once it's in place and scrolled to where it will sit. One that's
+// mostly out of view is marked, and the mark takes its name away (styles.css): it stays
+// part of its page and fades with it, and its partner on the other page fades too.
 
 const group = '::view-transition-group('
 
@@ -46,6 +55,22 @@ function scaleGroups() {
   }
 }
 
+const travellers = '[data-painting], [data-site-name]'
+
+// At least a third of it has to show. A card at the foot of the window is often cut off
+// and still plainly the thing that was clicked; a sliver isn't worth flying to.
+const enoughInView = 1 / 3
+
+function markOutOfView() {
+  for (const element of document.querySelectorAll<HTMLElement>(travellers)) {
+    const box = element.getBoundingClientRect()
+    const width = Math.min(box.right, window.innerWidth) - Math.max(box.left, 0)
+    const height = Math.min(box.bottom, window.innerHeight) - Math.max(box.top, 0)
+    const shown = width > 0 && height > 0 ? (width * height) / (box.width * box.height) : 0
+    element.toggleAttribute('data-out-of-view', shown < enoughInView)
+  }
+}
+
 export function composeViewTransitions() {
   if (typeof document === 'undefined' || !('startViewTransition' in document)) return
   // Hot reloads run this again; wrap only once.
@@ -54,7 +79,15 @@ export function composeViewTransitions() {
   marked.__composedViewTransitions = true
   const start = document.startViewTransition.bind(document)
   document.startViewTransition = ((options?: Parameters<typeof start>[0]) => {
-    const transition = start(options)
+    markOutOfView()
+    const update = typeof options === 'function' ? options : options?.update
+    const updateThenMark = async () => {
+      await update?.()
+      markOutOfView()
+    }
+    const transition = start(
+      typeof options === 'function' || !options ? updateThenMark : { ...options, update: updateThenMark },
+    )
     transition.ready
       .then(() => {
         try {
