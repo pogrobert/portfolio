@@ -131,7 +131,7 @@ export function PaintingPreview({ slug }: { slug: Slug }) {
         loading="lazy"
         alt={painting.alt}
         data-painting=""
-        className={`h-[82%] w-auto max-w-[86%] shadow-[0_6px_18px_rgba(0,0,0,0.25)] [view-transition-class:painting] ${frame.className}`}
+        className={`h-[82%] w-auto max-w-[86%] shadow-painting [view-transition-class:painting] ${frame.className}`}
       />
     </div>
   )
@@ -160,7 +160,7 @@ export function HungPainting({ slug, eager }: { slug: Slug; eager?: boolean }) {
       // The card's wall label already credits it, and the card links by the project's name.
       alt=""
       data-painting=""
-      className={`h-auto w-full max-w-[min(100%,22.5rem)] shadow-[0_10px_24px_rgba(0,0,0,0.18),0_2px_4px_rgba(0,0,0,0.12)] [view-transition-class:painting] ${frame.className}`}
+      className={`h-auto w-full max-w-[min(100%,22.5rem)] shadow-painting [view-transition-class:painting] ${frame.className}`}
     />
   )
 }
@@ -195,7 +195,7 @@ export function PaintingFigure({ slug }: { slug: Slug }) {
         alt={painting.alt}
         data-painting=""
         style={{ viewTransitionName: `painting-${slug}` }}
-        className={`h-auto w-full shadow-[0_10px_30px_rgba(0,0,0,0.22)] [view-transition-class:painting] ${frame.className}`}
+        className={`h-auto w-full shadow-painting [view-transition-class:painting] ${frame.className}`}
       />
       <figcaption className="mt-3 font-mono text-xs text-muted">
         {painting.nod}: <Credit painting={painting} />.{painting.museum && ` ${painting.museum}.`}

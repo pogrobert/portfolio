@@ -14,6 +14,12 @@
   --color-line: var(--line);
   --color-wall: var(--wall);
 
+  /* Every painting's shadow, wherever it hangs: a tight one where it meets the page and
+     a soft one around it, both faint. Just enough to lift it off the page; the painting
+     is what's on show. One shadow for all three sizes also means the card's and the case
+     study's match when a page transition carries one into the other. */
+  --shadow-painting: 0 1px 2px rgb(0 0 0 / 0.07), 0 4px 12px rgb(0 0 0 / 0.06);
+
   /* Motion curves (from Emil Kowalski's animation guidance). Tailwind's built-in
      ease-out and ease-in-out are too weak, so the same utility names use these. */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
