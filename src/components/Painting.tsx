@@ -10,7 +10,8 @@ type Painting = {
   artist: string
   lifespan: string
   // Its title and date: the credit is the artist and this, wherever the painting appears.
-  work: ReactNode
+  // Surfaces' picture has none, so its label and credit name only the artist.
+  work?: ReactNode
   // What it's made of, for the wall label.
   medium: string
   // Where it hangs, for the credit on a case study page. Left out where it's not wanted.
@@ -19,9 +20,19 @@ type Painting = {
   nod: string
 }
 
-// Each project is pictured with a public-domain painting that winks at its name, until
-// Surfaces is published and can draw covers instead.
+// Each project is pictured with a public-domain painting that winks at its name, and
+// Surfaces with a picture it drew itself.
 export const paintings: Record<Slug, Painting> = {
+  // A mezzotint still life drawn by the library, labelled like the paintings beside it.
+  // scripts/draw-surfaces.ts draws the file, in the one frame they all share.
+  surfaces: {
+    src: '/images/surfaces/still-life-with-vessels.svg',
+    alt: 'A bottle, a cup and a bowl on a ledge, lit from the side in the dark',
+    artist: 'Surfaces',
+    lifespan: '2026–',
+    medium: 'Mezzotint, drawn by code',
+    nod: 'Drawn by itself',
+  },
   // Meer is sea, lume is light: the painter of light on the sea, who was Armenian.
   meerlume: {
     src: '/images/aivazovsky-the-ninth-wave.webp',
@@ -88,8 +99,8 @@ export const paintings: Record<Slug, Painting> = {
   },
 }
 
-// Every painting is shown in one frame, three wide to two tall, so all four come out the
-// same size wherever they hang. The files are 1200 wide and between 804 and 832 tall: the
+// Every painting is shown in one frame, three wide to two tall, so they all come out the
+// same size wherever they hang. The files are 1200 wide and between 800 and 832 tall: the
 // frame trims the difference off the top and bottom (16px each at most, of The Parasol)
 // in the browser, so no file is cropped or saved again. A new painting needs to be close
 // to 3:2 to begin with, or be cropped to a detail first, as the Van Doesburg was.
@@ -99,7 +110,8 @@ const frame = { width: 1200, height: 800, className: 'aspect-3/2 object-cover' }
 export function Credit({ painting }: { painting: Painting }) {
   return (
     <>
-      {painting.artist}, {painting.work}
+      {painting.artist}
+      {painting.work && <>, {painting.work}</>}
     </>
   )
 }

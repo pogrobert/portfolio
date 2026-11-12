@@ -73,6 +73,15 @@ function About() {
               and lead product, design and engineering on a team of four.
             </div>
             <div>
+              On the side, I made{' '}
+              <Mention slug="surfaces">
+                Surfaces
+              </Mention>
+              , an open-source library that draws the pictures a site repeats, like post covers and link previews,
+              from one color. It draws them in code, so there’s no image model, and the same title always gets the
+              same picture.
+            </div>
+            <div>
               You can find me on <a href={site.links.github}>GitHub</a>, <a href={site.links.linkedin}>LinkedIn</a> and{' '}
               <a href={site.links.x}>X</a>, or write to <a href={`mailto:${site.email}`}>{site.email}</a>.
             </div>

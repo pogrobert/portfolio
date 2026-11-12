@@ -5,6 +5,7 @@ import { HomeLink } from '../../components/HomeLink'
 import { MeerlumeCaseStudy } from '../../components/MeerlumeCaseStudy'
 import { SoftrCaseStudy } from '../../components/SoftrCaseStudy'
 import { StamplynCaseStudy } from '../../components/StamplynCaseStudy'
+import { SurfacesCaseStudy } from '../../components/SurfacesCaseStudy'
 import { getProject, type Project, type Slug } from '../../content/projects'
 import { site } from '../../content/site'
 
@@ -32,6 +33,7 @@ const pages: Partial<Record<Slug, ComponentType<{ project: Project }>>> = {
   softr: SoftrCaseStudy,
   meerlume: MeerlumeCaseStudy,
   stamplyn: StamplynCaseStudy,
+  surfaces: SurfacesCaseStudy,
 }
 
 function CaseStudyPage() {

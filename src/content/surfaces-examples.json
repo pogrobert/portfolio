@@ -1,0 +1,74 @@
+[
+  {
+    "style": "stencil",
+    "title": "How we cut our build time in half",
+    "x": 0.06,
+    "y": 0.645,
+    "width": 0.45,
+    "height": 0.255,
+    "ink": {
+      "light": "#270500",
+      "dark": "#f9f3ed"
+    }
+  },
+  {
+    "style": "riso",
+    "title": "Dark mode, finally",
+    "x": 0.06,
+    "y": 0.645,
+    "width": 0.45,
+    "height": 0.255,
+    "ink": {
+      "light": "#2d0d03",
+      "dark": "#f7f2ec"
+    }
+  },
+  {
+    "style": "linocut",
+    "title": "A week without meetings",
+    "x": 0.06,
+    "y": 0.645,
+    "width": 0.45,
+    "height": 0.255,
+    "ink": {
+      "light": "#270801",
+      "dark": "#f8f3ed"
+    }
+  },
+  {
+    "style": "papercut",
+    "title": "What we learned shipping v2",
+    "x": 0.06,
+    "y": 0.645,
+    "width": 0.45,
+    "height": 0.255,
+    "ink": {
+      "light": "#250801",
+      "dark": "#fcf7f2"
+    }
+  },
+  {
+    "style": "engraving",
+    "title": "Why we moved to Postgres",
+    "x": 0.06,
+    "y": 0.645,
+    "width": 0.45,
+    "height": 0.255,
+    "ink": {
+      "light": "#250d05",
+      "dark": "#fbf8f4"
+    }
+  },
+  {
+    "style": "endpaper",
+    "title": "Faster search, fewer clicks",
+    "x": 0.06,
+    "y": 0.645,
+    "width": 0.45,
+    "height": 0.255,
+    "ink": {
+      "light": "#2c0700",
+      "dark": "#f9f2ea"
+    }
+  }
+]

@@ -4,7 +4,7 @@ export const site = {
   url: 'https://pogrobert.com',
   email: 'r@pogrobert.com',
   description:
-    'Robert Poghosyan is a senior product engineer in Yerevan. Co-founder of Meerlume and Stamplyn, previously on the blocks team at Softr.',
+    'Robert Poghosyan is a senior product engineer in Yerevan. Co-founder of Meerlume and Stamplyn, author of Surfaces, previously on the blocks team at Softr.',
   links: {
     github: 'https://github.com/pogrobert',
     x: 'https://x.com/pogrobert',

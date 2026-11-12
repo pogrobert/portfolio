@@ -1,4 +1,4 @@
-export type Slug = 'stamplyn' | 'meerlume' | 'softr' | 'goya'
+export type Slug = 'stamplyn' | 'meerlume' | 'softr' | 'goya' | 'surfaces'
 
 export type Project = {
   // Also the key of the project's painting, mark and case study page.
@@ -16,7 +16,8 @@ export type Project = {
   // The page description for search engines and link previews. A case study with its own
   // page opens with a longer text of its own.
   summary: string
-  link?: { label: string; href: string }
+  // The project's own site first, then anything else worth a link, like a package.
+  links?: { label: string; href: string }[]
   // Jobs and companies go under Work on the home page; things built on the side
   // (open source, libraries) under Side projects.
   kind: 'work' | 'side'
@@ -35,7 +36,7 @@ export const projects: Project[] = [
     dates: 'Sep 2026 – present',
     summary:
       'A travel app where you collect a stamp from every landmark you visit, by being there, and follow your friends’ stamps. Built with Expo and React Native, for iPhone and Android.',
-    link: { label: 'stamplyn.com', href: 'https://stamplyn.com' },
+    links: [{ label: 'stamplyn.com', href: 'https://stamplyn.com' }],
     kind: 'work',
   },
   {
@@ -47,7 +48,7 @@ export const projects: Project[] = [
     dates: 'Mar 2026 – present',
     summary:
       'A no-code builder that turns a plain description of a business into a chatbot for WhatsApp, Instagram, Messenger, Telegram and the web. A model builds the bot; no model writes its replies.',
-    link: { label: 'meerlume.com', href: 'https://meerlume.com' },
+    links: [{ label: 'meerlume.com', href: 'https://meerlume.com' }],
     kind: 'work',
   },
   {
@@ -60,7 +61,7 @@ export const projects: Project[] = [
     dates: 'Dec 2022 – Jan 2026',
     summary:
       'Three years on the blocks team during a redesign of every block: Conditional Form and its condition engine, Comments, the new account blocks, and every other block along the way.',
-    link: { label: 'softr.io', href: 'https://www.softr.io' },
+    links: [{ label: 'softr.io', href: 'https://www.softr.io' }],
     kind: 'work',
   },
   {
@@ -69,6 +70,7 @@ export const projects: Project[] = [
     tagline: 'My first job, building apps for clients.',
     role: 'Full-stack developer',
     period: '2021–2022',
+    dates: 'Feb 2021 – Nov 2022',
     summary:
       'Goya was a Yerevan company that started as a school for software engineering and later opened an outsourcing team. I took its course, and it gave me my first job. Goya has since closed.',
     timeline: [
@@ -90,6 +92,22 @@ export const projects: Project[] = [
       },
     ],
     kind: 'work',
+  },
+  {
+    slug: 'surfaces',
+    name: 'Surfaces',
+    tagline: 'Covers and link previews for a whole site, drawn by code.',
+    role: 'Author',
+    period: '2026',
+    dates: 'Nov 2026',
+    summary:
+      'An open-source library that draws the pictures a site repeats, from post covers to link previews, from one brand color. Thirty styles, no image model and no API key, and the same title always gets the same picture.',
+    links: [
+      { label: 'surfaces.pogrobert.com', href: 'https://surfaces.pogrobert.com' },
+      { label: 'npm', href: 'https://www.npmjs.com/package/@pogrobert/surfaces' },
+      { label: 'GitHub', href: 'https://github.com/pogrobert/surfaces' },
+    ],
+    kind: 'side',
   },
 ]
 

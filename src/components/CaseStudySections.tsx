@@ -5,7 +5,7 @@ import { PaintingFigure } from './Painting'
 import { Period } from './Period'
 
 // The top of every case study: the mark beside the title, the role and dates, the
-// painting as the cover, then the summary and the project's own site.
+// painting as the cover, then the summary and the project's own links.
 export function CaseStudyHeader({ project, children }: { project: Project; children: ReactNode }) {
   const Mark = marks[project.slug]
   return (
@@ -20,11 +20,13 @@ export function CaseStudyHeader({ project, children }: { project: Project; child
       </p>
       <PaintingFigure slug={project.slug} />
       <p className="mt-5 text-lg text-body">{children}</p>
-      {project.link && (
-        <p className="mt-4">
-          <a href={project.link.href}>
-            {project.link.label} <span aria-hidden="true">↗</span>
-          </a>
+      {project.links && (
+        <p className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+          {project.links.map((link) => (
+            <a key={link.href} href={link.href}>
+              {link.label} <span aria-hidden="true">↗</span>
+            </a>
+          ))}
         </p>
       )}
     </>

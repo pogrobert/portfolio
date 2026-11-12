@@ -46,7 +46,11 @@ function Home() {
             <Mention slug="stamplyn">
               Stamplyn
             </Mention>
-            , a travel app where you collect a stamp from every landmark you visit.
+            , a travel app where you collect a stamp from every landmark you visit. On the side, I made{' '}
+            <Mention slug="surfaces">
+              Surfaces
+            </Mention>
+            , an open-source library that draws a site’s covers and link previews from one color.
           </div>
           <div>
             Before that, I spent three years on the blocks team at{' '}
@@ -122,8 +126,12 @@ function ProjectList({ title, items, lead }: { title: string; items: Project[]; 
                   <p className="border-t border-line pt-2.5 font-mono text-[0.6875rem] leading-relaxed text-muted">
                     {painting.artist} ({painting.lifespan})
                     <br />
-                    {painting.work}
-                    <br />
+                    {painting.work && (
+                      <>
+                        {painting.work}
+                        <br />
+                      </>
+                    )}
                     {painting.medium}
                   </p>
                 </div>
