@@ -69,7 +69,7 @@ function About() {
               <Mention slug="stamplyn">
                 Stamplyn
               </Mention>
-              , a travel app where you book trips and collect a stamp from every landmark you visit. I co-founded it
+              , a travel app where you collect a stamp from every landmark you visit. I co-founded it
               and lead product, design and engineering on a team of four.
             </div>
             <div>
