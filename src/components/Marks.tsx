@@ -94,22 +94,20 @@ export function StamplynMark({ className }: { className?: string }) {
   )
 }
 
-// Surfaces' mark, from its own site: four ink panes with one mint disc cut through them,
-// on a mint tile that stands the same on a light page and a dark one.
-const surfacesMint = '#2dd4bf'
+// Surfaces' mark, from its own site: three cream sheets on a graphite tile, each turned a
+// little more than the one in front.
 const surfacesBox = '4 4 92 92'
+const surfacesTile = '#1b1b1f'
 
 export function SurfacesMark({ className }: { className?: string }) {
   return (
     <Mark className={className} viewBox={surfacesBox}>
-      <rect x="4" y="4" width="92" height="92" rx="26" fill={surfacesMint} />
-      <g fill="#1c1c20">
-        <rect x="20" y="20" width="33" height="25" rx="4" />
-        <rect x="57" y="20" width="23" height="25" rx="4" />
-        <rect x="20" y="49" width="23" height="31" rx="4" />
-        <rect x="47" y="49" width="33" height="31" rx="4" />
+      <rect x="4" y="4" width="92" height="92" rx="26" fill={surfacesTile} />
+      <g fill="#f1ead9" stroke={surfacesTile} strokeWidth="5.4" paintOrder="stroke">
+        <rect x="27.1" y="27.1" width="45.8" height="45.8" rx="9.9" transform="rotate(-27 50 50)" />
+        <rect x="28.9" y="28.9" width="42.2" height="42.2" rx="9.9" transform="rotate(-13 50 50)" />
+        <rect x="32.5" y="32.5" width="35" height="35" rx="9.9" />
       </g>
-      <circle cx="52" cy="47" r="15" fill={surfacesMint} />
     </Mark>
   )
 }
