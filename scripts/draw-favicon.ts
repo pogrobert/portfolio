@@ -1,5 +1,6 @@
 // Draws the site's icon with Surfaces: a sfumato, a long-exposure blur of the link
-// previews' terracotta and its partner color on a dark ground. The files are written once and kept; run
+// previews' terracotta and its partner color. Only the top of the drawing is used, where
+// the color is: the rest is the dark ground. The files are written once and kept; run
 // this again only to change the icon.
 //
 //   node scripts/draw-favicon.ts    writes public/favicon.png and public/apple-touch-icon.png
@@ -8,7 +9,9 @@ import { generate } from '@pogrobert/surfaces'
 import { toPng } from '@pogrobert/surfaces/png'
 import { Resvg } from '@resvg/resvg-js'
 
-const size = 256
+const size = 512
+// How much of the drawing's height the icon shows, from the top, pulled to a square.
+const shown = 910 / 1600
 const scene = generate({
   style: 'sfumato',
   // Draws a pale streak across the top with a band of violet under it.
@@ -28,7 +31,7 @@ const icon = (width: number, round: boolean) =>
   new Resvg(
     `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 ${size} ${size}">` +
       `<clipPath id="tile"><rect width="${size}" height="${size}" rx="${round ? size * 0.24 : 0}"/></clipPath>` +
-      `<image width="${size}" height="${size}" clip-path="url(#tile)" xlink:href="data:image/png;base64,${art}"/></svg>`,
+      `<g clip-path="url(#tile)"><image width="${size}" height="${size}" transform="scale(1 ${1 / shown})" xlink:href="data:image/png;base64,${art}"/></g></svg>`,
     { fitTo: { mode: 'width', value: width } },
   )
     .render()
