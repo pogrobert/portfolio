@@ -22,6 +22,7 @@ export const Route = createFileRoute('/work/$slug')({
           { name: 'description', content: loaderData.summary },
           { property: 'og:title', content: `${loaderData.name} · ${site.name}` },
           { property: 'og:description', content: loaderData.summary },
+          { property: 'og:image', content: `${site.url}/previews/${loaderData.slug}.jpg` },
         ]
       : [],
   }),

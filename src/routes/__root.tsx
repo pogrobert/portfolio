@@ -19,7 +19,12 @@ export const Route = createRootRoute({
       { property: 'og:type', content: 'website' },
       { property: 'og:title', content: `${site.name} · ${site.title}` },
       { property: 'og:description', content: site.description },
-      { name: 'twitter:card', content: 'summary' },
+      // The link preview: every page has one, drawn by scripts/draw-previews.ts. This is the
+      // home page's, which the About page shares; a case study names its own.
+      { property: 'og:image', content: `${site.url}/previews/home.jpg` },
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
+      { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'theme-color', content: '#fbfbfa', media: '(prefers-color-scheme: light)' },
       { name: 'theme-color', content: '#0b0b0a', media: '(prefers-color-scheme: dark)' },
     ],
